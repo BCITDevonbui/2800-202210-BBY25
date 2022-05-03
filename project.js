@@ -52,6 +52,11 @@ app.get("/", function (req, res) {
   }
 });
 
+app.get("/register", function (req,res) {
+  let doc = fs.readFileSync("./app/html/register.html","utf8");
+  res.send(doc)
+})
+
 app.get("/profile", function (req, res) {
   if (req.session.loggedIn) {
     let profile = fs.readFileSync("./app/html/profile.html", "utf8");
@@ -75,7 +80,7 @@ app.get("/profile", function (req, res) {
 });
 
 app.use(express.json());
- app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }));
 
 
 app.post("/login", function (req, res) {
@@ -97,14 +102,14 @@ app.post("/login", function (req, res) {
       function (error, results, fields) {
         // results is an array of records, in JSON format
         // fields contains extra meta data about results
-        // console.log("Results from DB", results, "and the # of records returned", results.length);
+        console.log("Results from DB", results, "and the # of records returned", results.length);
         // // hmm, what's this?
         // myResults = results;
         if (error) {
             // in production, you'd really want to send an email to admin
             // or in the very least, log it. But for now, just console
             console.log(error);
-        } else if (req.body.email == results[1][0]["email"] && req.body.password == results[1][0]["password"]) {
+        } else if ((req.body.email == results[1][0]["email"] && req.body.password == results[1][0]["password"]) {
           // user authenticated, create a session
           req.session.loggedIn = true;
           req.session.email = results[1][0]["email"];
@@ -168,8 +173,15 @@ async function init() {
   PRIMARY KEY(packageID),
   CONSTRAINT A00849214_user
   FOREIGN KEY (userID)
-    REFERENCES users(ID)
-  )`;
+    REFERENCES users(ID));
+  CREATE TABLE IF NOT EXISTS admin_users (
+    ID int NOT NULL AUTO_INCREMENT,
+    user_name varchar(30),
+    first_name varchar(30),
+    last_name varchar(30),
+    email varchar(30),
+    password varchar(30),
+    PRIMARY KEY(ID));`;
 
   await connection.query(createDBAndTables);
 
@@ -177,6 +189,19 @@ async function init() {
 
   if (rows.length == 0) {
     let userRecords = `INSERT INTO users (user_name, first_name, last_name, email, password) values ?`;
+    let recordValues = [
+      ["pdychinco", "Princeton", "Dychinco", "pdychinco@bcit.ca", "test1"],
+      ["idatayan", "Izabelle", "Datayan", "idatayan@bcit.ca", "test2"],
+      ["dbui", "Devon", "Bui", "dbui@bcit.ca", "test3"],
+      ["damah", "David", "Amah", "damah@bcit.ca", "test4"]
+    ];
+    await connection.query(userRecords, [recordValues]);
+  }
+
+  const [lines, titles] = await connection.query(`SELECT * FROM admin_users`);
+
+  if (lines.length == 0) {
+    let userRecords = `INSERT INTO admin_users (user_name, first_name, last_name, email, password) values ?`;
     let recordValues = [
       ["pdychinco", "Princeton", "Dychinco", "pdychinco@bcit.ca", "test1"],
       ["idatayan", "Izabelle", "Datayan", "idatayan@bcit.ca", "test2"],
