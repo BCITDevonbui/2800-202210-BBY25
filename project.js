@@ -154,9 +154,9 @@ async function init() {
     multipleStatements: "true"
   });
 
-  const createDBAndTables = `CREATE DATABASE IF NOT EXISTS project2800;
+  const createDBAndTables = `CREATE DATABASE IF NOT EXISTS COMP2800;
   use project2800;
-  CREATE TABLE IF NOT EXISTS users (
+  CREATE TABLE IF NOT EXISTS BBY_25_users (
   ID int NOT NULL AUTO_INCREMENT,
   user_name varchar(30),
   first_name varchar(30),
@@ -164,7 +164,7 @@ async function init() {
   email varchar(30),
   password varchar(30),
   PRIMARY KEY (ID));
-  CREATE TABLE IF NOT EXISTS users_packages (
+  CREATE TABLE IF NOT EXISTS BBY_25_users_packages (
   userID int NOT NULL,
   packageID int NOT NULL AUTO_INCREMENT,
   postdate DATE,
@@ -174,7 +174,7 @@ async function init() {
   CONSTRAINT A00849214_user
   FOREIGN KEY (userID)
     REFERENCES users(ID));
-  CREATE TABLE IF NOT EXISTS admin_users (
+  CREATE TABLE IF NOT EXISTS BBY_25_admin_users (
     ID int NOT NULL AUTO_INCREMENT,
     user_name varchar(30),
     first_name varchar(30),
