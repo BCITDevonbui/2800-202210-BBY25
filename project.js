@@ -25,7 +25,6 @@ app.use(session(
   })
 );
 
-// David added a comment:)
 //mysql connection
 var mysql = require('mysql');
 
