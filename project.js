@@ -44,7 +44,7 @@ app.get("/", function (req, res) {
       res.redirect("/profile");
   } else {
 
-      let doc = fs.readFileSync("./app/html/index.html", "utf8");
+      let doc = fs.readFileSync("./app/html/login.html", "utf8");
 
       res.set("Server", "Wazubi Engine");
       res.set("X-Powered-By", "Wazubi");
@@ -109,7 +109,7 @@ app.post("/login", function (req, res) {
             // in production, you'd really want to send an email to admin
             // or in the very least, log it. But for now, just console
             console.log(error);
-        } else if ((req.body.email == results[1][0]["email"] && req.body.password == results[1][0]["password"]) {
+        } else if (req.body.email == results[1][0]["email"] && req.body.password == results[1][0]["password"]) {
           // user authenticated, create a session
           req.session.loggedIn = true;
           req.session.email = results[1][0]["email"];
