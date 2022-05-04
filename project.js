@@ -58,6 +58,11 @@ app.get("/register", function (req,res) {
   res.send(doc)
 })
 
+app.get("/template", function (req,res) {
+  let doc = fs.readFileSync("./app/html/template.html","utf8");
+  res.send(doc)
+})
+
 app.get("/profile", function (req, res) {
   if (req.session.loggedIn) {
     let profile = fs.readFileSync("./app/html/profile.html", "utf8");
@@ -95,11 +100,21 @@ app.post("/register", function(req, res) {
   });
   connection.connect();
 
-  let userRecords = "use COMP2800; INSERT INTO BBY_25_users (user_name, first_name, last_name, email, password) values ?";
-  let recordValues = [
-    req.body.userName, req.body.firstName, req.body.lastName, req.body.email, req.body.password
-    ];
-  connection.query(userRecords, [recordValues]);
+  // let userRecords = "use COMP2800; INSERT INTO BBY_25_users (user_name, first_name, last_name, email, password) values ?";
+  // let recordValues = [
+  //   req.body.userName, req.body.firstName, req.body.lastName, req.body.email, req.body.password
+  //   ];
+  // connection.query(userRecords, [recordValues]);
+  connection.query(`use COMP2800; INSERT INTO BBY_25_users (user_name, first_name, last_name, email, password) values (?, ?, ?, ?, ?)`, 
+    [req.body.userName, req.body.firstName, req.body.lastName, req.body.email, req.body.password],
+    function (error, results, fields) {
+      if (error) {
+          console.log(error);
+      }
+      //console.log('Rows returned are: ', results);
+      res.send({ status: "success", msg: "Record added." });
+
+    });
   console.log("created new user");
   connection.end();
 })
