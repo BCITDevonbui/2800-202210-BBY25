@@ -3,6 +3,7 @@ const express = require("express");
 const session = require("express-session");
 const app = express();
 const fs = require("fs");
+const { connect } = require("http2");
 const { JSDOM } = require('jsdom');
 
 // static path mappings
@@ -82,6 +83,26 @@ app.get("/profile", function (req, res) {
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.post("/register", function(req, res) {
+  res.setHeader("Content-Type", "application/json");
+  console.log(`What was sent: Email - ${req.body.email} Password - ${req.body.password} Username - ${req.body.userName} First Name - ${req.body.firstName} Last Name - ${req.body.lastName}`);
+  const mysql = require("mysql2");
+  const connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    multipleStatements: "true"
+  });
+  connection.connect();
+
+  let userRecords = "use COMP2800; INSERT INTO BBY_25_users (user_name, first_name, last_name, email, password) values ?";
+  let recordValues = [
+    req.body.userName, req.body.firstName, req.body.lastName, req.body.email, req.body.password
+    ];
+  connection.query(userRecords, [recordValues]);
+  console.log("created new user");
+  connection.end();
+})
 
 app.post("/login", function (req, res) {
     res.setHeader("Content-Type", "application/json");
@@ -97,7 +118,7 @@ app.post("/login", function (req, res) {
      });
      connection.connect();
 
-    const loginInfo = "use project2800; SELECT * FROM users WHERE email = '" + req.body.email + "';";
+    const loginInfo = "use COMP2800; SELECT * FROM BBY_25_users WHERE email = '" + req.body.email + "';";
     connection.query(loginInfo,
       function (error, results, fields) {
         // results is an array of records, in JSON format
@@ -155,7 +176,7 @@ async function init() {
   });
 
   const createDBAndTables = `CREATE DATABASE IF NOT EXISTS COMP2800;
-  use project2800;
+  use COMP2800;
   CREATE TABLE IF NOT EXISTS BBY_25_users (
   ID int NOT NULL AUTO_INCREMENT,
   user_name varchar(30),
@@ -171,9 +192,9 @@ async function init() {
   posttext varchar(300),
   posttime TIME,
   PRIMARY KEY(packageID),
-  CONSTRAINT A00849214_user
+  CONSTRAINT fk_category
   FOREIGN KEY (userID)
-    REFERENCES users(ID));
+    REFERENCES BBY_25_users(ID));
   CREATE TABLE IF NOT EXISTS BBY_25_admin_users (
     ID int NOT NULL AUTO_INCREMENT,
     user_name varchar(30),
@@ -185,10 +206,10 @@ async function init() {
 
   await connection.query(createDBAndTables);
 
-  const [rows, fields] = await connection.query(`SELECT * FROM users`);
+  const [rows, fields] = await connection.query(`SELECT * FROM BBY_25_users`);
 
   if (rows.length == 0) {
-    let userRecords = `INSERT INTO users (user_name, first_name, last_name, email, password) values ?`;
+    let userRecords = `INSERT INTO BBY_25_users (user_name, first_name, last_name, email, password) values ?`;
     let recordValues = [
       ["pdychinco", "Princeton", "Dychinco", "pdychinco@bcit.ca", "test1"],
       ["idatayan", "Izabelle", "Datayan", "idatayan@bcit.ca", "test2"],
@@ -198,10 +219,10 @@ async function init() {
     await connection.query(userRecords, [recordValues]);
   }
 
-  const [lines, titles] = await connection.query(`SELECT * FROM admin_users`);
+  const [lines, titles] = await connection.query(`SELECT * FROM BBY_25_admin_users`);
 
   if (lines.length == 0) {
-    let userRecords = `INSERT INTO admin_users (user_name, first_name, last_name, email, password) values ?`;
+    let userRecords = `INSERT INTO BBY_25_admin_users (user_name, first_name, last_name, email, password) values ?`;
     let recordValues = [
       ["pdychinco", "Princeton", "Dychinco", "pdychinco@bcit.ca", "test1"],
       ["idatayan", "Izabelle", "Datayan", "idatayan@bcit.ca", "test2"],

@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS BBY_25_users_packages (
   posttext varchar(300),
   posttime TIME,
   PRIMARY KEY(packageID),
-  CONSTRAINT A00849214_user
+  CONSTRAINT fk_category
   FOREIGN KEY (userID)
     REFERENCES users(ID));
 CREATE TABLE IF NOT EXISTS BBY_25_admin_users (

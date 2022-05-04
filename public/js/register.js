@@ -61,30 +61,25 @@ ready(function () {
       e.preventDefault();
       let email = document.getElementById("email");
       let password = document.getElementById("password");
-      let queryString = "email=" + email.value + "&password=" + password.value;
-      console.log("data that we will send", email.value, password.value);
-      const vars = { "email": email, "password": password }
-      ajaxPOST("/login", function (data) {
+      let userName = document.getElementById("userName");
+      let firstName = document.getElementById("firstName");
+      let lastName = document.getElementById("lastName");
+      const vars = { "email": email.value, "password": password.value, "userName": userName.value, "firstName": firstName.value, "lastName": lastName.value }
+      console.log(`data that we will send: ${vars}`);
+      ajaxPOST("/register", function (data) {
 
           if (data) {
               let dataParsed = JSON.parse(data);
-              console.log(dataParsed);
+              console.log(`Data parsed - ${dataParsed}`);
               if (dataParsed.status == "fail") {
                   document.getElementById("errorMsg").innerHTML = dataParsed.msg;
               } else {
-                  window.location.replace("/profile");
+                  window.location.replace("/template");
               }
           }
-          //document.getElementById("errorMsg").innerHTML = dataParsed.msg;
 
-      }, queryString);
+      }, vars);
   });
-  // GET TO THE SERVER
-  document.querySelector("#notMemberP").addEventListener("click", function(e) {
-    e.preventDefault;
-    window.location.replace("/register")
-  })
-
 });
 
 function ready(callback) {
