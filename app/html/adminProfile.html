@@ -29,18 +29,35 @@
 
       <h1 id="name"><span id="profile_name">Username here</span></h1>
 
-      <p id="textUnder" class="centertext">Thank you for all your help</p>
-
       <div id="miniContainer">
-        <form>
-              <legend>Add a Customer</legend>
-              <input type="text" placeholder="name" id="name"/>
-              <input type="email" placeholder="email" id="email"/>
-              <input type="button" id="submit" value="Submit"/>
-              <legend>Delete All Customers (use with caution!)</legend>
-              <input type="button" id="deleteAll" value="Delete All"/>
-        </form>
-          <p id="status"></p>
+          <div id="formDiv">
+            <form>
+                <h3>Add a User</h3>
+                <br>
+                <input type="text" placeholder="first name" id="firstName"/>
+                <input type="text" placeholder="last name" id="lastName"/>
+                <input type="email" placeholder="email" id="email"/>
+                <br>
+                <input type="button" id="submit" value="Submit"/>
+                <br>
+                <h3>Edit a User</h3>
+                <br>
+                <input type="text" placeholder="first name" id="editFirstName"/>
+                <input type="text" placeholder="last name" id="editLastName"/>
+                <input type="email" placeholder="email" id="editEmail"/>
+                <br>
+                <input type="button" id="submit" value="Submit"/>
+                <br>
+                <h3>Delete a User</h3>
+                <br>
+                <input type="text" placeholder="first name" id="deleteFirstName"/>
+                <input type="text" placeholder="last name" id="deleteLastName"/>
+                <input type="email" placeholder="email" id="deleteEmail"/>
+                <br>
+                <input type="button" id="deleteAll" value="Delete"/>
+            </form>
+            <p id="status"></p>
+          </div>
 
       </div>
 
