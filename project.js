@@ -65,9 +65,9 @@ app.get("/profile", function (req, res) {
 
     // great time to get the user's data and put it into the page!
     profileDOM.window.document.getElementsByTagName("title")[0].innerHTML
-        = req.session.name + "'s Profile";
+    = req.session.name + "'s Profile";
     profileDOM.window.document.getElementById("profile_name").innerHTML
-        = "Welcome back " + req.session.name;
+        = req.session.name + " " + req.session.lastName;
 
     res.set("Server", "Wazubi Engine");
     res.set("X-Powered-By", "Wazubi");
@@ -114,6 +114,7 @@ app.post("/login", function (req, res) {
           req.session.loggedIn = true;
           req.session.email = results[1][0]["email"];
           req.session.name = results[1][0]["first_name"];
+          req.session.lastName = results[1][0]["last_name"];
           req.session.ID = results[1][0]["ID"];
           req.session.save(function (err) {
               // session saved. For analytics, we could record this in a DB
