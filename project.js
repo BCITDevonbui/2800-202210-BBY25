@@ -59,7 +59,7 @@ app.get("/register", function (req,res) {
 
 app.get("/profile", function (req, res) {
   if (req.session.loggedIn) {
-    let profile = fs.readFileSync("./app/html/profile.html", "utf8");
+    let profile = fs.readFileSync("./app/html/adminProfile.html", "utf8");
     let profileDOM = new JSDOM(profile);
 
 
