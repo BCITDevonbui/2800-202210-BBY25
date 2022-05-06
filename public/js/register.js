@@ -59,25 +59,23 @@ ready(function () {
   // POST TO THE SERVER
   document.querySelector("#submit").addEventListener("click", function (e) {
       e.preventDefault();
+      // Get info filled in by user
       let email = document.getElementById("email");
       let password = document.getElementById("password");
       let userName = document.getElementById("userName");
       let firstName = document.getElementById("firstName");
       let lastName = document.getElementById("lastName");
       const vars = { "email": email.value, "password": password.value, "userName": userName.value, "firstName": firstName.value, "lastName": lastName.value }
-      console.log(`data that we will send: ${vars}`);
-      ajaxPOST("/register", function (data) {
 
+      ajaxPOST("/register", function (data) {
           if (data) {
               let dataParsed = JSON.parse(data);
-              console.log(`Data parsed - ${dataParsed}`);
               if (dataParsed.status == "fail") {
                   document.getElementById("errorMsg").innerHTML = dataParsed.msg;
               } else {
                   window.location.replace("/profile");
               }
           }
-
       }, vars);
   });
 });

@@ -62,13 +62,10 @@ ready(function () {
       let email = document.getElementById("email");
       let password = document.getElementById("password");
       let queryString = "email=" + email.value + "&password=" + password.value;
-      console.log("data that we will send", email.value, password.value);
-      const vars = { "email": email, "password": password }
-      ajaxPOST("/login", function (data) {
 
+      ajaxPOST("/login", function (data) {
           if (data) {
               let dataParsed = JSON.parse(data);
-              console.log(dataParsed);
               if (dataParsed.status == "fail") {
                   document.getElementById("errorMsg").innerHTML = dataParsed.msg;
                   setTimeout(function () {
@@ -78,10 +75,9 @@ ready(function () {
                   window.location.replace("/profile");
               }
           }
-          //document.getElementById("errorMsg").innerHTML = dataParsed.msg;
-
       }, queryString);
   });
+  
   // GET TO THE SERVER
   document.querySelector("#notMemberP").addEventListener("click", function(e) {
     e.preventDefault;

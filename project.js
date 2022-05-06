@@ -29,16 +29,7 @@ app.use(session(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-//mysql connection
-var mysql = require('mysql');
 
-//mySQL connection
-var con = mysql.createConnection({
-  host: "127.0.0.1",
-  user: "root",
-  password: "",
-  database: "project"
-});
 
 app.get("/", function (req, res) {
   if (req.session.loggedIn) {
@@ -64,10 +55,15 @@ app.get("/template", function (req,res) {
 })
 
 app.get("/profile", function (req, res) {
+  // Check if user properly authenticated and logged in
   if (req.session.loggedIn) {
+    // Check if user is admin then run this block. If regular then run else block
     if (req.session.userType) {
       let profile = fs.readFileSync("./app/html/admin.html", "utf8");
       let profileDOM = new JSDOM(profile);
+
+      profileDOM.window.document.getElementById("profile_name").innerHTML
+          = "Welcome back " + req.session.name;
 
       res.set("Server", "Wazubi Engine");
       res.set("X-Powered-By", "Wazubi");
@@ -76,10 +72,6 @@ app.get("/profile", function (req, res) {
       let profile = fs.readFileSync("./app/html/profile.html", "utf8");
       let profileDOM = new JSDOM(profile);
   
-  
-      // great time to get the user's data and put it into the page!
-      profileDOM.window.document.getElementsByTagName("title")[0].innerHTML
-          = req.session.name + "'s Profile";
       profileDOM.window.document.getElementById("profile_name").innerHTML
           = "Welcome back " + req.session.name;
   
@@ -95,50 +87,56 @@ app.get("/profile", function (req, res) {
 
 app.post("/register", function(req, res) {
   res.setHeader("Content-Type", "application/json");
-  console.log(`What was sent: Email - ${req.body.email} Password - ${req.body.password} Username - ${req.body.userName} First Name - ${req.body.firstName} Last Name - ${req.body.lastName}`);
   const mysql = require("mysql2");
-  const connection = mysql.createConnection({
-    host: "127.0.0.1",
-    user: "root",
-    password: "",
-    multipleStatements: "true"
-  });
+const connection = mysql.createConnection({
+  host: "127.0.0.1",
+  user: "root",
+  password: "",
+  multipleStatements: "true"
+});
   connection.connect();
 
-  // let userRecords = "use COMP2800; INSERT INTO BBY_25_users (user_name, first_name, last_name, email, password) values ?";
-  // let recordValues = [
-  //   req.body.userName, req.body.firstName, req.body.lastName, req.body.email, req.body.password
-  //   ];
-  // connection.query(userRecords, [recordValues]);
-  connection.query(`use COMP2800; INSERT INTO BBY_25_users (user_name, first_name, last_name, email, password) values (?, ?, ?, ?, ?)`, 
-    [req.body.userName, req.body.firstName, req.body.lastName, req.body.email, req.body.password],
+  let validNewUserInfo = req.body;
+  //Adds new user to user table. Always non admin, since this is client facing sign up
+  connection.query(`use COMP2800; INSERT INTO BBY_25_users (user_name, first_name, last_name, email, password, is_admin) values (?, ?, ?, ?, ?, ?)`, 
+    [validNewUserInfo.userName, validNewUserInfo.firstName, validNewUserInfo.lastName, validNewUserInfo.email, validNewUserInfo.password, false],
     function (error, results, fields) {
       if (error) {
           console.log(error);
       }
-      console.log('Rows returned are: ', results);
+      //Saves information into session
+      req.session.loggedIn = true;
+      req.session.email = validNewUserInfo.email;
+      req.session.name = validNewUserInfo.firstName;
+      req.session.identity = validNewUserInfo.ID;
+      req.session.userType = validNewUserInfo.is_admin;
+      req.session.save(function (err) {
+        // session saved. for analytics we could record this in db
+      })
       res.send({ status: "success", msg: "Record added." });
 
     });
-  console.log("created new user");
   connection.end();
 })
 
 app.post("/login", function (req, res) {
     res.setHeader("Content-Type", "application/json");
-
-    console.log("What was sent", req.body.email, req.body.password);
-
     const mysql = require("mysql2");
-    const connection = mysql.createConnection({
-      host: "127.0.0.1",
-      user: "root",
-      password: "",
-      multipleStatements: "true"
-    });
+const connection = mysql.createConnection({
+  host: "127.0.0.1",
+  user: "root",
+  password: "",
+  multipleStatements: "true"
+});
+    
     connection.connect();
+    // Checks if user typed in matching email and password
     const loginInfo = `USE COMP2800; SELECT * FROM BBY_25_USERS WHERE email = '${req.body.email}' AND password = '${req.body.password}';`;
     connection.query(loginInfo, function (error, results, fields) {
+      /* If there is an error, alert user of error
+      *  If the length of results array is 0, then there was no matches in database
+      *  If no error, then it is valid login and save info for session
+      */ 
       if (error) {
         // change this to notify user of error
         console.log(error);
