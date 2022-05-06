@@ -78,6 +78,12 @@ ready(function () {
           }
       }, vars);
   });
+
+  // Redirect back to login page
+  document.querySelector("#loginRedirect").addEventListener("click", function (e) {
+      e.preventDefault();
+      window.location.replace("/");
+  })
 });
 
 function ready(callback) {
