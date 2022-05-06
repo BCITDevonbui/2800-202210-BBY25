@@ -1,11 +1,18 @@
 body{
     background-color: #a3e1ff;
 }
-p{
-    font-size: 30px;
+h1 {
+    font-size: 28px;
     color: #bdc6d2;
+    font-family: 'Merriweather', serif;
 
 }
+
+#forTitle{
+    font-family: 'Merriweather', serif;
+    font-size: 25px;
+}
+
 img{
     width: 160px;
     height: 150px;
@@ -24,7 +31,7 @@ div{
 #content{
     display: grid;
     grid-template-columns: 25% 25% 25% 25%;
-    grid-template-rows: 25% 25% 35% 15%;
+    grid-template-rows: 25% 25% 45% 5%;
 }
 
 #formPanel{
@@ -45,6 +52,7 @@ input[type=text], input[type=password],input[type=email] {
     border: 1px solid #ccc;
     box-sizing: border-box;
     border-radius: 10px;
+    font-family: 'Mulish', sans-serif;
 }
 
 input[type=button]{
@@ -72,12 +80,12 @@ input{
     margin: 3% 3%;
 }
 
-@media screen and (max-width: 900px){
+@media screen and (max-width: 800px){
 
     #content{
         display: grid;
         grid-template-columns: 15% 35% 35% 15%;
-        grid-template-rows: 25% 25% 35% 15%;
+        grid-template-rows: 25% 25% 45% 5%;
     }
     
     #formPanel{
