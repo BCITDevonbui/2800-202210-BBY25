@@ -59,31 +59,31 @@ ready(function () {
   // POST TO THE SERVER
   document.querySelector("#submit").addEventListener("click", function (e) {
       e.preventDefault();
+      // Get info filled in by user
       let email = document.getElementById("email");
       let password = document.getElementById("password");
-      let queryString = "email=" + email.value + "&password=" + password.value;
+      let userName = document.getElementById("userName");
+      let firstName = document.getElementById("firstName");
+      let lastName = document.getElementById("lastName");
+      const vars = { "email": email.value, "password": password.value, "userName": userName.value, "firstName": firstName.value, "lastName": lastName.value }
 
-      ajaxPOST("/login", function (data) {
+      ajaxPOST("/register", function (data) {
           if (data) {
               let dataParsed = JSON.parse(data);
               if (dataParsed.status == "fail") {
                   document.getElementById("errorMsg").innerHTML = dataParsed.msg;
-                  setTimeout(function () {
-                    document.getElementById("errorMsg").innerHTML = "";
-                  },1500);
               } else {
                   window.location.replace("/profile");
               }
           }
-      }, queryString);
+      }, vars);
   });
-  
-  // GET TO THE SERVER
-  document.querySelector("#notMemberP").addEventListener("click", function(e) {
-    e.preventDefault;
-    window.location.replace("/register")
-  })
 
+  // Redirect back to login page
+  document.querySelector("#loginRedirect").addEventListener("click", function (e) {
+      e.preventDefault();
+      window.location.replace("/");
+  })
 });
 
 function ready(callback) {
