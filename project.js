@@ -57,10 +57,9 @@ app.get("/template", function (req,res) {
 app.get("/profile", function (req, res) {
   // Check if user properly authenticated and logged in
   if (req.session.loggedIn) {
-    // Check if user is admin then run this block. If regular then run else block
     if (req.session.userType) {
-      let profile = fs.readFileSync("./app/html/admin.html", "utf8");
-      let profileDOM = new JSDOM(profile);
+    let profile = fs.readFileSync("./app/html/adminProfile.html", "utf8");
+    let profileDOM = new JSDOM(profile);
 
       profileDOM.window.document.getElementById("profile_name").innerHTML
           = "Welcome back " + req.session.name;
