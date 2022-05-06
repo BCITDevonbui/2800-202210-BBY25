@@ -71,6 +71,9 @@ ready(function () {
               console.log(dataParsed);
               if (dataParsed.status == "fail") {
                   document.getElementById("errorMsg").innerHTML = dataParsed.msg;
+                  setTimeout(function () {
+                    document.getElementById("errorMsg").innerHTML = "";
+                  },1500);
               } else {
                   window.location.replace("/profile");
               }

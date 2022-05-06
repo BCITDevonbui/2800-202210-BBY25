@@ -26,6 +26,9 @@ app.use(session(
   })
 );
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 //mysql connection
 var mysql = require('mysql');
 
@@ -37,10 +40,7 @@ var con = mysql.createConnection({
   database: "project"
 });
 
-
-
 app.get("/", function (req, res) {
-
   if (req.session.loggedIn) {
       res.redirect("/profile");
   } else {
@@ -65,28 +65,33 @@ app.get("/template", function (req,res) {
 
 app.get("/profile", function (req, res) {
   if (req.session.loggedIn) {
-    let profile = fs.readFileSync("./app/html/profile.html", "utf8");
-    let profileDOM = new JSDOM(profile);
+    if (req.session.userType) {
+      let profile = fs.readFileSync("./app/html/admin.html", "utf8");
+      let profileDOM = new JSDOM(profile);
 
-
-    // great time to get the user's data and put it into the page!
-    profileDOM.window.document.getElementsByTagName("title")[0].innerHTML
-        = req.session.name + "'s Profile";
-    profileDOM.window.document.getElementById("profile_name").innerHTML
-        = "Welcome back " + req.session.name;
-
-    res.set("Server", "Wazubi Engine");
-    res.set("X-Powered-By", "Wazubi");
-    res.send(profileDOM.serialize());
-
+      res.set("Server", "Wazubi Engine");
+      res.set("X-Powered-By", "Wazubi");
+      res.send(profileDOM.serialize());
+    } else {
+      let profile = fs.readFileSync("./app/html/profile.html", "utf8");
+      let profileDOM = new JSDOM(profile);
+  
+  
+      // great time to get the user's data and put it into the page!
+      profileDOM.window.document.getElementsByTagName("title")[0].innerHTML
+          = req.session.name + "'s Profile";
+      profileDOM.window.document.getElementById("profile_name").innerHTML
+          = "Welcome back " + req.session.name;
+  
+      res.set("Server", "Wazubi Engine");
+      res.set("X-Powered-By", "Wazubi");
+      res.send(profileDOM.serialize());
+    }
   } else {
       // not logged in - no session and no access, redirect to home!
       res.redirect("/");
   }
 });
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
 app.post("/register", function(req, res) {
   res.setHeader("Content-Type", "application/json");
@@ -111,7 +116,7 @@ app.post("/register", function(req, res) {
       if (error) {
           console.log(error);
       }
-      //console.log('Rows returned are: ', results);
+      console.log('Rows returned are: ', results);
       res.send({ status: "success", msg: "Record added." });
 
     });
@@ -122,50 +127,38 @@ app.post("/register", function(req, res) {
 app.post("/login", function (req, res) {
     res.setHeader("Content-Type", "application/json");
 
-     console.log("What was sent", req.body.email, req.body.password);
+    console.log("What was sent", req.body.email, req.body.password);
 
-     const mysql = require("mysql2");
-     const connection =  mysql.createConnection({
-       host: "127.0.0.1",
-       user: "root",
-       password: "",
-       multipleStatements: "true"
-     });
-     connection.connect();
-
-    const loginInfo = "use COMP2800; SELECT * FROM BBY_25_users WHERE email = '" + req.body.email + "';";
-    connection.query(loginInfo,
-      function (error, results, fields) {
-        // results is an array of records, in JSON format
-        // fields contains extra meta data about results
-        console.log("Results from DB", results, "and the # of records returned", results.length);
-        // // hmm, what's this?
-        // myResults = results;
-        if (error) {
-            // in production, you'd really want to send an email to admin
-            // or in the very least, log it. But for now, just console
-            console.log(error);
-        } else if (req.body.email == results[1][0]["email"] && req.body.password == results[1][0]["password"]) {
-          // user authenticated, create a session
-          req.session.loggedIn = true;
-          req.session.email = results[1][0]["email"];
-          req.session.name = results[1][0]["first_name"];
-          req.session.ID = results[1][0]["ID"];
-          req.session.save(function (err) {
-              // session saved. For analytics, we could record this in a DB
-          });
-          // all we are doing as a server is telling the client that they
-          // are logged in, it is up to them to switch to the profile page
-          res.send({ status: "success", msg: "Logged in." });
-        } else {
-          // server couldn't find that, so use AJAX response and inform
-          // the user. when we get success, we will do a complete page
-          // change. Ask why we would do this in lecture/lab :)
-          res.send({ status: "fail", msg: "User account not found." });
-          }
-        connection.end();
+    const mysql = require("mysql2");
+    const connection = mysql.createConnection({
+      host: "127.0.0.1",
+      user: "root",
+      password: "",
+      multipleStatements: "true"
+    });
+    connection.connect();
+    const loginInfo = `USE COMP2800; SELECT * FROM BBY_25_USERS WHERE email = '${req.body.email}' AND password = '${req.body.password}';`;
+    connection.query(loginInfo, function (error, results, fields) {
+      if (error) {
+        // change this to notify user of error
+        console.log(error);
+      } else if (results[1].length == 0) {
+        res.send({ status: "fail", msg: "Incorrect email or password"});
+      }else {
+        let validUserInfo = results[1][0];
+        req.session.loggedIn = true;
+        req.session.email = validUserInfo.email;
+        req.session.name = validUserInfo.first_name;
+        req.session.identity = validUserInfo.ID;
+        req.session.userType = validUserInfo.is_admin;
+        req.session.save(function (err) {
+        // session saved. for analytics we could record this in db
       })
-  });
+      res.send({ status: "success", msg: "Logged in."});
+      }
+    })
+  connection.end();
+});
 
 app.get("/logout", function (req, res) {
 
@@ -181,78 +174,9 @@ app.get("/logout", function (req, res) {
   }
 });
 
-async function init() {
-  const mysql = require("mysql2/promise");
-  const connection = await mysql.createConnection({
-    host: "127.0.0.1",
-    user: "root",
-    password: "",
-    multipleStatements: "true"
-  });
-
-  const createDBAndTables = `CREATE DATABASE IF NOT EXISTS COMP2800;
-  use COMP2800;
-  CREATE TABLE IF NOT EXISTS BBY_25_users (
-  ID int NOT NULL AUTO_INCREMENT,
-  user_name varchar(30),
-  first_name varchar(30),
-  last_name varchar(30),
-  email varchar(30),
-  password varchar(30),
-  PRIMARY KEY (ID));
-  CREATE TABLE IF NOT EXISTS BBY_25_users_packages (
-  userID int NOT NULL,
-  packageID int NOT NULL AUTO_INCREMENT,
-  postdate DATE,
-  posttext varchar(300),
-  posttime TIME,
-  PRIMARY KEY(packageID),
-  CONSTRAINT fk_category
-  FOREIGN KEY (userID)
-    REFERENCES BBY_25_users(ID));
-  CREATE TABLE IF NOT EXISTS BBY_25_admin_users (
-    ID int NOT NULL AUTO_INCREMENT,
-    user_name varchar(30),
-    first_name varchar(30),
-    last_name varchar(30),
-    email varchar(30),
-    password varchar(30),
-    PRIMARY KEY(ID));`;
-
-  await connection.query(createDBAndTables);
-
-  const [rows, fields] = await connection.query(`SELECT * FROM BBY_25_users`);
-
-  if (rows.length == 0) {
-    let userRecords = `INSERT INTO BBY_25_users (user_name, first_name, last_name, email, password) values ?`;
-    let recordValues = [
-      ["pdychinco", "Princeton", "Dychinco", "pdychinco@bcit.ca", "test1"],
-      ["idatayan", "Izabelle", "Datayan", "idatayan@bcit.ca", "test2"],
-      ["dbui", "Devon", "Bui", "dbui@bcit.ca", "test3"],
-      ["damah", "David", "Amah", "damah@bcit.ca", "test4"]
-    ];
-    await connection.query(userRecords, [recordValues]);
-  }
-
-  const [lines, titles] = await connection.query(`SELECT * FROM BBY_25_admin_users`);
-
-  if (lines.length == 0) {
-    let userRecords = `INSERT INTO BBY_25_admin_users (user_name, first_name, last_name, email, password) values ?`;
-    let recordValues = [
-      ["pdychinco", "Princeton", "Dychinco", "pdychinco@bcit.ca", "test1"],
-      ["idatayan", "Izabelle", "Datayan", "idatayan@bcit.ca", "test2"],
-      ["dbui", "Devon", "Bui", "dbui@bcit.ca", "test3"],
-      ["damah", "David", "Amah", "damah@bcit.ca", "test4"]
-    ];
-    await connection.query(userRecords, [recordValues]);
-  }
-
-  connection.end();
-
+function init() {
   console.log("listening on port " + port + "!");
 }
-// test code
-// gotta merge now
+
 let port = 8000;
 app.listen(port, init);
-// dev branch commit
