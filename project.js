@@ -57,9 +57,14 @@ app.get("/register", function (req,res) {
   res.send(doc)
 })
 
+app.get("/notification", function (req,res) {
+  let doc = fs.readFileSync("./app/html/notification.html","utf8");
+  res.send(doc)
+})
+
 app.get("/profile", function (req, res) {
   if (req.session.loggedIn) {
-    let profile = fs.readFileSync("./app/html/profile.html", "utf8");
+    let profile = fs.readFileSync("./app/html/notification.html", "utf8");
     let profileDOM = new JSDOM(profile);
 
 
@@ -109,7 +114,7 @@ app.post("/login", function (req, res) {
             // in production, you'd really want to send an email to admin
             // or in the very least, log it. But for now, just console
             console.log(error);
-        } else if ((req.body.email == results[1][0]["email"] && req.body.password == results[1][0]["password"]) {
+        } else if (req.body.email == results[1][0]["email"] && req.body.password == results[1][0]["password"]) {
           // user authenticated, create a session
           req.session.loggedIn = true;
           req.session.email = results[1][0]["email"];
