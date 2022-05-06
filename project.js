@@ -44,7 +44,7 @@ app.get("/", function (req, res) {
       res.redirect("/profile");
   } else {
 
-      let doc = fs.readFileSync("./app/html/index.html", "utf8");
+      let doc = fs.readFileSync("./app/html/login.html", "utf8");
 
       res.set("Server", "Wazubi Engine");
       res.set("X-Powered-By", "Wazubi");
