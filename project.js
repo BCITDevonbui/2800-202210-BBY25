@@ -1,4 +1,4 @@
-
+'use strict';
 const express = require("express");
 const session = require("express-session");
 const app = express();
@@ -101,7 +101,7 @@ const connection = mysql.createConnection({
     [validNewUserInfo.userName, validNewUserInfo.firstName, validNewUserInfo.lastName, validNewUserInfo.email, validNewUserInfo.password, false],
     function (error, results, fields) {
       if (error) {
-          console.log(error);
+        // send error to DB
       }
       //Saves information into session
       req.session.loggedIn = true;
@@ -138,7 +138,6 @@ const connection = mysql.createConnection({
       */ 
       if (error) {
         // change this to notify user of error
-        console.log(error);
       } else if (results[1].length == 0) {
         res.send({ status: "fail", msg: "Incorrect email or password"});
       }else {
@@ -171,9 +170,5 @@ app.get("/logout", function (req, res) {
   }
 });
 
-function init() {
-  console.log("listening on port " + port + "!");
-}
-
 let port = 8000;
-app.listen(port, init);
+app.listen(port);
