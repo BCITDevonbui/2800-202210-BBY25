@@ -1,4 +1,4 @@
-
+'use strict';
 const express = require("express");
 const session = require("express-session");
 const app = express();
@@ -110,7 +110,7 @@ const connection = mysql.createConnection({
       req.session.identity = validNewUserInfo.ID;
       req.session.userType = validNewUserInfo.is_admin;
       req.session.save(function (err) {
-        // session saved. for analytics we could record this in db
+        // session saved. save this in db next sprint
       })
       res.send({ status: "success", msg: "Record added." });
 
@@ -138,7 +138,6 @@ const connection = mysql.createConnection({
       */ 
       if (error) {
         // change this to notify user of error
-        console.log(error);
       } else if (results[1].length == 0) {
         res.send({ status: "fail", msg: "Incorrect email or password"});
       }else {
