@@ -18,6 +18,13 @@ div{
     margin: 0 auto;
     justify-content: center;
 }
+
+#loginRedirect:hover {
+  color: #3482c1;
+  cursor: pointer;
+  text: 1;
+  text-align: center;
+}
 #formPanel{
     border: 2px solid #ffffff;
     background-color: #ffffff;
