@@ -101,7 +101,7 @@ const connection = mysql.createConnection({
     [validNewUserInfo.userName, validNewUserInfo.firstName, validNewUserInfo.lastName, validNewUserInfo.email, validNewUserInfo.password, false],
     function (error, results, fields) {
       if (error) {
-          console.log(error);
+        // send error to DB
       }
       //Saves information into session
       req.session.loggedIn = true;
@@ -170,9 +170,5 @@ app.get("/logout", function (req, res) {
   }
 });
 
-function init() {
-  console.log("listening on port " + port + "!");
-}
-
 let port = 8000;
-app.listen(port, init);
+app.listen(port);

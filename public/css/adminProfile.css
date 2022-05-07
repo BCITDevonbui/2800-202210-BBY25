@@ -40,7 +40,7 @@ nav {
     width:50px;
     height: auto;
     margin-left: 15px;
-    margin-top: 7px;
+    margin-top: 20px;
 }
 
 input[type='submit'] {
@@ -54,7 +54,7 @@ input[type='submit'] {
     font-family: 'Heebo', sans-serif;
   }
 
-  input[type='submit']:hover{
+input[type='submit']:hover{
       background-color: #d60000;
       border: 3px solid #d60000;
   }
@@ -167,11 +167,11 @@ input[type=email] {
     
   }
 
-  ::-webkit-input-placeholder {
+::-webkit-input-placeholder {
     text-align: left;
   }
   
-  :-moz-placeholder {
+:-moz-placeholder {
     text-align: left;
   }
 
@@ -190,11 +190,11 @@ input[type=email] {
     font-family: 'Heebo', sans-serif;
   }
 
-  #submit:hover{
+#submit:hover{
     background-color: #8b5fe2;
-  }
+}
 
-  #deleteAll:hover{
+#deleteAll:hover{
     background-color: red;
 }
 
@@ -215,7 +215,7 @@ button{
 
 /* ----------------------- The mobile view css starts here! ------------------------------- */
 
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 700px) {
     #container {
     grid-template-columns: 100%;
     grid-template-rows: 10% 40% 10% 100% 10%;
@@ -271,7 +271,6 @@ button{
         align-items: center;
         justify-items: center;
     }
-
 
     button{
         background-color: #a862ea;

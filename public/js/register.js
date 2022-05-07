@@ -1,14 +1,11 @@
 'use strict';
 ready(function () {
 
-  console.log("Client script loaded.");
-
   function ajaxGET(url, callback) {
 
       const xhr = new XMLHttpRequest();
       xhr.onload = function () {
           if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
-
               callback(this.responseText);
 
           }

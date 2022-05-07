@@ -1,8 +1,6 @@
 'use strict';
 ready(function () {
 
-  console.log("Client script loaded.");
-
   function ajaxGET(url, callback) {
 
       const xhr = new XMLHttpRequest();
@@ -36,7 +34,6 @@ ready(function () {
       let params = typeof data == 'string' ? data : Object.keys(data).map(
           function (k) { return encodeURIComponent(k) + '=' + encodeURIComponent(data[k]) }
       ).join('&');
-      console.log("params in ajaxPOST", params);
 
       const xhr = new XMLHttpRequest();
       xhr.onload = function () {
