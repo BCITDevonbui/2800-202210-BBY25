@@ -49,9 +49,23 @@ app.get("/register", function (req,res) {
   res.send(doc)
 })
 
-app.get("/template", function (req,res) {
-  let doc = fs.readFileSync("./app/html/template.html","utf8");
-  res.send(doc)
+app.get("/package", function (req,res) {
+  let doc = fs.readFileSync("./app/html/catalogue.html","utf8");
+  let docDOM = new JSDOM(doc);
+
+  const mysql = require("mysql2");
+  const connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    multipleStatements: "true"
+  });
+  connection.connect();
+
+  connection.query(`use COMP2800; select * from BBY_25_catalogue;`, function (error, results, fields) {
+    console.log(results);
+  })
+  res.send(docDOM.serialize());
 })
 
 app.get("/profile", function (req, res) {
