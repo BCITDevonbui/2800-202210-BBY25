@@ -48,33 +48,7 @@ ready(function () {
       xhr.send(params);
   }
 
-  // POST TO THE SERVER
-  document.querySelector("#submit").addEventListener("click", function (e) {
-      e.preventDefault();
-      let email = document.getElementById("email");
-      let password = document.getElementById("password");
-      let queryString = "email=" + email.value + "&password=" + password.value;
 
-      ajaxPOST("/login", function (data) {
-          if (data) {
-              let dataParsed = JSON.parse(data);
-              if (dataParsed.status == "fail") {
-                  document.getElementById("errorMsg").innerHTML = dataParsed.msg;
-                  setTimeout(function () {
-                    document.getElementById("errorMsg").innerHTML = "";
-                  },1500);
-              } else {
-                  window.location.replace("/profile");
-              }
-          }
-      }, queryString);
-  });
-  
-  // GET TO THE SERVER
-  document.querySelector("#notMemberP").addEventListener("click", function(e) {
-    e.preventDefault;
-    window.location.replace("/register")
-  })
 
 });
 

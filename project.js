@@ -63,9 +63,28 @@ app.get("/package", function (req,res) {
   connection.connect();
 
   connection.query(`use COMP2800; select * from BBY_25_catalogue;`, function (error, results, fields) {
-    console.log(results);
+    let items = results[1];
+    console.log(items[0]["itemID"]);
+    let contentSelector = docDOM.window.document;
+    console.log(items.length);
+    for (let i = 0; i < items.length; i++) {
+      let j = i++;
+      let cardID = contentSelector.getElementById(`item${j}ID`);
+      let cardName = contentSelector.getElementById(`item${j}Name`);
+      let cardQuantity = contentSelector.getElementById(`item${j}Quantity`);
+      let cardPrice = contentSelector.getElementById(`item${j}Price`);
+      let cardMostWanted = contentSelector.getElementById(`item${j}MostWanted`);
+      cardID.innerHTML = items[i]["itemID"];
+      cardName.innerHTML = items[i].name;
+      cardQuantity.innerHTML = items[i].quantity;
+      cardPrice.innerHTML = items[i].price;
+      cardMostWanted.innerHTML = items[i].most_wanted;
+    }
   })
+  res.set("Server", "Wazubi Engine");
+  res.set("X-Powered-By", "Wazubi");
   res.send(docDOM.serialize());
+  connection.end();
 })
 
 app.get("/profile", function (req, res) {
@@ -135,12 +154,12 @@ const connection = mysql.createConnection({
 app.post("/login", function (req, res) {
     res.setHeader("Content-Type", "application/json");
     const mysql = require("mysql2");
-const connection = mysql.createConnection({
-  host: "127.0.0.1",
-  user: "root",
-  password: "",
-  multipleStatements: "true"
-});
+  const connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    multipleStatements: "true"
+  });
     
     connection.connect();
     // Checks if user typed in matching email and password
