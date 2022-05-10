@@ -5,6 +5,7 @@ const app = express();
 const fs = require("fs");
 const { connect } = require("http2");
 const { JSDOM } = require('jsdom');
+const mysql = require('mysql');
 
 // static path mappings
 app.use("/js", express.static("./public/js"));
@@ -145,6 +146,8 @@ const connection = mysql.createConnection({
         req.session.loggedIn = true;
         req.session.email = validUserInfo.email;
         req.session.name = validUserInfo.first_name;
+        req.session.lastName = validUserInfo.last_name;
+        req.session.password = validUserInfo.password;
         req.session.identity = validUserInfo.ID;
         req.session.userType = validUserInfo.is_admin;
         req.session.save(function (err) {
@@ -155,6 +158,83 @@ const connection = mysql.createConnection({
     })
   connection.end();
 });
+
+///////////////////////////////////////////////////////////////////////////////////////////
+//get the account page
+app.get('/account', function (req, res) {
+
+  let profile = fs.readFileSync("./app/html/account.html", "utf8");
+  let profileDOM = new JSDOM(profile);
+
+  profileDOM.window.document.getElementById("first_name").innerHTML
+      = req.session.name;
+  profileDOM.window.document.getElementById("last_name").innerHTML
+      = req.session.lastName;
+  profileDOM.window.document.getElementById("email").innerHTML
+      = req.session.email
+  profileDOM.window.document.getElementById("password").innerHTML
+      = req.session.password;
+  profileDOM.window.document.getElementById("id").innerHTML
+      = req.session.identity;
+
+  res.set("Server", "Wazubi Engine");
+  res.set("X-Powered-By", "Wazubi");
+  res.send(profileDOM.serialize());
+
+});
+
+// get the user's name from database
+app.get('/account-name', function (req, res) {
+
+  let connection = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: '',
+    database: 'comp2800'
+  });
+  connection.connect();
+  connection.query(`SELECT first_name FROM BBY_25_USERS WHERE first_name = "${req.session.name}";`, function (error, results, fields) {
+      if (error) {
+          console.log(error);
+      }
+      console.log('Rows returned are: ', results);
+
+       res.send(results);
+
+
+  });
+
+  connection.end();
+
+});
+
+// ANOTHER POST: we are changing stuff on the server!!!
+app.post('/update-customer', function (req, res) {
+  res.setHeader('Content-Type', 'application/json');
+
+  let connection = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: '',
+    database: 'comp2800'
+  });
+  connection.connect();
+console.log("update values", req.body.name, req.body.id)
+  connection.query('UPDATE BBY_25_users SET first_name = ? WHERE ID = ?',
+        [req.body.name, req.body.id],
+        function (error, results, fields) {
+    if (error) {
+        console.log(error);
+    }
+    //console.log('Rows returned are: ', results);
+    res.send({ status: "success", msg: "Recorded updated." });
+
+  });
+  connection.end();
+
+});
+
+//////////////////////////////////////////////////////////////////////////////////////
 
 app.get("/logout", function (req, res) {
 
