@@ -64,7 +64,10 @@ ready(function () {
                     document.getElementById("errorMsg").innerHTML = "";
                   },1500);
               } else {
-                  window.location.replace("/profile");
+                  setTimeout(function() {
+                    window.location.replace("/profile");
+                  }, 1000);
+                  
               }
           }
       }, queryString);

@@ -70,20 +70,24 @@ app.post("/donate", function(req,res) {
   connection.connect();
 
   let amount = req.body.amount;
-  let date = new Date();
-  let splitDate = String(date).split(" ");
-  
-  let month = 0;
-  if(date.getMonth() + 1 < 9) {
-    month = `0${date.getMonth() +1}`;
-  }else {
-    month = `${date.getMonth()+1}`;
+  if(amount < 0 || amount > 9999999.99 || amount === "") {
+    res.send({status: "fail", msg: "Invalid amount entered!"});
+  } else {
+    let date = new Date();
+    let splitDate = String(date).split(" ");
+    
+    let month = 0;
+    if(date.getMonth() + 1 < 9) {
+      month = `0${date.getMonth() +1}`;
+    }else {
+      month = `${date.getMonth()+1}`;
+    }
+    console.log(splitDate[3], month, splitDate[2], splitDate[4]);
+    let postedDate = `${splitDate[3]}-${month}-${splitDate[2]} ${splitDate[4]}`
+    connection.query(`use COMP2800; INSERT INTO BBY_25_users_donation (userID, postdate, amount) VALUES (?, ?, ?)`, [req.session.identity, postedDate, amount]);
+    res.send({status: "success", msg: "Record added."});
+    connection.end();
   }
-  console.log(splitDate[3], month, splitDate[2], splitDate[4]);
-  let postedDate = `${splitDate[3]}-${month}-${splitDate[2]} ${splitDate[4]}`
-  connection.query(`use COMP2800; INSERT INTO BBY_25_users_donation (userID, postdate, amount) VALUES (?, ?, ?)`, [req.session.identity, postedDate, amount]);
-  res.send({status: "success", msg: "Record added."});
-  connection.end();
 });
 
 app.get("/profile", function (req, res) {
@@ -151,14 +155,14 @@ const connection = mysql.createConnection({
 })
 
 app.post("/login", function (req, res) {
-    res.setHeader("Content-Type", "application/json");
-    const mysql = require("mysql2");
-const connection = mysql.createConnection({
-  host: "127.0.0.1",
-  user: "root",
-  password: "",
-  multipleStatements: "true"
-});
+  res.setHeader("Content-Type", "application/json");
+  const mysql = require("mysql2");
+  const connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    multipleStatements: "true"
+  });
     
     connection.connect();
     // Checks if user typed in matching email and password
@@ -172,7 +176,7 @@ const connection = mysql.createConnection({
         // change this to notify user of error
       } else if (results[1].length == 0) {
         res.send({ status: "fail", msg: "Incorrect email or password"});
-      }else {
+      } else {
         let validUserInfo = results[1][0];
         req.session.loggedIn = true;
         req.session.email = validUserInfo.email;

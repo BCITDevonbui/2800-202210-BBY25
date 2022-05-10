@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS BBY_25_users_donation (
   donateID int NOT NULL AUTO_INCREMENT,
   userID int NOT NULL,
   postdate DATETIME,
-  amount DECIMAL(5,2) NOT NULL,
+  amount DECIMAL(10,2) NOT NULL,
   PRIMARY KEY(donateID),
   FOREIGN KEY (userID)
     REFERENCES BBY_25_users(identity));
