@@ -48,34 +48,24 @@ ready(function () {
       xhr.send(params);
   }
 
-  // POST TO THE SERVER
-  document.querySelector("#submit").addEventListener("click", function (e) {
-      e.preventDefault();
-      // Get info filled in by user
-      let email = document.getElementById("email");
-      let password = document.getElementById("password");
-      let userName = document.getElementById("userName");
-      let firstName = document.getElementById("firstName");
-      let lastName = document.getElementById("lastName");
-      const vars = { "email": email.value, "password": password.value, "userName": userName.value, "firstName": firstName.value, "lastName": lastName.value }
-
-      ajaxPOST("/register", function (data) {
-          if (data) {
-              let dataParsed = JSON.parse(data);
-              if (dataParsed.status == "fail") {
-                  document.getElementById("errorMsg").innerHTML = dataParsed.msg;
-              } else {
-                  window.location.replace("/profile");
-              }
-          }
-      }, vars);
-  });
-
-  // Redirect back to login page
-  document.querySelector("#loginRedirect").addEventListener("click", function (e) {
-      e.preventDefault();
-      window.location.replace("/");
+  // GET TO THE SERVER
+  document.querySelector("#donateButton").addEventListener("click", function(e) {
+    e.preventDefault;
+    window.location.replace("/donate")
   })
+
+  // GET TO THE SERVER
+  document.querySelector("#packageButton").addEventListener("click", function(e) {
+    e.preventDefault;
+    window.location.replace("/package")
+  })
+
+  // GET TO THE SERVER
+  document.querySelector("#notifButton").addEventListener("click", function(e) {
+    e.preventDefault;
+    window.location.replace("/history")
+  })
+
 });
 
 function ready(callback) {

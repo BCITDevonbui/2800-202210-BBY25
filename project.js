@@ -47,12 +47,44 @@ app.get("/", function (req, res) {
 app.get("/register", function (req,res) {
   let doc = fs.readFileSync("./app/html/register.html","utf8");
   res.send(doc)
-})
+});
 
-app.get("/template", function (req,res) {
-  let doc = fs.readFileSync("./app/html/template.html","utf8");
-  res.send(doc)
-})
+app.get("/donate", function (req,res) {
+  if(req.session.loggedIn) {
+    let doc = fs.readFileSync("./app/html/donate.html","utf8");
+    res.send(doc)
+  } else {
+    res.redirect("/");
+  }
+});
+
+app.post("/donate", function(req,res) {
+  res.setHeader("Content-Type", "application/json");
+  const mysql = require("mysql2");
+  const connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    multipleStatements: "true"
+  });
+  connection.connect();
+
+  let amount = req.body.amount;
+  let date = new Date();
+  let splitDate = String(date).split(" ");
+  
+  let month = 0;
+  if(date.getMonth() + 1 < 9) {
+    month = `0${date.getMonth() +1}`;
+  }else {
+    month = `${date.getMonth()+1}`;
+  }
+  console.log(splitDate[3], month, splitDate[2], splitDate[4]);
+  let postedDate = `${splitDate[3]}-${month}-${splitDate[2]} ${splitDate[4]}`
+  connection.query(`use COMP2800; INSERT INTO BBY_25_users_donation (userID, postdate, amount) VALUES (?, ?, ?)`, [req.session.identity, postedDate, amount]);
+  res.send({status: "success", msg: "Record added."});
+  connection.end();
+});
 
 app.get("/profile", function (req, res) {
   // Check if user properly authenticated and logged in
@@ -107,7 +139,7 @@ const connection = mysql.createConnection({
       req.session.loggedIn = true;
       req.session.email = validNewUserInfo.email;
       req.session.name = validNewUserInfo.firstName;
-      req.session.identity = validNewUserInfo.ID;
+      req.session.identity = validNewUserInfo.identity;
       req.session.userType = validNewUserInfo.is_admin;
       req.session.save(function (err) {
         // session saved. for analytics we could record this in db
@@ -145,7 +177,7 @@ const connection = mysql.createConnection({
         req.session.loggedIn = true;
         req.session.email = validUserInfo.email;
         req.session.name = validUserInfo.first_name;
-        req.session.identity = validUserInfo.ID;
+        req.session.identity = validUserInfo.identity;
         req.session.userType = validUserInfo.is_admin;
         req.session.save(function (err) {
         // session saved. for analytics we could record this in db
