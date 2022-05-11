@@ -46,13 +46,16 @@ ready(function () {
       xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
       xhr.send(params);
   }
+
   // POST TO THE SERVER
   document.querySelector("#submit").addEventListener("click", function (e) {
     e.preventDefault();
-    let amount = document.getElementById("amount").value;
-    let queryString = "amount=" + amount;
+    let number = document.getElementById("number").value;
+    let expiry = document.getElementById("expiry").value;
+    let cvv = document.getElementById("cvv").value;
+    let queryString = `number=${number}&expiry=${expiry}&cvv=${cvv}`
 
-    ajaxPOST("/donate", function (data) {
+    ajaxPOST("/payment", function (data) {
         if (data) {
             let dataParsed = JSON.parse(data);
             if (dataParsed.status == "fail") {
@@ -61,7 +64,7 @@ ready(function () {
                   document.getElementById("errorMsg").innerHTML = "";
                 },1500);
             } else {
-                window.location.replace("/payment");
+                window.location.replace("/thanks");
             }
         }
     }, queryString);

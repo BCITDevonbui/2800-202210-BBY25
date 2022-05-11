@@ -120,6 +120,35 @@ app.get("/profile", function (req, res) {
   }
 });
 
+app.get("/payment", function (req, res) {
+  if(req.session.loggedIn) {
+    let doc = fs.readFileSync("./app/html/payment.html", "utf8");
+    res.send(doc);
+  } else {
+    res.redirect("/");
+  }
+
+});
+
+app.post("/payment", function (req,res) {
+  res.setHeader("Content-Type", "application/json");
+  const mysql = require("mysql2");
+  const connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    multipleStatements: "true"
+  });
+  connection.connect();
+
+  let ccInfo = req.body;
+  if(ccInfo.number.length != 16 || ccInfo.expiry.length < 4 || ccInfo.expiry.length > 4) {
+    res.send({ status: "fail", msg: "Invalid credit card details."});
+  } else {
+    res.send({ status: "success", msg: "Payment Approved"});
+  }
+})
+
 app.post("/register", function(req, res) {
   res.setHeader("Content-Type", "application/json");
   const mysql = require("mysql2");
