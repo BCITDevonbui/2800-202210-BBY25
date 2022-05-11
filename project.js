@@ -182,8 +182,6 @@ app.get('/account', function (req, res) {
       = req.session.password;
   profileDOM.window.document.getElementById("id").innerHTML
       = req.session.identity;
-  profileDOM.window.document.getElementById("profilePicture").src
-      = req.session.profilePic;
 
   res.set("Server", "Wazubi Engine");
   res.set("X-Powered-By", "Wazubi");
@@ -323,6 +321,40 @@ console.log("update values", req.body.password, req.body.id)
   connection.end();
 
 });
+
+// updating profile pic!!!
+// update password!!!
+app.post('/update-profilePic', function (req, res) {
+    res.setHeader('Content-Type', 'application/json');
+  
+    let connection = mysql.createConnection({
+      host: '127.0.0.1',
+      user: 'root',
+      password: '',
+      database: 'comp2800'
+    });
+    connection.connect();
+  console.log("update values", req.body.profilePic, req.body.id)
+    connection.query('UPDATE BBY_25_users SET profile_pic = ? WHERE ID = ?',
+          [req.body.profilePic, req.body.id],
+          function (error, results, fields) {
+      if (error) {
+          console.log(error);
+      }
+      //console.log('Rows returned are: ', results);
+      res.send({ status: "success", msg: "Recorded updated." });
+  
+      req.session.profilePic = req.body.profilePic;
+      console.log(req.session.profilePic);
+  
+      req.session.save(function (err) {
+        // session saved. for analytics we could record this in db
+      })
+  
+    });
+    connection.end();
+  
+  });
 
 //////////////////////////////////////////////////////////////////////////////////////
 

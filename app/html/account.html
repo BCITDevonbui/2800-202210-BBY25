@@ -3,36 +3,25 @@
   <head>
     <title>CRUD MySQL Example</title>
     <meta charset="utf-8"/>
-    <style>
-      table {
-        background-color: #c9f0e2;
-        border: solid 1px;
-      }
-      td {
-        border-bottom: solid 1px;
-        padding: 4px;
-        text-align: center;
-      }
-      form {
-        width: 80%;
-        padding-top: 2em;
-      }
-    </style>
-
+    <link rel="stylesheet" href="/css/account.css">
+    <link rel="stylesheet" href="/css/style.css">
   </head>
 
   <body>
+
+
 
     <p>ID: </p> <p><span id="id"></span></p>
 
     <br>
 
-    <p>Profile Picture: </p> <img id="profilePicture" alt="userProfilePicture">
+    <p>Profile Picture: </p>
     <input type='file'>
 
     <br>
 
-    <p>First name: </p> <p id="newName"><span id="first_name" class="first_name"></span></p>
+    <p>First name: </p> <p><span id="first_name" class="first_name"></span></p>
+    <img src="/img/pencil.png" id="editFirstName" class="icon" alt="edit">
 
     <br>
 
