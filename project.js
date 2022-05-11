@@ -127,8 +127,16 @@ app.get("/payment", function (req, res) {
   } else {
     res.redirect("/");
   }
-
 });
+
+app.get("/thanks", function (req, res) {
+  if (req.session.loggedIn) {
+    let doc = fs.readFileSync("./app/html/thankyou.html", "utf8");
+    res.send(doc);
+  } else {
+    res.redirect("/");
+  }
+})
 
 app.post("/payment", function (req,res) {
   res.setHeader("Content-Type", "application/json");
