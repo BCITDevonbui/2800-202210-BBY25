@@ -58,22 +58,27 @@ app.get("/template", function (req,res) {
 app.get("/profile", function (req, res) {
   // Check if user properly authenticated and logged in
   if (req.session.loggedIn) {
+    //if admin user
     if (req.session.userType) {
     let profile = fs.readFileSync("./app/html/adminProfile.html", "utf8");
     let profileDOM = new JSDOM(profile);
 
       profileDOM.window.document.getElementById("profile_name").innerHTML
           = "Welcome back " + req.session.name;
+      profileDOM.window.document.getElementById("profilePicture").src = req.session.profilePic;
+
 
       res.set("Server", "Wazubi Engine");
       res.set("X-Powered-By", "Wazubi");
       res.send(profileDOM.serialize());
     } else {
+      //if a normal user
       let profile = fs.readFileSync("./app/html/profile.html", "utf8");
       let profileDOM = new JSDOM(profile);
   
       profileDOM.window.document.getElementById("profile_name").innerHTML
           = "Welcome back " + req.session.name;
+      profileDOM.window.document.getElementById("profilePicture").src = req.session.profilePic;
   
       res.set("Server", "Wazubi Engine");
       res.set("X-Powered-By", "Wazubi");
@@ -150,6 +155,7 @@ const connection = mysql.createConnection({
         req.session.password = validUserInfo.password;
         req.session.identity = validUserInfo.ID;
         req.session.userType = validUserInfo.is_admin;
+        req.session.profilePic = validUserInfo.profile_pic;
         req.session.save(function (err) {
         // session saved. for analytics we could record this in db
       })
@@ -167,7 +173,7 @@ app.get('/account', function (req, res) {
   let profileDOM = new JSDOM(profile);
 
   profileDOM.window.document.getElementById("first_name").innerHTML
-      = req.session.name;
+  = req.session.name;
   profileDOM.window.document.getElementById("last_name").innerHTML
       = req.session.lastName;
   profileDOM.window.document.getElementById("email").innerHTML
@@ -176,6 +182,8 @@ app.get('/account', function (req, res) {
       = req.session.password;
   profileDOM.window.document.getElementById("id").innerHTML
       = req.session.identity;
+  profileDOM.window.document.getElementById("profilePicture").src
+      = req.session.profilePic;
 
   res.set("Server", "Wazubi Engine");
   res.set("X-Powered-By", "Wazubi");
@@ -183,37 +191,12 @@ app.get('/account', function (req, res) {
 
 });
 
-// get the user's name from database
-app.get('/account-name', function (req, res) {
-
-  let connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'comp2800'
-  });
-  connection.connect();
-  connection.query(`SELECT first_name FROM BBY_25_USERS WHERE first_name = "${req.session.name}";`, function (error, results, fields) {
-      if (error) {
-          console.log(error);
-      }
-      console.log('Rows returned are: ', results);
-
-       res.send(results);
-
-
-  });
-
-  connection.end();
-
-});
-
-// ANOTHER POST: we are changing stuff on the server!!!
-app.post('/update-customer', function (req, res) {
+// updating first name!!!
+app.post('/update-firstName', async function (req, res) {
   res.setHeader('Content-Type', 'application/json');
 
   let connection = mysql.createConnection({
-    host: 'localhost',
+    host: '127.0.0.1',
     user: 'root',
     password: '',
     database: 'comp2800'
@@ -228,6 +211,113 @@ console.log("update values", req.body.name, req.body.id)
     }
     //console.log('Rows returned are: ', results);
     res.send({ status: "success", msg: "Recorded updated." });
+
+    req.session.name = req.body.name;
+    console.log(req.session.name);
+
+    req.session.save(function (err) {
+      // session saved. for analytics we could record this in db
+    })
+
+  });
+  connection.end();
+
+});
+
+// updating last name!!!
+app.post('/update-lastName', async function (req, res) {
+  res.setHeader('Content-Type', 'application/json');
+
+  let connection = mysql.createConnection({
+    host: '127.0.0.1',
+    user: 'root',
+    password: '',
+    database: 'comp2800'
+  });
+  connection.connect();
+console.log("update values", req.body.lastName, req.body.id)
+  connection.query('UPDATE BBY_25_users SET last_name = ? WHERE ID = ?',
+        [req.body.lastName, req.body.id],
+        function (error, results, fields) {
+    if (error) {
+        console.log(error);
+    }
+    //console.log('Rows returned are: ', results);
+    res.send({ status: "success", msg: "Recorded updated." });
+
+    req.session.lastName = req.body.lastName;
+    console.log(req.session.lastName);
+
+    req.session.save(function (err) {
+      // session saved. for analytics we could record this in db
+    })
+
+  });
+  connection.end();
+
+});
+
+// updating email!!!
+app.post('/update-email', async function (req, res) {
+  res.setHeader('Content-Type', 'application/json');
+
+  let connection = mysql.createConnection({
+    host: '127.0.0.1',
+    user: 'root',
+    password: '',
+    database: 'comp2800'
+  });
+  connection.connect();
+console.log("update values", req.body.email, req.body.id)
+  connection.query('UPDATE BBY_25_users SET email = ? WHERE ID = ?',
+        [req.body.email, req.body.id],
+        function (error, results, fields) {
+    if (error) {
+        console.log(error);
+    }
+    //console.log('Rows returned are: ', results);
+    res.send({ status: "success", msg: "Recorded updated." });
+
+    req.session.email = req.body.email;
+    console.log(req.session.email);
+
+    req.session.save(function (err) {
+      // session saved. for analytics we could record this in db
+    })
+
+  });
+  connection.end();
+
+});
+
+
+// update password!!!
+app.post('/update-password', function (req, res) {
+  res.setHeader('Content-Type', 'application/json');
+
+  let connection = mysql.createConnection({
+    host: '127.0.0.1',
+    user: 'root',
+    password: '',
+    database: 'comp2800'
+  });
+  connection.connect();
+console.log("update values", req.body.password, req.body.id)
+  connection.query('UPDATE BBY_25_users SET password = ? WHERE ID = ?',
+        [req.body.password, req.body.id],
+        function (error, results, fields) {
+    if (error) {
+        console.log(error);
+    }
+    //console.log('Rows returned are: ', results);
+    res.send({ status: "success", msg: "Recorded updated." });
+
+    req.session.password = req.body.password;
+    console.log(req.session.password);
+
+    req.session.save(function (err) {
+      // session saved. for analytics we could record this in db
+    })
 
   });
   connection.end();
