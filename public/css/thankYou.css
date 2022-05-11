@@ -63,14 +63,11 @@ aside {
   width: 100%;
 }
 
-.bottomnav a {
-  float: left;
-  display: block;
-  color: #f2f2f2;
+footer {
+  background-color: #3482c1;
+  grid-column: 1 / span 2;
+  grid-row: 4;
   text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-  font-size: 17px;
 }
 
 a {
@@ -191,11 +188,6 @@ footer {
 /* ----------------------- The mobile view css starts here! ------------------------------- */
 
 @media only screen and (max-width: 800px) {
-  #container {
-    grid-template-columns: 100%;
-    grid-template-rows: 10% 30% 10% 10% 50% 10%;
-    justify-items: center;
-  }
 
   aside {
     grid-row: 1;
@@ -244,6 +236,13 @@ footer {
     padding: 14px 16px;
     text-decoration: none;
     font-size: 17px;
+  }
+
+  footer {
+    background-color: #3482c1;
+    grid-column: 1 / span 2;
+    grid-row: 4;
+    text-align: center;
   }
 
   a {
