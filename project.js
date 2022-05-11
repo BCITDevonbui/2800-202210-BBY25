@@ -58,6 +58,33 @@ app.get("/donate", function (req,res) {
   }
 });
 
+app.get("/account", function (req, res) {
+  let doc = fs.readFileSync("./app/html/account.html", "utf8");
+  res.send(doc);
+})
+
+app.post("/update-firstName", function (req, res) {
+  const mysql = require("mysql2");
+  const connection = mysql.createConnection({
+    host:"127.0.0.1",
+    user: "root",
+    password: "",
+    multipleStatements: "true"
+  })
+  connection.connect();
+
+  connection.query(`UPDATE BBY_25_users SET first_name = ? where identity = ?`), 
+  [req.body.name, req.body.id], function(error, results, fields) {
+    if(error) {
+      //stuff
+    } else {
+      req.session.name = req.body.name;
+    }
+  };
+  res.send({status: "success", msg: "name updated"})
+
+})
+
 app.post("/donate", function(req,res) {
   res.setHeader("Content-Type", "application/json");
   const mysql = require("mysql2");
