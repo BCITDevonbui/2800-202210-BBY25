@@ -276,7 +276,23 @@ firstNameRecords.addEventListener("click", editName);
 
     }
 
-    // change user first name
+    // change user profile pic name
+    // got help with how to get the file name from:
+    // https://thewebdev.info/2022/02/16/how-to-get-the-filename-from-a-file-input-with-javascript/
+
+    const input = document.querySelector("input")
+input.onchange = (e) => {
+  const [file] = e.target.files
+  let parent = e.target.parentNode;
+  console.log(file.name)
+  let v = "/img/" + file.name;
+  let dataToSend = {id: parent.parentNode.querySelector("#id").innerHTML,
+                    profilePic: v};
+  console.log("im the id " + dataToSend.id);
+  console.log("Im the pic to be sent " + dataToSend.profilePic);
+}
+
+
 let profilePicRecords = document.getElementById("profilePicture");
 
 firstNameRecords.addEventListener("click", editPic);
