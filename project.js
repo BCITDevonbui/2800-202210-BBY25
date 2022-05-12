@@ -60,6 +60,8 @@ app.get("/donate", function (req,res) {
 
 app.get("/account", function (req, res) {
   let doc = fs.readFileSync("./app/html/account.html", "utf8");
+  let docDOM = new JSDOM(doc);
+  
   res.send(doc);
 })
 
