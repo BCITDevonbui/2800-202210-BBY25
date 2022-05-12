@@ -31,7 +31,7 @@ function getUsers() {
                             + "</td><td class='email'><span>"
                             + row.email + "</span>"
                             + "</td><td class='password'><span>" + row.password 
-                            + "</span></td><td class='isAdmin'><span>" + row.is_admin 
+                            + "</span></td><td class='isAdmin'><span class='adminSpan'>" + row.is_admin 
                             + "</span></tr>");
                     }
                     //console.log(str);
@@ -440,6 +440,32 @@ function editIsAdmin(e) {
                 v = 0;
                 document.getElementById("message").innerHTML = "Not a valid input.";
             }
+            const button = document.querySelector('.isAdmin');
+
+            const div = button.parentNode;
+
+            const divparent = div.parentNode;
+
+            var lookForOne = [];
+            let isAdminRecords = document.querySelectorAll("td[class='isAdmin'] span");
+            for(let j = 0; j < isAdminRecords.length; j++) {
+                let i = 0;
+                let isAdmin = divparent.querySelector(".isAdmin").innerHTML;
+                lookForOne.push(isAdmin);
+                console.log(isAdmin);
+                console.log(lookForOne);
+                i++;
+            }
+            if (lookForOne.includes("1")){
+                v = v;
+                console.log("there is a 1!")
+                lookForOne = [];
+            } else {
+                v = 1;
+                console.log("There is no one :(")
+                lookForOne = [];
+            }
+
             let newSpan = document.createElement("span");
             // have to wire an event listener to the new element
             newSpan.addEventListener("click", editIsAdmin);
