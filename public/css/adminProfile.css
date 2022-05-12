@@ -130,6 +130,11 @@ a:hover{
     border-radius: 25px;
 }
 
+table {
+    margin-left: auto;
+    margin-right: auto;
+}
+
 #formDiv {
     margin: auto;
   }
