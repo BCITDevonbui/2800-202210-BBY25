@@ -96,6 +96,10 @@ getUsers();
 //admin change email
 function editEmail(e) {
 
+        // gets rid of messages
+        document.getElementById("message").innerHTML = "";
+        document.getElementById("status").innerHTML = "";
+
     // add a listener for clicking on the field to change email
     // span's text
     let spanText = e.target.innerHTML;
@@ -110,6 +114,14 @@ function editEmail(e) {
         // pressed enter
         if(e.which == 13) {
             v = input.value;
+            // if admin puts a value without the @
+            if (v.includes("@")){
+                v = input.value;
+            } else {
+                v = input.value;
+                v.style.color = "red";
+                document.getElementById("message").innerHTML = "Not a valid input.";
+            }
             let newSpan = document.createElement("span");
             // have to wire an event listener to the new element
             newSpan.addEventListener("click", editEmail);
@@ -126,8 +138,12 @@ function editEmail(e) {
 
                     // 200 means everthing worked
                     if (xhr.status === 200) {
-                      document.getElementById("status").innerHTML = "Record updated.";
-                      // getCustomers();
+                        // if valid input for isAdmin is made, "record updated" message will show up
+                        if (document.getElementById("message").innerHTML == "Not a valid input."){
+                            document.getElementById("status").innerHTML = "";
+                        } else {
+                            document.getElementById("status").innerHTML = "Record updated.";
+                        }
 
 
                     } else {
@@ -401,6 +417,10 @@ function editPassword(e) {
 //admin change is admin status
 function editIsAdmin(e) {
 
+    // gets rid of messages
+    document.getElementById("message").innerHTML = "";
+    document.getElementById("status").innerHTML = "";
+
     // add a listener for clicking on the field to change email
     // span's text
     let spanText = e.target.innerHTML;
@@ -415,9 +435,11 @@ function editIsAdmin(e) {
         // pressed enter
         if(e.which == 13) {
             v = input.value;
-            // if (v != 1 || v != 0){
-            //     v = 0;
-            // }
+            // if admin puts a value other than 1 or 0, make it 0
+            if (v != 1 && v != 0){
+                v = 0;
+                document.getElementById("message").innerHTML = "Not a valid input.";
+            }
             let newSpan = document.createElement("span");
             // have to wire an event listener to the new element
             newSpan.addEventListener("click", editIsAdmin);
@@ -434,12 +456,15 @@ function editIsAdmin(e) {
 
                     // 200 means everthing worked
                     if (xhr.status === 200) {
-                        if (dataToSend.isAdmin == 1 || dataToSend.isAdmin == 0) {
-                            document.getElementById("status").innerHTML = "Record updated.";
+
+                        // if valid input for isAdmin is made, "record updated" message will show up
+                        if (document.getElementById("message").innerHTML == "Not a valid input."){
+                            document.getElementById("status").innerHTML = "";
                         } else {
-                            dataToSend.isAdmin = 0;
-                            document.getElementById("status").innerHTML = "Not a valid input.";
+                            document.getElementById("status").innerHTML = "Record updated.";
                         }
+                            
+
                       // getCustomers();
 
 
