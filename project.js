@@ -68,11 +68,11 @@ app.get("/profile", function (req, res) {
       res.set("X-Powered-By", "Wazubi");
       res.send(profileDOM.serialize());
     } else {
-      let profile = fs.readFileSync("./app/html/profile.html", "utf8");
+      let profile = fs.readFileSync("./app/html/donation.html", "utf8");
       let profileDOM = new JSDOM(profile);
   
-      profileDOM.window.document.getElementById("profile_name").innerHTML
-          = "Welcome back " + req.session.name;
+      //profileDOM.window.document.getElementById("profile_name").innerHTML
+      //    = "Welcome back " + req.session.name;
   
       res.set("Server", "Wazubi Engine");
       res.set("X-Powered-By", "Wazubi");
