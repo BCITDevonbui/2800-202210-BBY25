@@ -9,7 +9,7 @@ const {
 const {
   JSDOM
 } = require('jsdom');
-const mysql = require('mysql');
+const mysql = require('mysql2');
 
 // static path mappings
 app.use("/js", express.static("./public/js"));
@@ -115,7 +115,7 @@ app.post("/register", function (req, res) {
       req.session.loggedIn = true;
       req.session.email = validNewUserInfo.email;
       req.session.name = validNewUserInfo.firstName;
-      req.session.identity = validNewUserInfo.ID;
+      req.session.identity = validNewUserInfo.identity;
       req.session.userType = validNewUserInfo.is_admin;
       req.session.save(function (err) {
         // session saved. for analytics we could record this in db
@@ -161,7 +161,7 @@ app.post("/login", function (req, res) {
       req.session.name = validUserInfo.first_name;
       req.session.lastName = validUserInfo.last_name;
       req.session.password = validUserInfo.password;
-      req.session.identity = validUserInfo.ID;
+      req.session.identity = validUserInfo.identity;
       req.session.userType = validUserInfo.is_admin;
       req.session.profilePic = validUserInfo.profile_pic;
       req.session.save(function (err) {
@@ -187,7 +187,7 @@ app.get('/get-allUsers', function (req, res) {
     database: 'comp2800'
   });
   connection.connect();
-  connection.query('select ID, user_name, first_name, last_name, email, password, is_admin from bby_25_users;', function (error, results, fields) {
+  connection.query('select * from bby_25_users;', function (error, results, fields) {
     if (error) {
       console.log(error);
     }
@@ -215,7 +215,7 @@ app.post('/admin-update-email', function (req, res) {
   });
   connection.connect();
   console.log("update values", req.body.email, req.body.id)
-  connection.query('UPDATE BBY_25_users SET email = ? WHERE ID = ?',
+  connection.query('UPDATE BBY_25_users SET email = ? WHERE identity = ?',
     [req.body.email, req.body.id],
     function (error, results, fields) {
       if (error) {
@@ -244,7 +244,7 @@ app.post('/admin-update-username', function (req, res) {
   });
   connection.connect();
   console.log("update values", req.body.userName, req.body.id)
-  connection.query('UPDATE BBY_25_users SET user_name = ? WHERE ID = ?',
+  connection.query('UPDATE BBY_25_users SET user_name = ? WHERE identity = ?',
     [req.body.userName, req.body.id],
     function (error, results, fields) {
       if (error) {
@@ -273,7 +273,7 @@ app.post('/admin-update-firstname', function (req, res) {
   });
   connection.connect();
   console.log("update values", req.body.firstName, req.body.id)
-  connection.query('UPDATE BBY_25_users SET first_name = ? WHERE ID = ?',
+  connection.query('UPDATE BBY_25_users SET first_name = ? WHERE identity = ?',
     [req.body.firstName, req.body.id],
     function (error, results, fields) {
       if (error) {
@@ -302,7 +302,7 @@ app.post('/admin-update-lastname', function (req, res) {
   });
   connection.connect();
   console.log("update values", req.body.lastName, req.body.id)
-  connection.query('UPDATE BBY_25_users SET last_name = ? WHERE ID = ?',
+  connection.query('UPDATE BBY_25_users SET last_name = ? WHERE identity = ?',
     [req.body.lastName, req.body.id],
     function (error, results, fields) {
       if (error) {
@@ -331,7 +331,7 @@ app.post('/admin-update-password', function (req, res) {
   });
   connection.connect();
   console.log("update values", req.body.password, req.body.id)
-  connection.query('UPDATE BBY_25_users SET password = ? WHERE ID = ?',
+  connection.query('UPDATE BBY_25_users SET password = ? WHERE identity = ?',
     [req.body.password, req.body.id],
     function (error, results, fields) {
       if (error) {
@@ -366,7 +366,7 @@ app.post('/admin-update-isAdmin', function (req, res) {
 
   console.log("update values", req.body.isAdmin, req.body.id)
 
-  connection.query('UPDATE BBY_25_users SET is_admin = ? WHERE ID = ?',
+  connection.query('UPDATE BBY_25_users SET is_admin = ? WHERE identity = ?',
     [req.body.isAdmin, req.body.id],
     function (error, results, fields) {
       if (error) {
@@ -433,7 +433,7 @@ app.post('/delete-user', function (req, res) {
 
   console.log("idNumber" + req.body.idNumber);
 
-  connection.query("DELETE FROM bby_25_users WHERE ID = ?",
+  connection.query("DELETE FROM bby_25_users WHERE identity = ?",
     [req.body.idNumber],
     function (error, results, fields) {
       if (error) {
@@ -484,7 +484,7 @@ app.post('/update-firstName', async function (req, res) {
   });
   connection.connect();
   console.log("update values", req.body.name, req.body.id)
-  connection.query('UPDATE BBY_25_users SET first_name = ? WHERE ID = ?',
+  connection.query('UPDATE BBY_25_users SET first_name = ? WHERE identity = ?',
     [req.body.name, req.body.id],
     function (error, results, fields) {
       if (error) {
@@ -520,7 +520,7 @@ app.post('/update-lastName', async function (req, res) {
   });
   connection.connect();
   console.log("update values", req.body.lastName, req.body.id)
-  connection.query('UPDATE BBY_25_users SET last_name = ? WHERE ID = ?',
+  connection.query('UPDATE BBY_25_users SET last_name = ? WHERE identity = ?',
     [req.body.lastName, req.body.id],
     function (error, results, fields) {
       if (error) {
@@ -556,7 +556,7 @@ app.post('/update-email', async function (req, res) {
   });
   connection.connect();
   console.log("update values", req.body.email, req.body.id)
-  connection.query('UPDATE BBY_25_users SET email = ? WHERE ID = ?',
+  connection.query('UPDATE BBY_25_users SET email = ? WHERE identity = ?',
     [req.body.email, req.body.id],
     function (error, results, fields) {
       if (error) {
@@ -593,7 +593,7 @@ app.post('/update-password', function (req, res) {
   });
   connection.connect();
   console.log("update values", req.body.password, req.body.id)
-  connection.query('UPDATE BBY_25_users SET password = ? WHERE ID = ?',
+  connection.query('UPDATE BBY_25_users SET password = ? WHERE identity = ?',
     [req.body.password, req.body.id],
     function (error, results, fields) {
       if (error) {
@@ -630,7 +630,7 @@ app.post('/update-profilePic', function (req, res) {
   });
   connection.connect();
   console.log("update values", req.body.profilePic, req.body.id)
-  connection.query('UPDATE BBY_25_users SET profile_pic = ? WHERE ID = ?',
+  connection.query('UPDATE BBY_25_users SET profile_pic = ? WHERE identity = ?',
     [req.body.profilePic, req.body.id],
     function (error, results, fields) {
       if (error) {

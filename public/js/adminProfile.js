@@ -24,7 +24,7 @@ function getUsers() {
                     for(let i = 0; i < data.rows.length; i++) {
                         let row = data.rows[i];
                         //console.log("row", row);
-                        str += ("<tr><td class='id'>" + row.ID
+                        str += ("<tr><td class='id'>" + row.identity
                             + "</td><td class='userName'><span>" + row.user_name
                             + "</span></td><td class='firstName'><span>" + row.first_name
                             + "</span></td><td class='lastName'><span>" + row.last_name + "</span>"
@@ -436,7 +436,7 @@ function editIsAdmin(e) {
         if(e.which == 13) {
             v = input.value;
             // if admin puts a value other than 1 or 0, make it 0
-            if (v != 1 && v != 0){
+            if (v == "" || v != 1 && v != 0){
                 v = 0;
                 document.getElementById("message").innerHTML = "Not a valid input.";
             }
@@ -521,27 +521,28 @@ function editIsAdmin(e) {
 
 //check if email value is good
 let correctEmail = true;
-let emailVal = document.getElementById("add-email").value
+
 document.getElementById("add-email").addEventListener("change", checkIfValidEmail);
 function checkIfValidEmail(){
+  let emailVal = document.getElementById("add-email").value;
 
-if (!emailVal.includes("@")){
-    document.getElementById("add-email").style.color = "red";
-    document.getElementById("message").innerHTML = "Not a valid input.";
-    correctEmail = false;
-} else {
-    document.getElementById("add-email").style.color = "black";
-    document.getElementById("message").innerHTML = "Not a valid input.";
-    correctEmail = false;
-}
+  if (!emailVal.includes("@")){
+      document.getElementById("add-email").style.color = "red";
+      document.getElementById("message").innerHTML = "Not a valid input.";
+      correctEmail = false;
+  } else {
+      document.getElementById("add-email").style.color = "black";
+      document.getElementById("message").innerHTML = "";
+      correctEmail = true;
+  }
 
 }
-document.getElementById("add-email").addEventListener("click", change);
-function change(){
-    emailVal = "";
-    document.getElementById("add-email").style.color = "black";
-    document.getElementById("message").innerHTML = "";
-}
+// document.getElementById("add-email").addEventListener("click", change);
+// function change(){
+//     emailVal = "";
+//     document.getElementById("add-email").style.color = "black";
+//     document.getElementById("message").innerHTML = "";
+// }
 
 
 // adding a user -----------------------------------------------------------------------------
