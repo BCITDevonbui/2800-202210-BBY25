@@ -88,10 +88,14 @@ app.post("/register", function(req, res) {
   res.setHeader("Content-Type", "application/json");
   const mysql = require("mysql2");
 const connection = mysql.createConnection({
-  host: "127.0.0.1",
-  user: "root",
-  password: "",
-  multipleStatements: "true"
+  // host: "127.0.0.1",
+  // user: "root",
+  // password: "",
+  // multipleStatements: "true"
+  host: 'us-cdbr-east-05.cleardb.net',
+  user: 'b16ad059f5434a',
+  password: '2255f096',
+  database: 'heroku_02ad04623fadaa9'
 });
   connection.connect();
 
@@ -122,10 +126,14 @@ app.post("/login", function (req, res) {
     res.setHeader("Content-Type", "application/json");
     const mysql = require("mysql2");
 const connection = mysql.createConnection({
-  host: "127.0.0.1",
-  user: "root",
-  password: "",
-  multipleStatements: "true"
+  // host: "127.0.0.1",
+  // user: "root",
+  // password: "",
+  // multipleStatements: "true"
+  host: 'us-cdbr-east-05.cleardb.net',
+  user: 'b16ad059f5434a',
+  password: '2255f096',
+  database: 'heroku_02ad04623fadaa9'
 });
     
     connection.connect();
