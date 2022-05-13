@@ -20,7 +20,12 @@
     font-family: 'customMul';
     src: url("./fonts/Mulish-Regular.ttf");
 }
-
+img {
+    width: 160px;
+    height: 150px;
+    margin: 0 auto;
+    display: block;
+  }
 aside {
     grid-row: 1;
     grid-column: 2;
