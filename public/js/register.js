@@ -57,7 +57,7 @@ ready(function () {
       let userName = document.getElementById("userName");
       let firstName = document.getElementById("firstName");
       let lastName = document.getElementById("lastName");
-      const vars = { "email": email.value, "password": password.value, "userName": userName.value, "firstName": firstName.value, "lastName": lastName.value, "isAdmin": isAdminVal }
+      const vars = { "email": email.value, "password": password.value, "userName": userName.value, "firstName": firstName.value, "lastName": lastName.value}
 
       ajaxPOST("/register", function (data) {
           if (data) {
