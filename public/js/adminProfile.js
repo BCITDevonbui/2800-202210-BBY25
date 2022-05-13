@@ -622,4 +622,4 @@ document.getElementById("delete").addEventListener("click", function(e) {
     console.log("formToSend", "idNumber=" + formData.idNumber);
     xhr.send("idNumber=" + formData.idNumber);
 
-});
+})}}
