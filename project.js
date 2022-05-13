@@ -461,6 +461,7 @@ app.post('/admin-update-isAdmin', function (req, res) {
 
 });
 
+// admin adding a user
 app.post('/add-user', function (req, res) {
   res.setHeader('Content-Type', 'application/json');
 
@@ -480,8 +481,8 @@ app.post('/add-user', function (req, res) {
   connection.connect();
   // TO PREVENT SQL INJECTION, DO THIS:
   // (FROM https://www.npmjs.com/package/mysql#escaping-query-values)
-  connection.query(`INSERT INTO BBY_25_users (user_name, first_name, last_name, email, password, is_admin) values (?, ?, ?, ?, ?, ?)`,
-    [req.body.userName, req.body.firstName, req.body.lastName, req.body.email, req.body.password, req.body.isAdmin],
+  connection.query(`INSERT INTO BBY_25_users (user_name, first_name, last_name, email, password, is_admin, profile_pic) values (?, ?, ?, ?, ?, ?, ?)`,
+    [req.body.userName, req.body.firstName, req.body.lastName, req.body.email, req.body.password, req.body.isAdmin, "/img/luffy.png"],
     function (error, results, fields) {
       if (error) {
         console.log(error);
