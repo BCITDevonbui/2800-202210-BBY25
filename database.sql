@@ -23,6 +23,15 @@ CREATE TABLE IF NOT EXISTS BBY_25_users_packages (
   FOREIGN KEY (userID)
     REFERENCES BBY_25_users(identity));
 
+CREATE TABLE IF NOT EXISTS BBY_25_users_donation (
+  donateID int NOT NULL AUTO_INCREMENT,
+  userID int NOT NULL,
+  postdate DATETIME,
+  amount DECIMAL(10,2) NOT NULL,
+  PRIMARY KEY(donateID),
+  FOREIGN KEY (userID)
+    REFERENCES BBY_25_users(identity));
+
 INSERT INTO BBY_25_users (user_name, first_name, last_name, email, password, is_admin, profile_pic) VALUES ("dbui", "Devon", "Bui", "dbui@bcit.ca", "test3", false, "/img/luffy.png");
 
 INSERT INTO BBY_25_users (user_name, first_name, last_name, email, password, is_admin, profile_pic) VALUES ("damah", "David", "Amah", "damah@bcit.ca", "test4", false, "/img/luffy.png");
