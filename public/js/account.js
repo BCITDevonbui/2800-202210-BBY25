@@ -4,6 +4,7 @@ let firstNameRecords = document.getElementById("first_name");
 firstNameRecords.addEventListener("click", editName);
 
 function editName(e) {
+    document.getElementById("status").innerHTML = "";
 
     // add a listener for clicking on the field to change email
     // span's text
@@ -75,6 +76,7 @@ let lastNameRecords = document.getElementById("last_name");
 lastNameRecords.addEventListener("click", editlastName);
 
 function editlastName(e) {
+    document.getElementById("status").innerHTML = "";
 
     // add a listener for clicking on the field to change email
     // span's text
@@ -146,6 +148,7 @@ let emailRecords = document.getElementById("email");
 emailRecords.addEventListener("click", editEmail);
 
 function editEmail(e) {
+    document.getElementById("status").innerHTML = "";
 
     // add a listener for clicking on the field to change email
     // span's text
@@ -217,6 +220,7 @@ let passwordRecords = document.getElementById("password");
 passwordRecords.addEventListener("click", editPassword);
 
 function editPassword(e) {
+    document.getElementById("status").innerHTML = "";
 
     // add a listener for clicking on the field to change email
     // span's text
@@ -289,6 +293,7 @@ const radioButtons = document.querySelectorAll('input[name="profilePic"]');
 let profilePicVal;
 document.getElementById("submit").addEventListener("click", function (e) {
     e.preventDefault();
+    document.getElementById("status").innerHTML = "Record updated.";
     for (const radioButton of radioButtons) {
         if (radioButton.checked) {
             profilePicVal = radioButton.value;
