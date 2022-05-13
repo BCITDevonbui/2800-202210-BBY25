@@ -58,7 +58,7 @@ function editName(e) {
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
             xhr.send("id=" + dataToSend.id + "&name=" + dataToSend.name);
 
-
+          }
         }
     });
     parent.innerHTML = "";
