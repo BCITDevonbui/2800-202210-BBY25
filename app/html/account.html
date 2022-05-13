@@ -1,50 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>CRUD MySQL Example</title>
+    <title>Account Settings</title>
     <meta charset="utf-8"/>
     <link rel="stylesheet" href="/css/account.css">
     <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Heebo&family=Merriweather&family=Mulish&display=swap" rel="stylesheet">
   </head>
 
-  <body>
+    <body>
+        <div id="container">
+            <nav>
+              <img class="icon" id="drop" alt="drop-icon" src="/img/drop.png">
+            </nav>
+            
+            <aside>
+              <form class="formlogout" action="/logout" method="get">
+                <input type="submit" value="Logout"/>
+            </form>
+            </aside>
 
+            <div>
+                <img id="profilePicture" src="/img/luffy.png" alt="userProfilePicture">
+            </div>
 
+            <h1 id="name"><span id="profile_name">Username here</span></h1>
 
-    <p>ID: </p> <p><span id="id"></span></p>
+            <div id="miniContainer">
+              <p>ID: </p> <p><span id="id"></span></p>
 
-    <br>
+              <br>
+          
+              <p>Profile Picture: </p>
+              <p>Anya</p>
+              <input type="radio" id="profilePicAnya" name="profilePic" value="anya.jpg">
+              <p>Hinata</p>
+              <input type="radio" id="profilePicHinata" name="profilePic" value="hinata.jpg">
+              <p>Luffy</p>
+              <input type="radio" id="profilePicLuffy" name="profilePic" value="luffy.png">
+              <input type="button" id="submit" value="Submit"/>
+              <!-- <input type='file'> -->
+          
+              <br>
+          
+              <p>First name: </p> <p><span id="first_name" class="first_name"></span></p>
+              <!-- <img src="/img/pencil.png" id="editFirstName" class="icon" alt="edit"> -->
+          
+              <br>
+          
+              <p>Last name: </p> <p><span id="last_name"></span></p>
+          
+              <br>
+          
+              <p>Email: </p> <p><span id="email"></span></p>
+          
+              <br>
+          
+              <p>Password: </p> <p><span id="password"></span></p>
+          
+              <p id="status"></p>
 
-    <p>Profile Picture: </p>
-    <p>Anya</p>
-    <input type="radio" id="profilePicAnya" name="profilePic" value="anya.jpg">
-    <p>Hinata</p>
-    <input type="radio" id="profilePicHinata" name="profilePic" value="hinata.jpg">
-    <p>Luffy</p>
-    <input type="radio" id="profilePicLuffy" name="profilePic" value="luffy.png">
-    <input type="button" id="submit" value="Submit"/>
-    <!-- <input type='file'> -->
+              </div>
 
-    <br>
+              <footer>
+                <br>
+                <a id="about" href="url">About</a>
+                <a id="faq" href="url">FAQ</a>
+                <a id="help" href="url">Help</a>
+            </footer>
 
-    <p>First name: </p> <p><span id="first_name" class="first_name"></span></p>
-    <!-- <img src="/img/pencil.png" id="editFirstName" class="icon" alt="edit"> -->
+        </div>    
 
-    <br>
-
-    <p>Last name: </p> <p><span id="last_name"></span></p>
-
-    <br>
-
-    <p>Email: </p> <p><span id="email"></span></p>
-
-    <br>
-
-    <p>Password: </p> <p><span id="password"></span></p>
-
-    <p id="status"></p>
-
-
-    <script src="js/account.js"></script>
-  </body>
-
+        <script src="js/account.js"></script>
+    </body>
+</html>
