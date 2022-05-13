@@ -48,10 +48,22 @@ ready(function () {
       xhr.send(params);
   }
 
+    // GET TO THE SERVER
+    document.querySelector("#dropLogo").addEventListener("click", function(e) {
+      e.preventDefault;
+      window.location.replace("/")
+    })
+
   // GET TO THE SERVER
   document.querySelector("#donateButton").addEventListener("click", function(e) {
     e.preventDefault;
     window.location.replace("/donate")
+  })
+
+  // GET TO THE SERVER
+  document.querySelector("#account").addEventListener("click", function(e) {
+    e.preventDefault;
+    window.location.replace("/account")
   })
 
   // GET TO THE SERVER

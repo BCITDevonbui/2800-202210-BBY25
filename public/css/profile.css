@@ -159,6 +159,8 @@ a:hover{
 #packageButton {
     grid-column: 1;
     grid-row: 2;
+    align-self: center;
+    justify-self: center;
 }
 
 #notifButton {

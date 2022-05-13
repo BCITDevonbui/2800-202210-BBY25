@@ -56,7 +56,7 @@ app.get("/register", function (req, res) {
 
 app.get("/donate", function (req,res) {
   if(req.session.loggedIn) {
-    let doc = fs.readFileSync("./app/html/donate.html","utf8");
+    let doc = fs.readFileSync("./app/html/donation.html","utf8");
     res.send(doc)
   } else {
     res.redirect("/");

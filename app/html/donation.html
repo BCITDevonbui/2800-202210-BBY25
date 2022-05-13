@@ -10,17 +10,17 @@
   <body>
 
     <div id="formPanel">
-      <img src="/img/2800_drop.png" alt="drop Logo">
+      <img id="dropLogo" src="/img/2800_drop.png" alt="drop Logo">
       <form id="loginForm">
-        <p>Please enter the amount you'd like to donate</p>
-        <input name="my_field" pattern="^\d*(\.\d{0,2})?$" placeholder="$0.00"/>
-        <input type="button" value="Donate" id="Next"/>
+        <p>Please input a number between '0 and 9,999,999.99' (up to 2 decimals) to donate!</p>
+        <input id="amount" name="my_field" pattern="^\d*(\.\d{0,2})?$" placeholder="$0.00"/>
+        <input type="button" value="Donate" id="submit"/>
 
       </form>
     </div>
 
     <div class="topnav">
-      <a id="home" href="url">Home</a>
+      <a id="home">Home</a>
       <a id="news" href="url">News</a>
       <aside>
         <form class="formlogout" id="Logout" action="/logout" method="get">
@@ -39,6 +39,6 @@
       </div>
 
 
-    <script src="js/client.js"></script>
+    <script src="js/donate.js"></script>
 </body>
 </html>

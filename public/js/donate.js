@@ -52,6 +52,12 @@ ready(function () {
     let amount = document.getElementById("amount").value;
     let queryString = "amount=" + amount;
 
+    // GET TO THE SERVER
+    document.querySelector("#dropLogo").addEventListener("click", function(e) {
+        e.preventDefault;
+        window.location.replace("/")
+      })
+
     ajaxPOST("/donate", function (data) {
         if (data) {
             let dataParsed = JSON.parse(data);
@@ -65,6 +71,12 @@ ready(function () {
             }
         }
     }, queryString);
+
+    document.getElementById("home").addEventListener("click", function(e) {
+      e.preventDefault;
+      window.location.replace("/profile");
+    });
+
   });
 });
 

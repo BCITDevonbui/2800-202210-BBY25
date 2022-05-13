@@ -49,8 +49,16 @@ ready(function () {
 
   document.getElementById("DonationRedirect").addEventListener("click", function (e) {
     e.preventDefault;
-    window.location.redirect("/package");
+    window.location.replace("/package");
   })
+
+  document.getElementById("home").addEventListener("click", function(e) {
+    e.preventDefault;
+    window.location.replace("/");
+  })
+
+
+  
 });
 
 
