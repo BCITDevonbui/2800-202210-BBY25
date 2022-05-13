@@ -39,7 +39,6 @@ ready(function () {
       xhr.onload = function () {
           if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
               callback(this.responseText);
-
           }
       }
       xhr.open("POST", url);
@@ -48,25 +47,31 @@ ready(function () {
       xhr.send(params);
   }
 
-  // GET TO THE SERVER
-  document.querySelector("#donateButton").addEventListener("click", function(e) {
-    e.preventDefault;
-    window.location.replace("/donate")
-  })
+  // POST TO THE SERVER
+  document.querySelector("#submit").addEventListener("click", function (e) {
+    e.preventDefault();
+    let number = document.getElementById("number").value;
+    let expiry = document.getElementById("expiry").value;
+    let cvv = document.getElementById("cvv").value;
+    let queryString = `number=${number}&expiry=${expiry}&cvv=${cvv}`
 
-  // GET TO THE SERVER
-  document.querySelector("#packageButton").addEventListener("click", function(e) {
-    e.preventDefault;
-    window.location.replace("/package")
-  })
-
-  // GET TO THE SERVER
-  document.querySelector("#notifButton").addEventListener("click", function(e) {
-    e.preventDefault;
-    window.location.replace("/history")
-  })
-
+    ajaxPOST("/payment", function (data) {
+        if (data) {
+            let dataParsed = JSON.parse(data);
+            if (dataParsed.status == "fail") {
+                document.getElementById("errorMsg").innerHTML = dataParsed.msg;
+                setTimeout(function () {
+                  document.getElementById("errorMsg").innerHTML = "";
+                },1500);
+            } else {
+                window.location.replace("/thanks");
+            }
+        }
+    }, queryString);
+  });
 });
+
+
 
 function ready(callback) {
   if (document.readyState != "loading") {

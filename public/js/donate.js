@@ -39,7 +39,6 @@ ready(function () {
       xhr.onload = function () {
           if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
               callback(this.responseText);
-
           }
       }
       xhr.open("POST", url);
@@ -47,26 +46,29 @@ ready(function () {
       xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
       xhr.send(params);
   }
+  // POST TO THE SERVER
+  document.querySelector("#submit").addEventListener("click", function (e) {
+    e.preventDefault();
+    let amount = document.getElementById("amount").value;
+    let queryString = "amount=" + amount;
 
-  // GET TO THE SERVER
-  document.querySelector("#donateButton").addEventListener("click", function(e) {
-    e.preventDefault;
-    window.location.replace("/donate")
-  })
-
-  // GET TO THE SERVER
-  document.querySelector("#packageButton").addEventListener("click", function(e) {
-    e.preventDefault;
-    window.location.replace("/package")
-  })
-
-  // GET TO THE SERVER
-  document.querySelector("#notifButton").addEventListener("click", function(e) {
-    e.preventDefault;
-    window.location.replace("/history")
-  })
-
+    ajaxPOST("/donate", function (data) {
+        if (data) {
+            let dataParsed = JSON.parse(data);
+            if (dataParsed.status == "fail") {
+                document.getElementById("errorMsg").innerHTML = dataParsed.msg;
+                setTimeout(function () {
+                  document.getElementById("errorMsg").innerHTML = "";
+                },1500);
+            } else {
+                window.location.replace("/payment");
+            }
+        }
+    }, queryString);
+  });
 });
+
+
 
 function ready(callback) {
   if (document.readyState != "loading") {

@@ -142,6 +142,18 @@ app.get("/payment", function (req, res) {
   }
 });
 
+<<<<<<< HEAD
+=======
+app.get("/payment", function (req, res) {
+  if(req.session.loggedIn) {
+    let doc = fs.readFileSync("./app/html/payment.html", "utf8");
+    res.send(doc);
+  } else {
+    res.redirect("/");
+  }
+});
+
+>>>>>>> princeton_dychinco_donate
 app.get("/thanks", function (req, res) {
   if (req.session.loggedIn) {
     let doc = fs.readFileSync("./app/html/thankyou.html", "utf8");
@@ -216,6 +228,7 @@ app.post("/login", function (req, res) {
     password: "",
     multipleStatements: "true"
   });
+<<<<<<< HEAD
 
   connection.connect();
   // Checks if user typed in matching email and password
@@ -614,6 +627,29 @@ app.post('/update-lastName', async function (req, res) {
       console.log(req.session.lastName);
 
       req.session.save(function (err) {
+=======
+    
+    connection.connect();
+    // Checks if user typed in matching email and password
+    const loginInfo = `USE COMP2800; SELECT * FROM BBY_25_USERS WHERE email = '${req.body.email}' AND password = '${req.body.password}';`;
+    connection.query(loginInfo, function (error, results, fields) {
+      /* If there is an error, alert user of error
+      *  If the length of results array is 0, then there was no matches in database
+      *  If no error, then it is valid login and save info for session
+      */ 
+      if (error) {
+        // change this to notify user of error
+      } else if (results[1].length == 0) {
+        res.send({ status: "fail", msg: "Incorrect email or password"});
+      } else {
+        let validUserInfo = results[1][0];
+        req.session.loggedIn = true;
+        req.session.email = validUserInfo.email;
+        req.session.name = validUserInfo.first_name;
+        req.session.identity = validUserInfo.identity;
+        req.session.userType = validUserInfo.is_admin;
+        req.session.save(function (err) {
+>>>>>>> princeton_dychinco_donate
         // session saved. for analytics we could record this in db
       })
 
