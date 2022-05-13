@@ -440,31 +440,32 @@ function editIsAdmin(e) {
                 v = 0;
                 document.getElementById("message").innerHTML = "Not a valid input.";
             }
-            const button = document.querySelector('.isAdmin');
 
-            const div = button.parentNode;
+            // const button = document.querySelector('.isAdmin');
 
-            const divparent = div.parentNode;
+            // const div = button.parentNode;
 
-            var lookForOne = [];
-            let isAdminRecords = document.querySelectorAll("td[class='isAdmin'] span");
-            for(let j = 0; j < isAdminRecords.length; j++) {
-                let i = 0;
-                let isAdmin = divparent.querySelector(".isAdmin").innerHTML;
-                lookForOne.push(isAdmin);
-                console.log(isAdmin);
-                console.log(lookForOne);
-                i++;
-            }
-            if (lookForOne.includes("1")){
-                v = v;
-                console.log("there is a 1!")
-                lookForOne = [];
-            } else {
-                v = 1;
-                console.log("There is no one :(")
-                lookForOne = [];
-            }
+            // const divparent = div.parentNode;
+
+            // var lookForOne = [];
+            // let isAdminRecords = document.querySelectorAll("td[class='isAdmin'] span");
+            // for(let j = 0; j < isAdminRecords.length; j++) {
+            //     let i = 0;
+            //     let isAdmin = divparent.querySelector(".isAdmin").innerHTML;
+            //     lookForOne.push(isAdmin);
+            //     console.log(isAdmin);
+            //     console.log(lookForOne);
+            //     i++;
+            // }
+            // if (lookForOne.includes("1")){
+            //     v = v;
+            //     console.log("there is a 1!")
+            //     lookForOne = [];
+            // } else {
+            //     v = 1;
+            //     console.log("There is no one :(")
+            //     lookForOne = [];
+            // }
 
             let newSpan = document.createElement("span");
             // have to wire an event listener to the new element
@@ -517,3 +518,139 @@ function editIsAdmin(e) {
     parent.appendChild(input);
 
 }
+
+//check if email value is good
+let correctEmail = true;
+let emailVal = document.getElementById("add-email").value
+document.getElementById("add-email").addEventListener("change", checkIfValidEmail);
+function checkIfValidEmail(){
+
+if (!emailVal.includes("@")){
+    document.getElementById("add-email").style.color = "red";
+    document.getElementById("message").innerHTML = "Not a valid input.";
+    correctEmail = false;
+} else {
+    document.getElementById("add-email").style.color = "black";
+    document.getElementById("message").innerHTML = "Not a valid input.";
+    correctEmail = false;
+}
+
+}
+document.getElementById("add-email").addEventListener("click", change);
+function change(){
+    emailVal = "";
+    document.getElementById("add-email").style.color = "black";
+    document.getElementById("message").innerHTML = "";
+}
+
+
+// adding a user -----------------------------------------------------------------------------
+const radioButtons = document.querySelectorAll('input[name="admin"]');
+let isAdminVal;
+document.getElementById("submit").addEventListener("click", function(e) {
+    console.log("hello i am clicked");
+    e.preventDefault();
+        for (const radioButton of radioButtons) {
+            if (radioButton.checked) {
+                isAdminVal = radioButton.value;
+                break;
+            }
+        }
+
+    let formData = { userName: document.getElementById("add-userName").value,
+                     firstName: document.getElementById("add-FirstName").value,
+                     lastName: document.getElementById("add-lastName").value,
+                     email: emailVal,
+                     password: document.getElementById("add-password").value,
+                     isAdmin: isAdminVal};
+    document.getElementById("add-userName").value = "";
+    document.getElementById("add-FirstName").value = "";
+    document.getElementById("add-lastName").value = "";
+    document.getElementById("add-email").value = "";
+    document.getElementById("add-password").value = "";
+    document.getElementById("add-isAdmin").value = "";
+
+    const xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+            if (this.readyState == XMLHttpRequest.DONE) {
+
+                // 200 means everthing worked
+                if (xhr.status === 200) {
+                    if (document.getElementById("message").innerHTML == "Not a valid input."){
+                        document.getElementById("status").innerHTML = "";
+                    } else {
+                        document.getElementById("status").innerHTML = "DB updated.";
+                    }
+    
+                  getUsers();
+    
+                } else {
+    
+                  // not a 200, could be anything (404, 500, etc.)
+                  console.log(this.status);
+    
+                }
+    
+            } else {
+                console.log("ERROR", this.status);
+            }
+        }
+        xhr.open("POST", "/add-user");
+        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        console.log("formToSend", "userName=" + formData.userName + "&firstName=" + formData.firstName 
+        + "&lastName=" + formData.lastName + "&email=" + formData.email
+        + "&password=" + formData.password + "&isAdmin=" + formData.isAdmin);
+        xhr.send("userName=" + formData.userName + "&firstName=" + formData.firstName 
+                 + "&lastName=" + formData.lastName + "&email=" + formData.email
+                 + "&password=" + formData.password + "&isAdmin=" + formData.isAdmin
+                 + "&profilePic=" + formData.profilePic);
+        
+
+
+
+})
+
+function validate(){
+    var x = document.forms["myForm"]["delete"].value;
+    if (x == "") {
+      alert("Name must be filled out");
+      return false;
+    }
+  }
+
+document.getElementById("delete").addEventListener("click", function(e) {
+    e.preventDefault();
+
+    document.getElementById("formList").addEventListener("submit", validate);
+
+    let formData = { idNumber: document.getElementById("idToDelete").value};
+
+    const xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+        if (this.readyState == XMLHttpRequest.DONE) {
+
+            // 200 means everthing worked
+            if (xhr.status === 200) {
+
+              getUsers();
+              document.getElementById("status").innerHTML = "person deleted.";
+
+            } else {
+
+              // not a 200, could be anything (404, 500, etc.)
+              console.log(this.status);
+
+            }
+
+        } else {
+            console.log("ERROR", this.status);
+        }
+    }
+    xhr.open("POST", "/delete-user");
+    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    console.log("formToSend", "idNumber=" + formData.idNumber);
+    xhr.send("idNumber=" + formData.idNumber);
+
+});

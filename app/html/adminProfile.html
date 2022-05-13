@@ -35,10 +35,29 @@
       </footer>
 
       <div id="miniContainer">
-        <h3 class="centertext">Edit a User</h3>
-        <table class="centertext" id="customers">
+        <h3 id="edit" class="centertext">Edit a User</h3>
+        <table class="centertext" id="customers"></table>
           <p class="centertext" id="message"></p>
           <p class="centertext" id="status"></p>
+
+          <form name="myForm" id="formList">
+            <h3>Add a User</h3>
+              <input type="text" placeholder="Username" id="add-userName"/>
+              <input type="text" placeholder="First name" id="add-FirstName"/>
+              <input type="text" placeholder="Last name" id="add-lastName"/>
+              <input type="email" placeholder="Email" id="add-email"/>
+              <input type="text" placeholder="Password" id="add-password"/>
+              <p>Is an Admin</p>
+              <input type="radio" name="admin" value="1" id="add-isAdmin"/>
+              <br>
+              <p>Is not an Admin</p>
+              <input type="radio" name="admin" value="0" id="add-isNotAdmin"/>
+              <br><br>
+              <input type="button" id="submit" value="Submit"/>
+            <h3>Delete a user</h3>
+              <input type="text" placeholder="ID" id="idToDelete">
+              <input type="button" id="delete" name="delete" value="Delete All"/>
+          </form>
       </div>
 
 

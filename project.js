@@ -351,6 +351,67 @@ app.post('/admin-update-isAdmin', function (req, res) {
 
 });
 
+app.post('/add-user', function (req, res) {
+  res.setHeader('Content-Type', 'application/json');
+
+  console.log("userName", req.body.userName);
+  console.log("firstName", req.body.firstName);
+  console.log("lastName", req.body.lastName);
+  console.log("Email", req.body.email);
+  console.log("password", req.body.password);
+  console.log("isAdmin", req.body.isAdmin);
+
+  let connection = mysql.createConnection({
+    host: '127.0.0.1',
+    user: 'root',
+    password: '',
+    database: 'comp2800'
+  });
+  connection.connect();
+  // TO PREVENT SQL INJECTION, DO THIS:
+  // (FROM https://www.npmjs.com/package/mysql#escaping-query-values)
+  connection.query(`INSERT INTO BBY_25_users (user_name, first_name, last_name, email, password, is_admin) values (?, ?, ?, ?, ?, ?)`,
+  [req.body.userName, req.body.firstName, req.body.lastName, req.body.email, req.body.password, req.body.isAdmin],
+        function (error, results, fields) {
+    if (error) {
+        console.log(error);
+    }
+    //console.log('Rows returned are: ', results);
+    res.send({ status: "success", msg: "Record added." });
+
+  });
+  connection.end();
+
+});
+
+// POST: we are changing stuff on the server!!!
+app.post('/delete-user', function (req, res) {
+  res.setHeader('Content-Type', 'application/json');
+
+  let connection = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: '',
+    database: 'comp2800'
+  });
+  connection.connect();
+
+  console.log("idNumber" + req.body.idNumber);
+
+  connection.query("DELETE FROM bby_25_users WHERE ID = ?",
+  [req.body.idNumber],
+        function (error, results, fields) {
+    if (error) {
+        console.log(error);
+    }
+    //console.log('Rows returned are: ', results);
+    res.send({ status: "success", msg: "Record deleted." });
+
+  });
+  connection.end();
+
+});
+
 
 //-----------------------------------------------------------------------------------------
 
