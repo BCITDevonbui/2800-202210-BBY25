@@ -27,46 +27,42 @@
 
       <h1 id="name"><span id="profile_name">Username here</span></h1>
 
-      <div id="miniContainer">
-          <div id="formDiv">
-            <form>
-                <h3>Add a User</h3>
-                <br>
-                <input type="text" placeholder="first name" id="firstName"/>
-                <input type="text" placeholder="last name" id="lastName"/>
-                <input type="email" placeholder="email" id="email"/>
-                <br>
-                <input type="button" id="submit" value="Submit"/>
-                <br>
-                <h3>Edit a User</h3>
-                <br>
-                <input type="text" placeholder="first name" id="editFirstName"/>
-                <input type="text" placeholder="last name" id="editLastName"/>
-                <input type="email" placeholder="email" id="editEmail"/>
-                <br>
-                <input type="button" id="submit" value="Submit"/>
-                <br>
-                <h3>Delete a User</h3>
-                <br>
-                <input type="text" placeholder="first name" id="deleteFirstName"/>
-                <input type="text" placeholder="last name" id="deleteLastName"/>
-                <input type="email" placeholder="email" id="deleteEmail"/>
-                <br>
-                <input type="button" id="deleteAll" value="Delete"/>
-            </form>
-            <p id="status"></p>
-          </div>
+      <footer>
+        <br>
+        <a id="about" href="url">About</a>
+        <a id="faq" href="url">FAQ</a>
+        <a id="help" href="url">Help</a>
+      </footer>
 
+      <div id="miniContainer">
+        <h3 id="edit" class="centertext">Edit a User</h3>
+        <table class="centertext" id="customers"></table>
+          <p class="centertext" id="message"></p>
+          <p class="centertext" id="status"></p>
+
+          <form name="myForm" id="formList">
+            <h3 id="add">Add a User</h3>
+              <input type="text" placeholder="Username" id="add-userName"/>
+              <input type="text" placeholder="First name" id="add-FirstName"/>
+              <input type="text" placeholder="Last name" id="add-lastName"/>
+              <input type="email" placeholder="Email" id="add-email"/>
+              <input type="text" placeholder="Password" id="add-password"/>
+              <p>Is an Admin</p>
+              <input type="radio" name="admin" value="1" id="add-isAdmin"/>
+              <br>
+              <p>Is not an Admin</p>
+              <input type="radio" name="admin" value="0" id="add-isNotAdmin"/>
+              <br><br>
+              <input type="button" id="submit" value="Submit"/>
+              <h3>Delete a user</h3>
+              <input type="text" placeholder="ID" id="idToDelete">
+              <input type="button" id="delete" name="delete" value="Delete All"/>
+          </form>
       </div>
 
-      <footer>
-          <br>
-          <a id="about" href="url">About</a>
-          <a id="faq" href="url">FAQ</a>
-          <a id="help" href="url">Help</a>
-      </footer>
 
     </div>
 
+    <script src="js/adminProfile.js"></script>
  </body>
  </html> 
