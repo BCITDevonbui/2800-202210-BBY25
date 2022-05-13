@@ -23,7 +23,7 @@ function getUsers() {
 
                     for(let i = 0; i < data.rows.length; i++) {
                         let row = data.rows[i];
-                        //console.log("row", row);
+                        
                         str += ("<tr><td class='id'>" + row.identity
                             + "</td><td class='userName'><span>" + row.user_name
                             + "</span></td><td class='firstName'><span>" + row.first_name
@@ -34,7 +34,7 @@ function getUsers() {
                             + "</span></td><td class='isAdmin'><span class='adminSpan'>" + row.is_admin 
                             + "</span></tr>");
                     }
-                    //console.log(str);
+                 
                     document.getElementById("customers").innerHTML = str;
 
                     // select all spans under the email class of td elements
@@ -73,20 +73,7 @@ function getUsers() {
                         isAdminRecords[j].addEventListener("click", editIsAdmin);
                     }
 
-                } else {
-                    console.log("Error!");
-                }
-
-            } else {
-
-              // not a 200, could be anything (404, 500, etc.)
-              console.log(this.status);
-
-            }
-
-        } else {
-            console.log("ERROR", this.status);
-        }
+                } 
     }
     xhr.open("GET", "/get-allUsers");
     xhr.send();
@@ -146,23 +133,14 @@ function editEmail(e) {
                         }
 
 
-                    } else {
-
-                      // not a 200, could be anything (404, 500, etc.)
-                      console.log(this.status);
-
-                    }
-
-                } else {
-                    console.log("ERROR", this.status);
-                }
+                    } 
             }
             xhr.open("POST", "/admin-update-email");
             xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            //console.log("dataToSend", "id=" + dataToSend.id + "&email=" + dataToSend.email);
+           
             xhr.send("id=" + dataToSend.id + "&email=" + dataToSend.email);
-
+          }
         }
     });
     parent.innerHTML = "";
@@ -207,23 +185,13 @@ function editUserName(e) {
                       // getCustomers();
 
 
-                    } else {
-
-                      // not a 200, could be anything (404, 500, etc.)
-                      console.log(this.status);
-
-                    }
-
-                } else {
-                    console.log("ERROR", this.status);
-                }
-            }
+                    } 
             xhr.open("POST", "/admin-update-username");
             xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            console.log("dataToSend", "id=" + dataToSend.id + "&userName=" + dataToSend.userName);
             xhr.send("id=" + dataToSend.id + "&userName=" + dataToSend.userName);
-
+                }
+              }
         }
     });
     parent.innerHTML = "";
