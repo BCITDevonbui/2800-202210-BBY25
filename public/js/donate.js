@@ -74,7 +74,7 @@ ready(function () {
 
     document.getElementById("home").addEventListener("click", function(e) {
       e.preventDefault;
-      window.location.replace("/profile");
+      window.location.replace("/");
     });
 
   });
