@@ -102,7 +102,7 @@ const connection = mysql.createConnection({
   let validNewUserInfo = req.body;
   //Adds new user to user table. Always non admin, since this is client facing sign up
   connection.query(`use COMP2800; INSERT INTO BBY_25_users (user_name, first_name, last_name, email, password, is_admin) values (?, ?, ?, ?, ?, ?)`, 
-    [validNewUserInfo.userName, validNewUserInfo.firstName, validNewUserInfo.lastName, validNewUserInfo.email, validNewUserInfo.password, false],
+    [validNewUserInfo.userName, validNewUserInfo.firstName, validNewUserInfo.lastName, validNewUserInfo.email, validNewUserInfo.password, true],
     function (error, results, fields) {
       if (error) {
         // send error to DB
