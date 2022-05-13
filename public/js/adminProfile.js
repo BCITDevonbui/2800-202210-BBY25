@@ -561,7 +561,7 @@ document.getElementById("submit").addEventListener("click", function(e) {
     let formData = { userName: document.getElementById("add-userName").value,
                      firstName: document.getElementById("add-FirstName").value,
                      lastName: document.getElementById("add-lastName").value,
-                     email: emailVal,
+                     email: document.getElementById("add-email").value,
                      password: document.getElementById("add-password").value,
                      isAdmin: isAdminVal};
     document.getElementById("add-userName").value = "";
