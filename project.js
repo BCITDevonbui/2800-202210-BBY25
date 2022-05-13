@@ -10,24 +10,6 @@ const {
   JSDOM
 } = require('jsdom');
 const mysql = require('mysql2');
-const is_heroku = process.env.is_heroku || false;
-
-const dbConfigHeroku = {
-  host: 'us-cdbr-east-05.cleardb.net',
-  user: 'b16ad059f5434a',
-  password: '2255f096',
-  database: 'heroku_02ad04623fadaa9'
-}
-
-const dbConfigLocal = {
-  host: "127.0.0.1",
-  user: "root",
-  password: "",
-  database: "comp2800",
-  multipleStatements: "true"
-}
-
-var connection;
 
 // static path mappings
 app.use("/js", express.static("./public/js"));
@@ -37,14 +19,6 @@ app.use("/fonts", express.static("./public/fonts"));
 app.use("/html", express.static("./public/html"));
 app.use("/media", express.static("./public/media"));
 
-function databaseSwitcher () {
-  if(is_heroku) {
-    connection = mysql.createConnection(dbConfigHeroku);
-  } else {
-    connection = mysql.createConnection(dbConfigLocal);
-  }
-
-}
 
 //session connection
 app.use(session({
@@ -91,7 +65,13 @@ app.get("/donate", function (req,res) {
 
 app.post("/donate", function(req,res) {
   res.setHeader("Content-Type", "application/json");
-  databaseSwitcher();
+  const mysql = require("mysql2");
+  const connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    multipleStatements: "true"
+  });
   connection.connect();
 
   let amount = req.body.amount;
@@ -107,6 +87,7 @@ app.post("/donate", function(req,res) {
     }else {
       month = `${date.getMonth()+1}`;
     }
+    console.log(splitDate[3], month, splitDate[2], splitDate[4]);
     let postedDate = `${splitDate[3]}-${month}-${splitDate[2]} ${splitDate[4]}`
     connection.query(`use COMP2800; INSERT INTO BBY_25_users_donation (userID, postdate, amount) VALUES (?, ?, ?)`, [req.session.identity, postedDate, amount]);
     res.send({status: "success", msg: "Record added."});
@@ -181,8 +162,13 @@ app.get("/thanks", function (req, res) {
 
 app.post("/payment", function (req,res) {
   res.setHeader("Content-Type", "application/json");
-  databaseSwitcher();
-
+  const mysql = require("mysql2");
+  const connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    multipleStatements: "true"
+  });
   connection.connect();
 
   let ccInfo = req.body;
@@ -195,8 +181,13 @@ app.post("/payment", function (req,res) {
 
 app.post("/register", function(req, res) {
   res.setHeader("Content-Type", "application/json");
-  databaseSwitcher();
-
+  const mysql = require("mysql2");
+  const connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    multipleStatements: "true"
+  });
   connection.connect();
 
   let validNewUserInfo = req.body;
@@ -227,9 +218,13 @@ app.post("/register", function(req, res) {
 
 app.post("/login", function (req, res) {
   res.setHeader("Content-Type", "application/json");
-  databaseSwitcher();
-
-
+  const mysql = require("mysql2");
+  const connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    multipleStatements: "true"
+  });
 
   connection.connect();
   // Checks if user typed in matching email and password
@@ -271,14 +266,19 @@ app.post("/login", function (req, res) {
 
 //admin users edit-------------------------------------------------------------------------
 app.get('/get-allUsers', function (req, res) {
-  databaseSwitcher();
 
-
+  let connection = mysql.createConnection({
+    host: '127.0.0.1',
+    user: 'root',
+    password: '',
+    database: 'comp2800'
+  });
   connection.connect();
   connection.query('select * from bby_25_users;', function (error, results, fields) {
     if (error) {
-      // catch error and save to database
+      console.log(error);
     }
+    console.log('Rows returned are: ', results);
     res.send({
       status: "success",
       rows: results
@@ -293,17 +293,22 @@ app.get('/get-allUsers', function (req, res) {
 // admin change emails!!!
 app.post('/admin-update-email', function (req, res) {
   res.setHeader('Content-Type', 'application/json');
-  databaseSwitcher();
 
-
+  let connection = mysql.createConnection({
+    host: '127.0.0.1',
+    user: 'root',
+    password: '',
+    database: 'comp2800'
+  });
   connection.connect();
+  console.log("update values", req.body.email, req.body.id)
   connection.query('UPDATE BBY_25_users SET email = ? WHERE identity = ?',
     [req.body.email, req.body.id],
     function (error, results, fields) {
       if (error) {
-         // catch error and save to database
+        console.log(error);
       }
-  
+      //console.log('Rows returned are: ', results);
       res.send({
         status: "success",
         msg: "Recorded updated."
@@ -317,18 +322,22 @@ app.post('/admin-update-email', function (req, res) {
 // admin change username!!!
 app.post('/admin-update-username', function (req, res) {
   res.setHeader('Content-Type', 'application/json');
-  databaseSwitcher();
 
-
+  let connection = mysql.createConnection({
+    host: '127.0.0.1',
+    user: 'root',
+    password: '',
+    database: 'comp2800'
+  });
   connection.connect();
-
+  console.log("update values", req.body.userName, req.body.id)
   connection.query('UPDATE BBY_25_users SET user_name = ? WHERE identity = ?',
     [req.body.userName, req.body.id],
     function (error, results, fields) {
       if (error) {
-        // catch error and save to database
+        console.log(error);
       }
-      
+      //console.log('Rows returned are: ', results);
       res.send({
         status: "success",
         msg: "Recorded updated."
@@ -342,18 +351,22 @@ app.post('/admin-update-username', function (req, res) {
 // admin change first name!!!
 app.post('/admin-update-firstname', function (req, res) {
   res.setHeader('Content-Type', 'application/json');
-  databaseSwitcher();
 
-
+  let connection = mysql.createConnection({
+    host: '127.0.0.1',
+    user: 'root',
+    password: '',
+    database: 'comp2800'
+  });
   connection.connect();
-
+  console.log("update values", req.body.firstName, req.body.id)
   connection.query('UPDATE BBY_25_users SET first_name = ? WHERE identity = ?',
     [req.body.firstName, req.body.id],
     function (error, results, fields) {
       if (error) {
-         // catch error and save to database
+        console.log(error);
       }
-      
+      //console.log('Rows returned are: ', results);
       res.send({
         status: "success",
         msg: "Recorded updated."
@@ -367,17 +380,22 @@ app.post('/admin-update-firstname', function (req, res) {
 // admin change last name!!!
 app.post('/admin-update-lastname', function (req, res) {
   res.setHeader('Content-Type', 'application/json');
-  databaseSwitcher();
 
-
+  let connection = mysql.createConnection({
+    host: '127.0.0.1',
+    user: 'root',
+    password: '',
+    database: 'comp2800'
+  });
   connection.connect();
+  console.log("update values", req.body.lastName, req.body.id)
   connection.query('UPDATE BBY_25_users SET last_name = ? WHERE identity = ?',
     [req.body.lastName, req.body.id],
     function (error, results, fields) {
       if (error) {
-         // catch error and save to database
+        console.log(error);
       }
-      
+      //console.log('Rows returned are: ', results);
       res.send({
         status: "success",
         msg: "Recorded updated."
@@ -391,18 +409,22 @@ app.post('/admin-update-lastname', function (req, res) {
 // admin change password!!!
 app.post('/admin-update-password', function (req, res) {
   res.setHeader('Content-Type', 'application/json');
-  databaseSwitcher();
 
-
+  let connection = mysql.createConnection({
+    host: '127.0.0.1',
+    user: 'root',
+    password: '',
+    database: 'comp2800'
+  });
   connection.connect();
- 
+  console.log("update values", req.body.password, req.body.id)
   connection.query('UPDATE BBY_25_users SET password = ? WHERE identity = ?',
     [req.body.password, req.body.id],
     function (error, results, fields) {
       if (error) {
-         // catch error and save to database
+        console.log(error);
       }
-      
+      //console.log('Rows returned are: ', results);
       res.send({
         status: "success",
         msg: "Recorded updated."
@@ -417,23 +439,27 @@ app.post('/admin-update-password', function (req, res) {
 app.post('/admin-update-isAdmin', function (req, res) {
   res.setHeader('Content-Type', 'application/json');
 
-  databaseSwitcher();
-
-
+  let connection = mysql.createConnection({
+    host: '127.0.0.1',
+    user: 'root',
+    password: '',
+    database: 'comp2800'
+  });
   connection.connect();
 
   // if (req.body.isAdmin != 1 || req.body.isAdmin != 0){
   //     req.body.isAdmin = 0;
   // }
 
+  console.log("update values", req.body.isAdmin, req.body.id)
 
   connection.query('UPDATE BBY_25_users SET is_admin = ? WHERE identity = ?',
     [req.body.isAdmin, req.body.id],
     function (error, results, fields) {
       if (error) {
-         // catch error and save to database
+        console.log(error);
       }
-      
+      //console.log('Rows returned are: ', results);
       res.send({
         status: "success",
         msg: "Recorded updated."
@@ -444,25 +470,32 @@ app.post('/admin-update-isAdmin', function (req, res) {
 
 });
 
-// admin adding a user
 app.post('/add-user', function (req, res) {
   res.setHeader('Content-Type', 'application/json');
 
+  console.log("userName", req.body.userName);
+  console.log("firstName", req.body.firstName);
+  console.log("lastName", req.body.lastName);
+  console.log("Email", req.body.email);
+  console.log("password", req.body.password);
+  console.log("isAdmin", req.body.isAdmin);
 
-  databaseSwitcher();
-
-
-
+  let connection = mysql.createConnection({
+    host: '127.0.0.1',
+    user: 'root',
+    password: '',
+    database: 'comp2800'
+  });
   connection.connect();
   // TO PREVENT SQL INJECTION, DO THIS:
   // (FROM https://www.npmjs.com/package/mysql#escaping-query-values)
-  connection.query(`INSERT INTO BBY_25_users (user_name, first_name, last_name, email, password, is_admin, profile_pic) values (?, ?, ?, ?, ?, ?, ?)`,
-    [req.body.userName, req.body.firstName, req.body.lastName, req.body.email, req.body.password, req.body.isAdmin, "/img/luffy.png"],
+  connection.query(`INSERT INTO BBY_25_users (user_name, first_name, last_name, email, password, is_admin) values (?, ?, ?, ?, ?, ?)`,
+    [req.body.userName, req.body.firstName, req.body.lastName, req.body.email, req.body.password, req.body.isAdmin],
     function (error, results, fields) {
       if (error) {
-         // catch error and save to database
+        console.log(error);
       }
-      
+      //console.log('Rows returned are: ', results);
       res.send({
         status: "success",
         msg: "Record added."
@@ -477,20 +510,23 @@ app.post('/add-user', function (req, res) {
 app.post('/delete-user', function (req, res) {
   res.setHeader('Content-Type', 'application/json');
 
-  databaseSwitcher();
-
-
+  let connection = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: '',
+    database: 'comp2800'
+  });
   connection.connect();
 
- 
+  console.log("idNumber" + req.body.idNumber);
 
   connection.query("DELETE FROM bby_25_users WHERE identity = ?",
     [req.body.idNumber],
     function (error, results, fields) {
       if (error) {
-         // catch error and save to database
+        console.log(error);
       }
-    
+      //console.log('Rows returned are: ', results);
       res.send({
         status: "success",
         msg: "Record deleted."
@@ -527,23 +563,28 @@ app.get('/account', function (req, res) {
 app.post('/update-firstName', async function (req, res) {
   res.setHeader('Content-Type', 'application/json');
 
-  databaseSwitcher();
-
-
+  let connection = mysql.createConnection({
+    host: '127.0.0.1',
+    user: 'root',
+    password: '',
+    database: 'comp2800'
+  });
   connection.connect();
+  console.log("update values", req.body.name, req.body.id)
   connection.query('UPDATE BBY_25_users SET first_name = ? WHERE identity = ?',
     [req.body.name, req.body.id],
     function (error, results, fields) {
       if (error) {
-         // catch error and save to database
+        console.log(error);
       }
-      
+      //console.log('Rows returned are: ', results);
       res.send({
         status: "success",
         msg: "Recorded updated."
       });
 
       req.session.name = req.body.name;
+      console.log(req.session.name);
 
       req.session.save(function (err) {
         // session saved. for analytics we could record this in db
@@ -558,23 +599,28 @@ app.post('/update-firstName', async function (req, res) {
 app.post('/update-lastName', async function (req, res) {
   res.setHeader('Content-Type', 'application/json');
 
-  databaseSwitcher();
-
-
+  let connection = mysql.createConnection({
+    host: '127.0.0.1',
+    user: 'root',
+    password: '',
+    database: 'comp2800'
+  });
   connection.connect();
-
+  console.log("update values", req.body.lastName, req.body.id)
   connection.query('UPDATE BBY_25_users SET last_name = ? WHERE identity = ?',
     [req.body.lastName, req.body.id],
     function (error, results, fields) {
       if (error) {
-         // catch error and save to database
+        console.log(error);
       }
+      //console.log('Rows returned are: ', results);
       res.send({
         status: "success",
         msg: "Recorded updated."
       });
 
       req.session.lastName = req.body.lastName;
+      console.log(req.session.lastName);
 
       req.session.save(function (err) {
         // session saved. for analytics we could record this in db
@@ -589,25 +635,28 @@ app.post('/update-lastName', async function (req, res) {
 app.post('/update-email', async function (req, res) {
   res.setHeader('Content-Type', 'application/json');
 
-  databaseSwitcher();
-
-
+  let connection = mysql.createConnection({
+    host: '127.0.0.1',
+    user: 'root',
+    password: '',
+    database: 'comp2800'
+  });
   connection.connect();
- 
+  console.log("update values", req.body.email, req.body.id)
   connection.query('UPDATE BBY_25_users SET email = ? WHERE identity = ?',
     [req.body.email, req.body.id],
     function (error, results, fields) {
       if (error) {
-         // catch error and save to database
+        console.log(error);
       }
-      
+      //console.log('Rows returned are: ', results);
       res.send({
         status: "success",
         msg: "Recorded updated."
       });
 
       req.session.email = req.body.email;
-      
+      console.log(req.session.email);
 
       req.session.save(function (err) {
         // session saved. for analytics we could record this in db
@@ -622,21 +671,25 @@ app.post('/update-email', async function (req, res) {
 app.post('/update-lastName', async function (req, res) {
   res.setHeader('Content-Type', 'application/json');
 
-  databaseSwitcher();
-
-
+  let connection = mysql.createConnection({
+    host: '127.0.0.1',
+    user: 'root',
+    password: '',
+    database: 'comp2800'
+  });
   connection.connect();
+console.log("update values", req.body.lastName, req.body.id)
   connection.query('UPDATE BBY_25_users SET last_name = ? WHERE ID = ?',
         [req.body.lastName, req.body.id],
         function (error, results, fields) {
     if (error) {
-         // catch error and save to database
+        console.log(error);
     }
-    
+    //console.log('Rows returned are: ', results);
     res.send({ status: "success", msg: "Recorded updated." });
 
     req.session.lastName = req.body.lastName;
-    
+    console.log(req.session.lastName);
 
     req.session.save(function (err) {
       // session saved. for analytics we could record this in db
@@ -655,22 +708,28 @@ app.post('/update-email', async function (req, res) {
 app.post('/update-password', function (req, res) {
   res.setHeader('Content-Type', 'application/json');
 
-  databaseSwitcher();
+  let connection = mysql.createConnection({
+    host: '127.0.0.1',
+    user: 'root',
+    password: '',
+    database: 'comp2800'
+  });
   connection.connect();
-  
+  console.log("update values", req.body.password, req.body.id)
   connection.query('UPDATE BBY_25_users SET password = ? WHERE identity = ?',
     [req.body.password, req.body.id],
     function (error, results, fields) {
       if (error) {
-         // catch error and save to database
+        console.log(error);
       }
-      
+      //console.log('Rows returned are: ', results);
       res.send({
         status: "success",
         msg: "Recorded updated."
       });
 
       req.session.password = req.body.password;
+      console.log(req.session.password);
 
       req.session.save(function (err) {
         // session saved. for analytics we could record this in db
@@ -689,21 +748,29 @@ app.post('/update-password', function (req, res) {
 // update password!!!
 app.post('/update-profilePic', function (req, res) {
   res.setHeader('Content-Type', 'application/json');
-  databaseSwitcher();
-  connection.connect();
 
+  let connection = mysql.createConnection({
+    host: '127.0.0.1',
+    user: 'root',
+    password: '',
+    database: 'comp2800'
+  });
+  connection.connect();
+  console.log("update values", req.body.profilePic, req.body.id)
   connection.query('UPDATE BBY_25_users SET profile_pic = ? WHERE identity = ?',
     [req.body.profilePic, req.body.id],
     function (error, results, fields) {
       if (error) {
-        // catch error and save to database
+        console.log(error);
       }
+      //console.log('Rows returned are: ', results);
       res.send({
         status: "success",
         msg: "Recorded updated."
       });
 
       req.session.profilePic = req.body.profilePic;
+      console.log(req.session.profilePic);
 
       req.session.save(function (err) {
         // session saved. for analytics we could record this in db
@@ -729,7 +796,6 @@ app.get("/logout", function (req, res) {
     });
   }
 });
-
 
 let port = 8000;
 app.listen(port);
