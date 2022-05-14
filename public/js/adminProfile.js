@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 function ajaxPOST(url, callback, data) {
 
   /*
@@ -32,8 +31,6 @@ function ajaxPOST(url, callback, data) {
   xhr.send(params);
 }
 
-=======
->>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
 function getUsers() {
 
     const xhr = new XMLHttpRequest();
@@ -59,11 +56,7 @@ function getUsers() {
 
                     for(let i = 0; i < data.rows.length; i++) {
                         let row = data.rows[i];
-<<<<<<< HEAD
                         
-=======
-                        //console.log("row", row);
->>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
                         str += ("<tr><td class='id'>" + row.identity
                             + "</td><td class='userName'><span>" + row.user_name
                             + "</span></td><td class='firstName'><span>" + row.first_name
@@ -74,11 +67,6 @@ function getUsers() {
                             + "</span></td><td class='isAdmin'><span class='adminSpan'>" + row.is_admin 
                             + "</span></tr>");
                     }
-<<<<<<< HEAD
-
-=======
-                    //console.log(str);
->>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
                     document.getElementById("customers").innerHTML = str;
 
                     // select all spans under the email class of td elements
@@ -118,30 +106,14 @@ function getUsers() {
                     }
 
                 } else {
-<<<<<<< HEAD
-
-=======
-                    console.log("Error!");
->>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
                 }
 
             } else {
 
-<<<<<<< HEAD
-
-=======
-              // not a 200, could be anything (404, 500, etc.)
-              console.log(this.status);
->>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
 
             }
 
         } else {
-<<<<<<< HEAD
-
-=======
-            console.log("ERROR", this.status);
->>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
         }
     }
     xhr.open("GET", "/get-allUsers");
@@ -204,30 +176,15 @@ function editEmail(e) {
 
                     } else {
 
-<<<<<<< HEAD
-
-=======
-                      // not a 200, could be anything (404, 500, etc.)
-                      console.log(this.status);
->>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
 
                     }
 
                 } else {
-<<<<<<< HEAD
-=======
-                    console.log("ERROR", this.status);
->>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
                 }
             }
             xhr.open("POST", "/admin-update-email");
             xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-<<<<<<< HEAD
-
-=======
-            //console.log("dataToSend", "id=" + dataToSend.id + "&email=" + dataToSend.email);
->>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
             xhr.send("id=" + dataToSend.id + "&email=" + dataToSend.email);
 
         }
@@ -276,31 +233,15 @@ function editUserName(e) {
 
                     } else {
 
-<<<<<<< HEAD
-
-=======
-                      // not a 200, could be anything (404, 500, etc.)
-                      console.log(this.status);
->>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
 
                     }
 
                 } else {
-<<<<<<< HEAD
-
-=======
-                    console.log("ERROR", this.status);
->>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
                 }
             }
             xhr.open("POST", "/admin-update-username");
             xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-<<<<<<< HEAD
-
-=======
-            console.log("dataToSend", "id=" + dataToSend.id + "&userName=" + dataToSend.userName);
->>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
             xhr.send("id=" + dataToSend.id + "&userName=" + dataToSend.userName);
 
         }
@@ -349,31 +290,15 @@ function editFirstName(e) {
 
                     } else {
 
-<<<<<<< HEAD
-
-=======
-                      // not a 200, could be anything (404, 500, etc.)
-                      console.log(this.status);
->>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
 
                     }
 
                 } else {
-<<<<<<< HEAD
-
-=======
-                    console.log("ERROR", this.status);
->>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
                 }
             }
             xhr.open("POST", "/admin-update-firstname");
             xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-<<<<<<< HEAD
-
-=======
-            console.log("dataToSend", "id=" + dataToSend.id + "&firstName=" + dataToSend.firstName);
->>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
             xhr.send("id=" + dataToSend.id + "&firstName=" + dataToSend.firstName);
 
         }
@@ -422,30 +347,15 @@ function editLastName(e) {
 
                     } else {
 
-<<<<<<< HEAD
-=======
-                      // not a 200, could be anything (404, 500, etc.)
-                      console.log(this.status);
->>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
 
                     }
 
                 } else {
-<<<<<<< HEAD
-
-=======
-                    console.log("ERROR", this.status);
->>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
                 }
             }
             xhr.open("POST", "/admin-update-lastname");
             xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-<<<<<<< HEAD
-
-=======
-            console.log("dataToSend", "id=" + dataToSend.id + "&lastName=" + dataToSend.lastName);
->>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
             xhr.send("id=" + dataToSend.id + "&lastName=" + dataToSend.lastName);
 
         }
@@ -494,31 +404,15 @@ function editPassword(e) {
 
                     } else {
 
-<<<<<<< HEAD
-
-=======
-                      // not a 200, could be anything (404, 500, etc.)
-                      console.log(this.status);
->>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
 
                     }
 
                 } else {
-<<<<<<< HEAD
-
-=======
-                    console.log("ERROR", this.status);
->>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
                 }
             }
             xhr.open("POST", "/admin-update-password");
             xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-<<<<<<< HEAD
-
-=======
-            console.log("dataToSend", "id=" + dataToSend.id + "&password=" + dataToSend.password);
->>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
             xhr.send("id=" + dataToSend.id + "&password=" + dataToSend.password);
 
         }
@@ -555,35 +449,6 @@ function editIsAdmin(e) {
                 document.getElementById("message").innerHTML = "Not a valid input.";
             }
 
-<<<<<<< HEAD
-
-=======
-            // const button = document.querySelector('.isAdmin');
-
-            // const div = button.parentNode;
-
-            // const divparent = div.parentNode;
-
-            // var lookForOne = [];
-            // let isAdminRecords = document.querySelectorAll("td[class='isAdmin'] span");
-            // for(let j = 0; j < isAdminRecords.length; j++) {
-            //     let i = 0;
-            //     let isAdmin = divparent.querySelector(".isAdmin").innerHTML;
-            //     lookForOne.push(isAdmin);
-            //     console.log(isAdmin);
-            //     console.log(lookForOne);
-            //     i++;
-            // }
-            // if (lookForOne.includes("1")){
-            //     v = v;
-            //     console.log("there is a 1!")
-            //     lookForOne = [];
-            // } else {
-            //     v = 1;
-            //     console.log("There is no one :(")
-            //     lookForOne = [];
-            // }
->>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
 
             let newSpan = document.createElement("span");
             // have to wire an event listener to the new element
@@ -615,30 +480,15 @@ function editIsAdmin(e) {
 
                     } else {
 
-<<<<<<< HEAD
-=======
-                      // not a 200, could be anything (404, 500, etc.)
-                      console.log(this.status);
->>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
 
                     }
 
                 } else {
-<<<<<<< HEAD
-
-=======
-                    console.log("ERROR", this.status);
->>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
                 }
             }
             xhr.open("POST", "/admin-update-isAdmin");
             xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-<<<<<<< HEAD
-
-=======
-            console.log("dataToSend", "id=" + dataToSend.id + "&isAdmin=" + dataToSend.isAdmin);
->>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
             xhr.send("id=" + dataToSend.id + "&isAdmin=" + dataToSend.isAdmin);
 
         }
@@ -677,17 +527,12 @@ function checkIfValidEmail(){
 // adding a user -----------------------------------------------------------------------------
 const radioButtons = document.querySelectorAll('input[name="admin"]');
 let isAdminVal;
-<<<<<<< HEAD
 document.getElementById("add-userName").addEventListener("click", function(e) {
   document.getElementById("status").innerHTML = "";
   getUsers();
 });
 document.getElementById("submit").addEventListener("click", function(e) {
 
-=======
-document.getElementById("submit").addEventListener("click", function(e) {
-    console.log("hello i am clicked");
->>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
     e.preventDefault();
         for (const radioButton of radioButtons) {
             if (radioButton.checked) {
@@ -719,46 +564,23 @@ document.getElementById("submit").addEventListener("click", function(e) {
                         document.getElementById("status").innerHTML = "";
                     } else {
                         document.getElementById("status").innerHTML = "DB updated.";
-<<<<<<< HEAD
                         getUsers();
                     }
     
                   
-=======
-                    }
-    
-                  getUsers();
->>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
     
                 } else {
     
                   // not a 200, could be anything (404, 500, etc.)
-<<<<<<< HEAD
-
-=======
-                  console.log(this.status);
->>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
     
                 }
     
             } else {
-<<<<<<< HEAD
-
-=======
-                console.log("ERROR", this.status);
->>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
             }
         }
         xhr.open("POST", "/add-user");
         xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-<<<<<<< HEAD
-
-=======
-        console.log("formToSend", "userName=" + formData.userName + "&firstName=" + formData.firstName 
-        + "&lastName=" + formData.lastName + "&email=" + formData.email
-        + "&password=" + formData.password + "&isAdmin=" + formData.isAdmin);
->>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
         xhr.send("userName=" + formData.userName + "&firstName=" + formData.firstName 
                  + "&lastName=" + formData.lastName + "&email=" + formData.email
                  + "&password=" + formData.password + "&isAdmin=" + formData.isAdmin
@@ -769,28 +591,11 @@ document.getElementById("submit").addEventListener("click", function(e) {
 
 })
 
-<<<<<<< HEAD
-// function validate(){
-//     var x = document.forms["myForm"]["delete"].value;
-//     if (x == "") {
-//       alert("Name must be filled out");
-//       return false;
-//     }
-//   }
-=======
-function validate(){
-    var x = document.forms["myForm"]["delete"].value;
-    if (x == "") {
-      alert("Name must be filled out");
-      return false;
-    }
-  }
->>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
+
 
 document.getElementById("delete").addEventListener("click", function(e) {
     e.preventDefault();
 
-<<<<<<< HEAD
     // document.getElementById("formList").addEventListener("submit", validate);
 
     let formData = { idNumber: document.getElementById("idToDelete").value};
@@ -810,37 +615,5 @@ document.getElementById("delete").addEventListener("click", function(e) {
       }
     }, formData);
 
-=======
-    document.getElementById("formList").addEventListener("submit", validate);
-
-    let formData = { idNumber: document.getElementById("idToDelete").value};
-
-    const xhr = new XMLHttpRequest();
-    xhr.onload = function () {
-        if (this.readyState == XMLHttpRequest.DONE) {
-
-            // 200 means everthing worked
-            if (xhr.status === 200) {
-
-              getUsers();
-              document.getElementById("status").innerHTML = "person deleted.";
-
-            } else {
-
-              // not a 200, could be anything (404, 500, etc.)
-              console.log(this.status);
-
-            }
-
-        } else {
-            console.log("ERROR", this.status);
-        }
-    }
-    xhr.open("POST", "/delete-user");
-    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    console.log("formToSend", "idNumber=" + formData.idNumber);
-    xhr.send("idNumber=" + formData.idNumber);
->>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
 
 });
