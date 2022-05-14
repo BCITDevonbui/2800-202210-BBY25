@@ -52,12 +52,15 @@ ready(function () {
     let amount = document.getElementById("amount").value;
     let queryString = "amount=" + amount;
 
+<<<<<<< HEAD
     // GET TO THE SERVER
     document.querySelector("#dropLogo").addEventListener("click", function(e) {
         e.preventDefault;
         window.location.replace("/")
       })
 
+=======
+>>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
     ajaxPOST("/donate", function (data) {
         if (data) {
             let dataParsed = JSON.parse(data);
@@ -71,6 +74,7 @@ ready(function () {
             }
         }
     }, queryString);
+<<<<<<< HEAD
 
 
 
@@ -78,6 +82,8 @@ ready(function () {
   document.getElementById("home").addEventListener("click", function(e) {
     e.preventDefault;
     window.location.replace("/");
+=======
+>>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
   });
 });
 

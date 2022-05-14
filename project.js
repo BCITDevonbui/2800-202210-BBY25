@@ -56,7 +56,11 @@ app.get("/register", function (req, res) {
 
 app.get("/donate", function (req,res) {
   if(req.session.loggedIn) {
+<<<<<<< HEAD
     let doc = fs.readFileSync("./app/html/donation.html","utf8");
+=======
+    let doc = fs.readFileSync("./app/html/donate.html","utf8");
+>>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
     res.send(doc)
   } else {
     res.redirect("/");
@@ -67,10 +71,21 @@ app.post("/donate", function(req,res) {
   res.setHeader("Content-Type", "application/json");
   const mysql = require("mysql2");
   const connection = mysql.createConnection({
+<<<<<<< HEAD
     host: "127.0.0.1",
     user: "root",
     password: "",
     multipleStatements: "true"
+=======
+    // host: "127.0.0.1",
+    // user: "root",
+    // password: "",
+    // multipleStatements: "true"
+    host: 'us-cdbr-east-05.cleardb.net',
+    user: 'b16ad059f5434a',
+    password: '2255f096',
+    database: 'heroku_02ad04623fadaa9'
+>>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
   });
   connection.connect();
 
@@ -87,6 +102,10 @@ app.post("/donate", function(req,res) {
     }else {
       month = `${date.getMonth()+1}`;
     }
+<<<<<<< HEAD
+=======
+    console.log(splitDate[3], month, splitDate[2], splitDate[4]);
+>>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
     let postedDate = `${splitDate[3]}-${month}-${splitDate[2]} ${splitDate[4]}`
     connection.query(`use COMP2800; INSERT INTO BBY_25_users_donation (userID, postdate, amount) VALUES (?, ?, ?)`, [req.session.identity, postedDate, amount]);
     res.send({status: "success", msg: "Record added."});
@@ -129,6 +148,18 @@ app.get("/profile", function (req, res) {
   } else {
     // not logged in - no session and no access, redirect to home!
     res.redirect("/");
+<<<<<<< HEAD
+=======
+  }
+});
+
+app.get("/payment", function (req, res) {
+  if(req.session.loggedIn) {
+    let doc = fs.readFileSync("./app/html/payment.html", "utf8");
+    res.send(doc);
+  } else {
+    res.redirect("/");
+>>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
   }
 });
 
@@ -141,7 +172,10 @@ app.get("/payment", function (req, res) {
   }
 });
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
 app.get("/thanks", function (req, res) {
   if (req.session.loggedIn) {
     let doc = fs.readFileSync("./app/html/thankyou.html", "utf8");
@@ -155,10 +189,21 @@ app.post("/payment", function (req,res) {
   res.setHeader("Content-Type", "application/json");
   const mysql = require("mysql2");
   const connection = mysql.createConnection({
+<<<<<<< HEAD
     host: "127.0.0.1",
     user: "root",
     password: "",
     multipleStatements: "true"
+=======
+    // host: "127.0.0.1",
+    // user: "root",
+    // password: "",
+    // multipleStatements: "true"
+    host: 'us-cdbr-east-05.cleardb.net',
+    user: 'b16ad059f5434a',
+    password: '2255f096',
+    database: 'heroku_02ad04623fadaa9'
+>>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
   });
   connection.connect();
 
@@ -174,17 +219,33 @@ app.post("/register", function(req, res) {
   res.setHeader("Content-Type", "application/json");
   const mysql = require("mysql2");
   const connection = mysql.createConnection({
+<<<<<<< HEAD
     host: "127.0.0.1",
     user: "root",
     password: "",
     multipleStatements: "true"
+=======
+    // host: "127.0.0.1",
+    // user: "root",
+    // password: "",
+    // multipleStatements: "true"
+    host: 'us-cdbr-east-05.cleardb.net',
+    user: 'b16ad059f5434a',
+    password: '2255f096',
+    database: 'heroku_02ad04623fadaa9'
+>>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
   });
   connection.connect();
 
   let validNewUserInfo = req.body;
   //Adds new user to user table. Always non admin, since this is client facing sign up
+<<<<<<< HEAD
   connection.query(`use COMP2800; INSERT INTO BBY_25_users (user_name, first_name, last_name, email, password, is_admin, profile_pic) values (?, ?, ?, ?, ?, ?, ?)`,
     [validNewUserInfo.userName, validNewUserInfo.firstName, validNewUserInfo.lastName, validNewUserInfo.email, validNewUserInfo.password, false, "/img/luffy.png"],
+=======
+  connection.query(`use COMP2800; INSERT INTO BBY_25_users (user_name, first_name, last_name, email, password, is_admin) values (?, ?, ?, ?, ?, ?)`,
+    [validNewUserInfo.userName, validNewUserInfo.firstName, validNewUserInfo.lastName, validNewUserInfo.email, validNewUserInfo.password, false],
+>>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
     function (error, results, fields) {
       if (error) {
         // send error to DB
@@ -197,7 +258,7 @@ app.post("/register", function(req, res) {
       req.session.userType = validNewUserInfo.is_admin;
       req.session.profilePic = "/img/luffy.png";
       req.session.save(function (err) {
-        // session saved. save this in db next sprint
+        // session saved. for analytics we could record this in db
       })
       res.send({
         status: "success",
@@ -212,10 +273,21 @@ app.post("/login", function (req, res) {
   res.setHeader("Content-Type", "application/json");
   const mysql = require("mysql2");
   const connection = mysql.createConnection({
+<<<<<<< HEAD
     host: "127.0.0.1",
     user: "root",
     password: "",
     multipleStatements: "true"
+=======
+    // host: "127.0.0.1",
+    // user: "root",
+    // password: "",
+    // multipleStatements: "true"
+    host: 'us-cdbr-east-05.cleardb.net',
+    user: 'b16ad059f5434a',
+    password: '2255f096',
+    database: 'heroku_02ad04623fadaa9'
+>>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
   });
 
   connection.connect();
@@ -259,17 +331,35 @@ app.post("/login", function (req, res) {
 //admin users edit-------------------------------------------------------------------------
 app.get('/get-allUsers', function (req, res) {
 
+<<<<<<< HEAD
   let connection = mysql.createConnection({
     host: '127.0.0.1',
     user: 'root',
     password: '',
     database: 'comp2800'
+=======
+  const connection = mysql.createConnection({
+    // host: "127.0.0.1",
+    // user: "root",
+    // password: "",
+    // multipleStatements: "true"
+    host: 'us-cdbr-east-05.cleardb.net',
+    user: 'b16ad059f5434a',
+    password: '2255f096',
+    database: 'heroku_02ad04623fadaa9'
+>>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
   });
   connection.connect();
   connection.query('select * from bby_25_users;', function (error, results, fields) {
     if (error) {
+<<<<<<< HEAD
       // catch error and save to database
     }
+=======
+      console.log(error);
+    }
+    console.log('Rows returned are: ', results);
+>>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
     res.send({
       status: "success",
       rows: results
@@ -285,6 +375,7 @@ app.get('/get-allUsers', function (req, res) {
 app.post('/admin-update-email', function (req, res) {
   res.setHeader('Content-Type', 'application/json');
 
+<<<<<<< HEAD
   let connection = mysql.createConnection({
     host: '127.0.0.1',
     user: 'root',
@@ -292,13 +383,33 @@ app.post('/admin-update-email', function (req, res) {
     database: 'comp2800'
   });
   connection.connect();
+=======
+  const connection = mysql.createConnection({
+    // host: "127.0.0.1",
+    // user: "root",
+    // password: "",
+    // multipleStatements: "true"
+    host: 'us-cdbr-east-05.cleardb.net',
+    user: 'b16ad059f5434a',
+    password: '2255f096',
+    database: 'heroku_02ad04623fadaa9'
+  });
+  connection.connect();
+  console.log("update values", req.body.email, req.body.id)
+>>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
   connection.query('UPDATE BBY_25_users SET email = ? WHERE identity = ?',
     [req.body.email, req.body.id],
     function (error, results, fields) {
       if (error) {
+<<<<<<< HEAD
 // catch error and save to database
       }
 
+=======
+        console.log(error);
+      }
+      //console.log('Rows returned are: ', results);
+>>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
       res.send({
         status: "success",
         msg: "Recorded updated."
@@ -313,6 +424,7 @@ app.post('/admin-update-email', function (req, res) {
 app.post('/admin-update-username', function (req, res) {
   res.setHeader('Content-Type', 'application/json');
 
+<<<<<<< HEAD
   let connection = mysql.createConnection({
     host: '127.0.0.1',
     user: 'root',
@@ -321,13 +433,33 @@ app.post('/admin-update-username', function (req, res) {
   });
   connection.connect();
 
+=======
+  const connection = mysql.createConnection({
+    // host: "127.0.0.1",
+    // user: "root",
+    // password: "",
+    // multipleStatements: "true"
+    host: 'us-cdbr-east-05.cleardb.net',
+    user: 'b16ad059f5434a',
+    password: '2255f096',
+    database: 'heroku_02ad04623fadaa9'
+  });
+  connection.connect();
+  console.log("update values", req.body.userName, req.body.id)
+>>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
   connection.query('UPDATE BBY_25_users SET user_name = ? WHERE identity = ?',
     [req.body.userName, req.body.id],
     function (error, results, fields) {
       if (error) {
+<<<<<<< HEAD
 // catch error and save to database
       }
 
+=======
+        console.log(error);
+      }
+      //console.log('Rows returned are: ', results);
+>>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
       res.send({
         status: "success",
         msg: "Recorded updated."
@@ -342,6 +474,7 @@ app.post('/admin-update-username', function (req, res) {
 app.post('/admin-update-firstname', function (req, res) {
   res.setHeader('Content-Type', 'application/json');
 
+<<<<<<< HEAD
   let connection = mysql.createConnection({
     host: '127.0.0.1',
     user: 'root',
@@ -350,13 +483,33 @@ app.post('/admin-update-firstname', function (req, res) {
   });
   connection.connect();
 
+=======
+  const connection = mysql.createConnection({
+    // host: "127.0.0.1",
+    // user: "root",
+    // password: "",
+    // multipleStatements: "true"
+    host: 'us-cdbr-east-05.cleardb.net',
+    user: 'b16ad059f5434a',
+    password: '2255f096',
+    database: 'heroku_02ad04623fadaa9'
+  });
+  connection.connect();
+  console.log("update values", req.body.firstName, req.body.id)
+>>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
   connection.query('UPDATE BBY_25_users SET first_name = ? WHERE identity = ?',
     [req.body.firstName, req.body.id],
     function (error, results, fields) {
       if (error) {
+<<<<<<< HEAD
 // catch error and save to database
       }
 
+=======
+        console.log(error);
+      }
+      //console.log('Rows returned are: ', results);
+>>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
       res.send({
         status: "success",
         msg: "Recorded updated."
@@ -371,6 +524,7 @@ app.post('/admin-update-firstname', function (req, res) {
 app.post('/admin-update-lastname', function (req, res) {
   res.setHeader('Content-Type', 'application/json');
 
+<<<<<<< HEAD
   let connection = mysql.createConnection({
     host: '127.0.0.1',
     user: 'root',
@@ -379,13 +533,33 @@ app.post('/admin-update-lastname', function (req, res) {
   });
   connection.connect();
 
+=======
+  const connection = mysql.createConnection({
+    // host: "127.0.0.1",
+    // user: "root",
+    // password: "",
+    // multipleStatements: "true"
+    host: 'us-cdbr-east-05.cleardb.net',
+    user: 'b16ad059f5434a',
+    password: '2255f096',
+    database: 'heroku_02ad04623fadaa9'
+  });
+  connection.connect();
+  console.log("update values", req.body.lastName, req.body.id)
+>>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
   connection.query('UPDATE BBY_25_users SET last_name = ? WHERE identity = ?',
     [req.body.lastName, req.body.id],
     function (error, results, fields) {
       if (error) {
+<<<<<<< HEAD
 // catch error and save to database
       }
 
+=======
+        console.log(error);
+      }
+      //console.log('Rows returned are: ', results);
+>>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
       res.send({
         status: "success",
         msg: "Recorded updated."
@@ -400,6 +574,7 @@ app.post('/admin-update-lastname', function (req, res) {
 app.post('/admin-update-password', function (req, res) {
   res.setHeader('Content-Type', 'application/json');
 
+<<<<<<< HEAD
   let connection = mysql.createConnection({
     host: '127.0.0.1',
     user: 'root',
@@ -408,13 +583,33 @@ app.post('/admin-update-password', function (req, res) {
   });
   connection.connect();
 
+=======
+  const connection = mysql.createConnection({
+    // host: "127.0.0.1",
+    // user: "root",
+    // password: "",
+    // multipleStatements: "true"
+    host: 'us-cdbr-east-05.cleardb.net',
+    user: 'b16ad059f5434a',
+    password: '2255f096',
+    database: 'heroku_02ad04623fadaa9'
+  });
+  connection.connect();
+  console.log("update values", req.body.password, req.body.id)
+>>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
   connection.query('UPDATE BBY_25_users SET password = ? WHERE identity = ?',
     [req.body.password, req.body.id],
     function (error, results, fields) {
       if (error) {
+<<<<<<< HEAD
 // catch error and save to database
       }
 
+=======
+        console.log(error);
+      }
+      //console.log('Rows returned are: ', results);
+>>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
       res.send({
         status: "success",
         msg: "Recorded updated."
@@ -429,11 +624,23 @@ app.post('/admin-update-password', function (req, res) {
 app.post('/admin-update-isAdmin', function (req, res) {
   res.setHeader('Content-Type', 'application/json');
 
+<<<<<<< HEAD
   let connection = mysql.createConnection({
     host: '127.0.0.1',
     user: 'root',
     password: '',
     database: 'comp2800'
+=======
+  const connection = mysql.createConnection({
+    // host: "127.0.0.1",
+    // user: "root",
+    // password: "",
+    // multipleStatements: "true"
+    host: 'us-cdbr-east-05.cleardb.net',
+    user: 'b16ad059f5434a',
+    password: '2255f096',
+    database: 'heroku_02ad04623fadaa9'
+>>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
   });
   connection.connect();
 
@@ -441,10 +648,15 @@ app.post('/admin-update-isAdmin', function (req, res) {
   //     req.body.isAdmin = 0;
   // }
 
+<<<<<<< HEAD
+=======
+  console.log("update values", req.body.isAdmin, req.body.id)
+>>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
 
   connection.query('UPDATE BBY_25_users SET is_admin = ? WHERE identity = ?',
     [req.body.isAdmin, req.body.id],
     function (error, results, fields) {
+<<<<<<< HEAD
       if (error) {
 // catch error and save to database
       }
@@ -567,12 +779,154 @@ app.post('/update-firstName', async function (req, res) {
       if (error) {
 // catch error and save to database
       }
+=======
+      if (error) {
+        console.log(error);
+      }
+      //console.log('Rows returned are: ', results);
+>>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
       res.send({
         status: "success",
         msg: "Recorded updated."
       });
 
+<<<<<<< HEAD
       req.session.name = req.body.nam
+=======
+    });
+  connection.end();
+
+});
+
+// admin adding a user
+app.post('/add-user', function (req, res) {
+  res.setHeader('Content-Type', 'application/json');
+
+  console.log("userName", req.body.userName);
+  console.log("firstName", req.body.firstName);
+  console.log("lastName", req.body.lastName);
+  console.log("Email", req.body.email);
+  console.log("password", req.body.password);
+  console.log("isAdmin", req.body.isAdmin);
+
+  const connection = mysql.createConnection({
+    // host: "127.0.0.1",
+    // user: "root",
+    // password: "",
+    // multipleStatements: "true"
+    host: 'us-cdbr-east-05.cleardb.net',
+    user: 'b16ad059f5434a',
+    password: '2255f096',
+    database: 'heroku_02ad04623fadaa9'
+  });
+  connection.connect();
+  // TO PREVENT SQL INJECTION, DO THIS:
+  // (FROM https://www.npmjs.com/package/mysql#escaping-query-values)
+  connection.query(`INSERT INTO BBY_25_users (user_name, first_name, last_name, email, password, is_admin, profile_pic) values (?, ?, ?, ?, ?, ?, ?)`,
+    [req.body.userName, req.body.firstName, req.body.lastName, req.body.email, req.body.password, req.body.isAdmin, "/img/luffy.png"],
+    function (error, results, fields) {
+      if (error) {
+        console.log(error);
+      }
+      //console.log('Rows returned are: ', results);
+      res.send({
+        status: "success",
+        msg: "Record added."
+      });
+
+    });
+  connection.end();
+
+});
+
+// POST: we are changing stuff on the server!!!
+app.post('/delete-user', function (req, res) {
+  res.setHeader('Content-Type', 'application/json');
+
+  const connection = mysql.createConnection({
+    // host: "127.0.0.1",
+    // user: "root",
+    // password: "",
+    // multipleStatements: "true"
+    host: 'us-cdbr-east-05.cleardb.net',
+    user: 'b16ad059f5434a',
+    password: '2255f096',
+    database: 'heroku_02ad04623fadaa9'
+  });
+  connection.connect();
+
+  console.log("idNumber" + req.body.idNumber);
+
+  connection.query("DELETE FROM bby_25_users WHERE identity = ?",
+    [req.body.idNumber],
+    function (error, results, fields) {
+      if (error) {
+        console.log(error);
+      }
+      //console.log('Rows returned are: ', results);
+      res.send({
+        status: "success",
+        msg: "Record deleted."
+      });
+
+    });
+  connection.end();
+
+});
+
+
+//-----------------------------------------------------------------------------------------
+
+// regular users edit //////////////////////////////////////////////////////////////////////////////
+//get the account page
+app.get('/account', function (req, res) {
+
+  let profile = fs.readFileSync("./app/html/account.html", "utf8");
+  let profileDOM = new JSDOM(profile);
+
+  profileDOM.window.document.getElementById("first_name").innerHTML = req.session.name;
+  profileDOM.window.document.getElementById("last_name").innerHTML = req.session.lastName;
+  profileDOM.window.document.getElementById("email").innerHTML = req.session.email
+  profileDOM.window.document.getElementById("password").innerHTML = req.session.password;
+  profileDOM.window.document.getElementById("id").innerHTML = req.session.identity;
+
+  res.set("Server", "Wazubi Engine");
+  res.set("X-Powered-By", "Wazubi");
+  res.send(profileDOM.serialize());
+
+});
+
+// updating first name!!!
+app.post('/update-firstName', async function (req, res) {
+  res.setHeader('Content-Type', 'application/json');
+
+  const connection = mysql.createConnection({
+    // host: "127.0.0.1",
+    // user: "root",
+    // password: "",
+    // multipleStatements: "true"
+    host: 'us-cdbr-east-05.cleardb.net',
+    user: 'b16ad059f5434a',
+    password: '2255f096',
+    database: 'heroku_02ad04623fadaa9'
+  });
+  connection.connect();
+  console.log("update values", req.body.name, req.body.id)
+  connection.query('UPDATE BBY_25_users SET first_name = ? WHERE identity = ?',
+    [req.body.name, req.body.id],
+    function (error, results, fields) {
+      if (error) {
+        console.log(error);
+      }
+      //console.log('Rows returned are: ', results);
+      res.send({
+        status: "success",
+        msg: "Recorded updated."
+      });
+
+      req.session.name = req.body.name;
+      console.log(req.session.name);
+>>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
 
       req.session.save(function (err) {
         // session saved. for analytics we could record this in db
@@ -587,6 +941,7 @@ app.post('/update-firstName', async function (req, res) {
 app.post('/update-lastName', async function (req, res) {
   res.setHeader('Content-Type', 'application/json');
 
+<<<<<<< HEAD
   let connection = mysql.createConnection({
     host: '127.0.0.1',
     user: 'root',
@@ -595,10 +950,25 @@ app.post('/update-lastName', async function (req, res) {
   });
   connection.connect();
 
+=======
+  const connection = mysql.createConnection({
+    // host: "127.0.0.1",
+    // user: "root",
+    // password: "",
+    // multipleStatements: "true"
+    host: 'us-cdbr-east-05.cleardb.net',
+    user: 'b16ad059f5434a',
+    password: '2255f096',
+    database: 'heroku_02ad04623fadaa9'
+  });
+  connection.connect();
+  console.log("update values", req.body.lastName, req.body.id)
+>>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
   connection.query('UPDATE BBY_25_users SET last_name = ? WHERE identity = ?',
     [req.body.lastName, req.body.id],
     function (error, results, fields) {
       if (error) {
+<<<<<<< HEAD
 // catch error and save to database
       }
 
@@ -638,13 +1008,62 @@ app.post('/update-email', async function (req, res) {
 // catch error and save to database
       }
 
+=======
+        console.log(error);
+      }
+      //console.log('Rows returned are: ', results);
+      res.send({
+        status: "success",
+        msg: "Recorded updated."
+      });
+
+      req.session.lastName = req.body.lastName;
+      console.log(req.session.lastName);
+
+      req.session.save(function (err) {
+        // session saved. for analytics we could record this in db
+      })
+
+    });
+  connection.end();
+
+});
+
+// updating email!!!
+app.post('/update-email', async function (req, res) {
+  res.setHeader('Content-Type', 'application/json');
+
+  const connection = mysql.createConnection({
+    // host: "127.0.0.1",
+    // user: "root",
+    // password: "",
+    // multipleStatements: "true"
+    host: 'us-cdbr-east-05.cleardb.net',
+    user: 'b16ad059f5434a',
+    password: '2255f096',
+    database: 'heroku_02ad04623fadaa9'
+  });
+  connection.connect();
+  console.log("update values", req.body.email, req.body.id)
+  connection.query('UPDATE BBY_25_users SET email = ? WHERE identity = ?',
+    [req.body.email, req.body.id],
+    function (error, results, fields) {
+      if (error) {
+        console.log(error);
+      }
+      //console.log('Rows returned are: ', results);
+>>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
       res.send({
         status: "success",
         msg: "Recorded updated."
       });
 
       req.session.email = req.body.email;
+<<<<<<< HEAD
 
+=======
+      console.log(req.session.email);
+>>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
 
       req.session.save(function (err) {
         // session saved. for analytics we could record this in db
@@ -659,6 +1078,7 @@ app.post('/update-email', async function (req, res) {
 app.post('/update-lastName', async function (req, res) {
   res.setHeader('Content-Type', 'application/json');
 
+<<<<<<< HEAD
   let connection = mysql.createConnection({
     host: '127.0.0.1',
     user: 'root',
@@ -667,10 +1087,25 @@ app.post('/update-lastName', async function (req, res) {
   });
   connection.connect();
 
+=======
+  const connection = mysql.createConnection({
+    // host: "127.0.0.1",
+    // user: "root",
+    // password: "",
+    // multipleStatements: "true"
+    host: 'us-cdbr-east-05.cleardb.net',
+    user: 'b16ad059f5434a',
+    password: '2255f096',
+    database: 'heroku_02ad04623fadaa9'
+  });
+  connection.connect();
+console.log("update values", req.body.lastName, req.body.id)
+>>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
   connection.query('UPDATE BBY_25_users SET last_name = ? WHERE ID = ?',
         [req.body.lastName, req.body.id],
         function (error, results, fields) {
     if (error) {
+<<<<<<< HEAD
 // catch error and save to database
     }
 
@@ -678,6 +1113,15 @@ app.post('/update-lastName', async function (req, res) {
 
     req.session.lastName = req.body.lastName;
 
+=======
+        console.log(error);
+    }
+    //console.log('Rows returned are: ', results);
+    res.send({ status: "success", msg: "Recorded updated." });
+
+    req.session.lastName = req.body.lastName;
+    console.log(req.session.lastName);
+>>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
 
     req.session.save(function (err) {
       // session saved. for analytics we could record this in db
@@ -686,16 +1130,26 @@ app.post('/update-lastName', async function (req, res) {
   });
   connection.end();
 
+<<<<<<< HEAD
 });
 
 // updating email!!!
 app.post('/update-email', async function (req, res) {
 });
 
+=======
+});
+
+// updating email!!!
+app.post('/update-email', async function (req, res) {
+});
+
+>>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
 // update password!!!
 app.post('/update-password', function (req, res) {
   res.setHeader('Content-Type', 'application/json');
 
+<<<<<<< HEAD
   let connection = mysql.createConnection({
     host: '127.0.0.1',
     user: 'root',
@@ -704,20 +1158,44 @@ app.post('/update-password', function (req, res) {
   });
   connection.connect();
 
+=======
+  const connection = mysql.createConnection({
+    // host: "127.0.0.1",
+    // user: "root",
+    // password: "",
+    // multipleStatements: "true"
+    host: 'us-cdbr-east-05.cleardb.net',
+    user: 'b16ad059f5434a',
+    password: '2255f096',
+    database: 'heroku_02ad04623fadaa9'
+  });
+  connection.connect();
+  console.log("update values", req.body.password, req.body.id)
+>>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
   connection.query('UPDATE BBY_25_users SET password = ? WHERE identity = ?',
     [req.body.password, req.body.id],
     function (error, results, fields) {
       if (error) {
+<<<<<<< HEAD
 // catch error and save to database
       }
 
+=======
+        console.log(error);
+      }
+      //console.log('Rows returned are: ', results);
+>>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
       res.send({
         status: "success",
         msg: "Recorded updated."
       });
 
       req.session.password = req.body.password;
+<<<<<<< HEAD
 
+=======
+      console.log(req.session.password);
+>>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
 
       req.session.save(function (err) {
         // session saved. for analytics we could record this in db
@@ -737,6 +1215,7 @@ app.post('/update-password', function (req, res) {
 app.post('/update-profilePic', function (req, res) {
   res.setHeader('Content-Type', 'application/json');
 
+<<<<<<< HEAD
   let connection = mysql.createConnection({
     host: '127.0.0.1',
     user: 'root',
@@ -745,20 +1224,44 @@ app.post('/update-profilePic', function (req, res) {
   });
   connection.connect();
 
+=======
+  const connection = mysql.createConnection({
+    // host: "127.0.0.1",
+    // user: "root",
+    // password: "",
+    // multipleStatements: "true"
+    host: 'us-cdbr-east-05.cleardb.net',
+    user: 'b16ad059f5434a',
+    password: '2255f096',
+    database: 'heroku_02ad04623fadaa9'
+  });
+  connection.connect();
+  console.log("update values", req.body.profilePic, req.body.id)
+>>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
   connection.query('UPDATE BBY_25_users SET profile_pic = ? WHERE identity = ?',
     [req.body.profilePic, req.body.id],
     function (error, results, fields) {
       if (error) {
+<<<<<<< HEAD
 // catch error and save to database
       }
 
+=======
+        console.log(error);
+      }
+      //console.log('Rows returned are: ', results);
+>>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
       res.send({
         status: "success",
         msg: "Recorded updated."
       });
 
       req.session.profilePic = req.body.profilePic;
+<<<<<<< HEAD
 
+=======
+      console.log(req.session.profilePic);
+>>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
 
       req.session.save(function (err) {
         // session saved. for analytics we could record this in db
@@ -785,5 +1288,11 @@ app.get("/logout", function (req, res) {
   }
 });
 
+<<<<<<< HEAD
 let port = 8000;
 app.listen(port);
+=======
+
+let port = 5000;
+app.listen(process.env.PORT || port);
+>>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab

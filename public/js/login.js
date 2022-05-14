@@ -40,7 +40,11 @@ ready(function () {
           if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
               callback(this.responseText);
 
+<<<<<<< HEAD
           } 
+=======
+          }
+>>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
       }
       xhr.open("POST", url);
       xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
@@ -84,9 +88,14 @@ ready(function () {
 function ready(callback) {
   if (document.readyState != "loading") {
       callback();
+<<<<<<< HEAD
 
   } else {
       document.addEventListener("DOMContentLoaded", callback);
 
+=======
+  } else {
+      document.addEventListener("DOMContentLoaded", callback);
+>>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
   }
 }

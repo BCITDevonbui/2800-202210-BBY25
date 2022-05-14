@@ -1,3 +1,11 @@
+<<<<<<< HEAD
+=======
+    // GET TO THE SERVER
+    document.querySelector("#dropLogo").addEventListener("click", function(e) {
+        e.preventDefault;
+        window.location.replace("/")
+      })
+>>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
 
 
 // change user first name
@@ -29,6 +37,11 @@ function editName(e) {
             parent.innerHTML = "";
             parent.appendChild(newSpan);
 
+<<<<<<< HEAD
+=======
+            console.log(parent.parentNode.querySelector("#id").innerHTML);
+
+>>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
             let dataToSend = {
                 id: parent.parentNode.querySelector("#id").innerHTML,
                 name: v
@@ -46,13 +59,28 @@ function editName(e) {
 
 
                     } else {
+<<<<<<< HEAD
                     }
                 } else {
+=======
+
+                        // not a 200, could be anything (404, 500, etc.)
+                        console.log(this.status);
+
+                    }
+
+                } else {
+                    console.log("ERROR", this.status);
+>>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
                 }
             }
             xhr.open("POST", "/update-firstName");
             xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+<<<<<<< HEAD
+=======
+            console.log("dataToSend", "id=" + dataToSend.id + "&name=" + dataToSend.name);
+>>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
             xhr.send("id=" + dataToSend.id + "&name=" + dataToSend.name);
 
 
@@ -92,6 +120,11 @@ function editlastName(e) {
             parent.innerHTML = "";
             parent.appendChild(newSpan);
 
+<<<<<<< HEAD
+=======
+            console.log(parent.parentNode.querySelector("#id").innerHTML);
+
+>>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
             let dataToSend = {
                 id: parent.parentNode.querySelector("#id").innerHTML,
                 lastName: v
@@ -105,20 +138,37 @@ function editlastName(e) {
                     // 200 means everthing worked
                     if (xhr.status === 200) {
                         document.getElementById("status").innerHTML = "Record updated.";
+<<<<<<< HEAD
+=======
+                        //   getCustomers();
+>>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
 
 
                     } else {
 
+<<<<<<< HEAD
+=======
+                        // not a 200, could be anything (404, 500, etc.)
+                        console.log(this.status);
+>>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
 
                     }
 
                 } else {
+<<<<<<< HEAD
 
+=======
+                    console.log("ERROR", this.status);
+>>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
                 }
             }
             xhr.open("POST", "/update-lastName");
             xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+<<<<<<< HEAD
+=======
+            console.log("dataToSend", "id=" + dataToSend.id + "&lastName=" + dataToSend.lastName);
+>>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
             xhr.send("id=" + dataToSend.id + "&lastName=" + dataToSend.lastName);
 
 
@@ -158,6 +208,10 @@ function editEmail(e) {
             parent.innerHTML = "";
             parent.appendChild(newSpan);
 
+<<<<<<< HEAD
+=======
+            console.log(parent.parentNode.querySelector("#id").innerHTML);
+>>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
 
             let dataToSend = {
                 id: parent.parentNode.querySelector("#id").innerHTML,
@@ -173,14 +227,32 @@ function editEmail(e) {
                     if (xhr.status === 200) {
                         document.getElementById("status").innerHTML = "Record updated.";
                         //   getCustomers();
+<<<<<<< HEAD
                     } else {
                     }
                 } else {
+=======
+
+
+                    } else {
+
+                        // not a 200, could be anything (404, 500, etc.)
+                        console.log(this.status);
+
+                    }
+
+                } else {
+                    console.log("ERROR", this.status);
+>>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
                 }
             }
             xhr.open("POST", "/update-email");
             xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+<<<<<<< HEAD
+=======
+            console.log("dataToSend", "id=" + dataToSend.id + "&email=" + dataToSend.email);
+>>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
             xhr.send("id=" + dataToSend.id + "&email=" + dataToSend.email);
 
 
@@ -220,6 +292,11 @@ function editPassword(e) {
             parent.innerHTML = "";
             parent.appendChild(newSpan);
 
+<<<<<<< HEAD
+=======
+            console.log(parent.parentNode.querySelector("#id").innerHTML);
+
+>>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
             let dataToSend = {
                 id: parent.parentNode.querySelector("#id").innerHTML,
                 password: v
@@ -233,14 +310,33 @@ function editPassword(e) {
                     // 200 means everthing worked
                     if (xhr.status === 200) {
                         document.getElementById("status").innerHTML = "Record updated.";
+<<<<<<< HEAD
                     } else {
                     }
                 } else {
+=======
+                        //   getCustomers();
+
+
+                    } else {
+
+                        // not a 200, could be anything (404, 500, etc.)
+                        console.log(this.status);
+
+                    }
+
+                } else {
+                    console.log("ERROR", this.status);
+>>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
                 }
             }
             xhr.open("POST", "/update-password");
             xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+<<<<<<< HEAD
+=======
+            console.log("dataToSend", "id=" + dataToSend.id + "&password=" + dataToSend.password);
+>>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
             xhr.send("id=" + dataToSend.id + "&password=" + dataToSend.password);
 
 
@@ -267,12 +363,29 @@ document.getElementById("submit").addEventListener("click", function (e) {
         }
     }
 
+<<<<<<< HEAD
     let parent = e.target.parentNode;
+=======
+    // got help with how to get the file name from:
+    // https://thewebdev.info/2022/02/16/how-to-get-the-filename-from-a-file-input-with-javascript/
+
+    // const input = document.querySelector("input")
+    // input.onchange = (e) => {
+    // const [file] = e.target.files
+    let parent = e.target.parentNode;
+    //add /img/ to file name for pathing
+    //   let v = "/img/" + file.name;
+>>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
     let v = "/img/" + profilePicVal;
     let dataToSend = {
         id: parent.parentNode.querySelector("#id").innerHTML,
         profilePic: v
     };
+<<<<<<< HEAD
+=======
+    console.log("im the id " + dataToSend.id);
+    console.log("Im the pic to be sent " + dataToSend.profilePic);
+>>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
 
     // now send
     const xhr = new XMLHttpRequest();
@@ -282,16 +395,32 @@ document.getElementById("submit").addEventListener("click", function (e) {
             // 200 means everthing worked
             if (xhr.status === 200) {
                 document.getElementById("status").innerHTML = "Record updated.";
+<<<<<<< HEAD
 
 
             } else {
             }
         } else {
+=======
+                //   getCustomers();
+
+
+            } else {
+
+                // not a 200, could be anything (404, 500, etc.)
+                console.log(this.status);
+
+            }
+
+        } else {
+            console.log("ERROR", this.status);
+>>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
         }
     }
     xhr.open("POST", "/update-profilePic");
     xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+<<<<<<< HEAD
     xhr.send("id=" + dataToSend.id + "&profilePic=" + dataToSend.profilePic);
 
 
@@ -306,3 +435,10 @@ document.getElementById("about").addEventListener("click", function(e) {
   e.preventDefault;
   window.location.replace("/account")
 })
+=======
+    console.log("dataToSend", "id=" + dataToSend.id + "&profilePic=" + dataToSend.profilePic);
+    xhr.send("id=" + dataToSend.id + "&profilePic=" + dataToSend.profilePic);
+
+
+});
+>>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
