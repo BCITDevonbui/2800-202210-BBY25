@@ -69,14 +69,11 @@ ready(function () {
         }
     }, queryString);
   });
-<<<<<<< HEAD
 
   document.getElementById("home").addEventListener("click", function(e) {
     e.preventDefault;
     window.location.replace("/");
   });
-=======
->>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
 });
 
 

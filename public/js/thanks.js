@@ -49,7 +49,6 @@ ready(function () {
 
   document.getElementById("DonationRedirect").addEventListener("click", function (e) {
     e.preventDefault;
-<<<<<<< HEAD
     window.location.replace("/package");
   })
 
@@ -60,10 +59,6 @@ ready(function () {
 
 
   
-=======
-    window.location.redirect("/package");
-  })
->>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
 });
 
 

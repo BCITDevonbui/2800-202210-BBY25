@@ -48,15 +48,12 @@ ready(function () {
       xhr.send(params);
   }
 
-<<<<<<< HEAD
     // GET TO THE SERVER
     document.querySelector("#dropLogo").addEventListener("click", function(e) {
       e.preventDefault;
       window.location.replace("/")
     })
 
-=======
->>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
   // GET TO THE SERVER
   document.querySelector("#donateButton").addEventListener("click", function(e) {
     e.preventDefault;
@@ -64,15 +61,12 @@ ready(function () {
   })
 
   // GET TO THE SERVER
-<<<<<<< HEAD
   document.querySelector("#account").addEventListener("click", function(e) {
     e.preventDefault;
     window.location.replace("/account")
   })
 
   // GET TO THE SERVER
-=======
->>>>>>> 60647769f94f8e6e7943a94f5e298c03a9425fab
   document.querySelector("#packageButton").addEventListener("click", function(e) {
     e.preventDefault;
     window.location.replace("/package")
