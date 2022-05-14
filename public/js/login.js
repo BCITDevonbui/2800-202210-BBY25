@@ -40,7 +40,7 @@ ready(function () {
           if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
               callback(this.responseText);
 
-          }
+          } 
       }
       xhr.open("POST", url);
       xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
@@ -51,31 +51,34 @@ ready(function () {
   // POST TO THE SERVER
   document.querySelector("#submit").addEventListener("click", function (e) {
       e.preventDefault();
-      // Get info filled in by user
       let email = document.getElementById("email");
       let password = document.getElementById("password");
-      let userName = document.getElementById("userName");
-      let firstName = document.getElementById("firstName");
-      let lastName = document.getElementById("lastName");
-      const vars = { "email": email.value, "password": password.value, "userName": userName.value, "firstName": firstName.value, "lastName": lastName.value}
+      let queryString = "email=" + email.value + "&password=" + password.value;
 
-      ajaxPOST("/register", function (data) {
+      ajaxPOST("/login", function (data) {
           if (data) {
               let dataParsed = JSON.parse(data);
               if (dataParsed.status == "fail") {
                   document.getElementById("errorMsg").innerHTML = dataParsed.msg;
+                  setTimeout(function () {
+                    document.getElementById("errorMsg").innerHTML = "";
+                  },1500);
               } else {
-                  window.location.replace("/profile");
+                  setTimeout(function() {
+                    window.location.replace("/profile");
+                  }, 1000);
+                  
               }
           }
-      }, vars);
+      }, queryString);
   });
-
-  // Redirect back to login page
-  document.querySelector("#loginRedirect").addEventListener("click", function (e) {
-      e.preventDefault();
-      window.location.replace("/");
+  
+  // GET TO THE SERVER
+  document.querySelector("#notMemberP").addEventListener("click", function(e) {
+    e.preventDefault;
+    window.location.replace("/register")
   })
+
 });
 
 function ready(callback) {

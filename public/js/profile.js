@@ -40,7 +40,7 @@ ready(function () {
           if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
               callback(this.responseText);
 
-          } 
+          }
       }
       xhr.open("POST", url);
       xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
@@ -48,32 +48,34 @@ ready(function () {
       xhr.send(params);
   }
 
-  // POST TO THE SERVER
-  document.querySelector("#submit").addEventListener("click", function (e) {
-      e.preventDefault();
-      let email = document.getElementById("email");
-      let password = document.getElementById("password");
-      let queryString = "email=" + email.value + "&password=" + password.value;
+    // GET TO THE SERVER
+    document.querySelector("#dropLogo").addEventListener("click", function(e) {
+      e.preventDefault;
+      window.location.replace("/")
+    })
 
-      ajaxPOST("/login", function (data) {
-          if (data) {
-              let dataParsed = JSON.parse(data);
-              if (dataParsed.status == "fail") {
-                  document.getElementById("errorMsg").innerHTML = dataParsed.msg;
-                  setTimeout(function () {
-                    document.getElementById("errorMsg").innerHTML = "";
-                  },1500);
-              } else {
-                  window.location.replace("/profile");
-              }
-          }
-      }, queryString);
-  });
-  
   // GET TO THE SERVER
-  document.querySelector("#notMemberP").addEventListener("click", function(e) {
+  document.querySelector("#donateButton").addEventListener("click", function(e) {
     e.preventDefault;
-    window.location.replace("/register")
+    window.location.replace("/donate")
+  })
+
+  // GET TO THE SERVER
+  document.querySelector("#account").addEventListener("click", function(e) {
+    e.preventDefault;
+    window.location.replace("/account")
+  })
+
+  // GET TO THE SERVER
+  document.querySelector("#packageButton").addEventListener("click", function(e) {
+    e.preventDefault;
+    window.location.replace("/package")
+  })
+
+  // GET TO THE SERVER
+  document.querySelector("#notifButton").addEventListener("click", function(e) {
+    e.preventDefault;
+    window.location.replace("/history")
   })
 
 });
@@ -81,9 +83,7 @@ ready(function () {
 function ready(callback) {
   if (document.readyState != "loading") {
       callback();
-
   } else {
       document.addEventListener("DOMContentLoaded", callback);
-
   }
 }
