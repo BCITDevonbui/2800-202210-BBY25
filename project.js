@@ -87,7 +87,6 @@ app.post("/donate", function(req,res) {
     }else {
       month = `${date.getMonth()+1}`;
     }
-    console.log(splitDate[3], month, splitDate[2], splitDate[4]);
     let postedDate = `${splitDate[3]}-${month}-${splitDate[2]} ${splitDate[4]}`
     connection.query(`use COMP2800; INSERT INTO BBY_25_users_donation (userID, postdate, amount) VALUES (?, ?, ?)`, [req.session.identity, postedDate, amount]);
     res.send({status: "success", msg: "Record added."});
@@ -142,14 +141,6 @@ app.get("/payment", function (req, res) {
   }
 });
 
-app.get("/payment", function (req, res) {
-  if(req.session.loggedIn) {
-    let doc = fs.readFileSync("./app/html/payment.html", "utf8");
-    res.send(doc);
-  } else {
-    res.redirect("/");
-  }
-});
 
 app.get("/thanks", function (req, res) {
   if (req.session.loggedIn) {
@@ -192,8 +183,8 @@ app.post("/register", function(req, res) {
 
   let validNewUserInfo = req.body;
   //Adds new user to user table. Always non admin, since this is client facing sign up
-  connection.query(`use COMP2800; INSERT INTO BBY_25_users (user_name, first_name, last_name, email, password, is_admin) values (?, ?, ?, ?, ?, ?)`,
-    [validNewUserInfo.userName, validNewUserInfo.firstName, validNewUserInfo.lastName, validNewUserInfo.email, validNewUserInfo.password, false],
+  connection.query(`use COMP2800; INSERT INTO BBY_25_users (user_name, first_name, last_name, email, password, is_admin, profile_pic) values (?, ?, ?, ?, ?, ?, ?)`,
+    [validNewUserInfo.userName, validNewUserInfo.firstName, validNewUserInfo.lastName, validNewUserInfo.email, validNewUserInfo.password, false, "/img/luffy.png"],
     function (error, results, fields) {
       if (error) {
         // send error to DB
@@ -204,6 +195,7 @@ app.post("/register", function(req, res) {
       req.session.name = validNewUserInfo.firstName;
       req.session.identity = validNewUserInfo.identity;
       req.session.userType = validNewUserInfo.is_admin;
+      req.session.profilePic = "/img/luffy.png";
       req.session.save(function (err) {
         // session saved. for analytics we could record this in db
       })
@@ -276,9 +268,8 @@ app.get('/get-allUsers', function (req, res) {
   connection.connect();
   connection.query('select * from bby_25_users;', function (error, results, fields) {
     if (error) {
-      console.log(error);
+      // catch error and save to database
     }
-    console.log('Rows returned are: ', results);
     res.send({
       status: "success",
       rows: results
@@ -301,14 +292,13 @@ app.post('/admin-update-email', function (req, res) {
     database: 'comp2800'
   });
   connection.connect();
-  console.log("update values", req.body.email, req.body.id)
   connection.query('UPDATE BBY_25_users SET email = ? WHERE identity = ?',
     [req.body.email, req.body.id],
     function (error, results, fields) {
       if (error) {
-        console.log(error);
+// catch error and save to database
       }
-      //console.log('Rows returned are: ', results);
+
       res.send({
         status: "success",
         msg: "Recorded updated."
@@ -330,14 +320,14 @@ app.post('/admin-update-username', function (req, res) {
     database: 'comp2800'
   });
   connection.connect();
-  console.log("update values", req.body.userName, req.body.id)
+
   connection.query('UPDATE BBY_25_users SET user_name = ? WHERE identity = ?',
     [req.body.userName, req.body.id],
     function (error, results, fields) {
       if (error) {
-        console.log(error);
+// catch error and save to database
       }
-      //console.log('Rows returned are: ', results);
+
       res.send({
         status: "success",
         msg: "Recorded updated."
@@ -359,14 +349,14 @@ app.post('/admin-update-firstname', function (req, res) {
     database: 'comp2800'
   });
   connection.connect();
-  console.log("update values", req.body.firstName, req.body.id)
+
   connection.query('UPDATE BBY_25_users SET first_name = ? WHERE identity = ?',
     [req.body.firstName, req.body.id],
     function (error, results, fields) {
       if (error) {
-        console.log(error);
+// catch error and save to database
       }
-      //console.log('Rows returned are: ', results);
+
       res.send({
         status: "success",
         msg: "Recorded updated."
@@ -388,14 +378,14 @@ app.post('/admin-update-lastname', function (req, res) {
     database: 'comp2800'
   });
   connection.connect();
-  console.log("update values", req.body.lastName, req.body.id)
+
   connection.query('UPDATE BBY_25_users SET last_name = ? WHERE identity = ?',
     [req.body.lastName, req.body.id],
     function (error, results, fields) {
       if (error) {
-        console.log(error);
+// catch error and save to database
       }
-      //console.log('Rows returned are: ', results);
+
       res.send({
         status: "success",
         msg: "Recorded updated."
@@ -417,14 +407,14 @@ app.post('/admin-update-password', function (req, res) {
     database: 'comp2800'
   });
   connection.connect();
-  console.log("update values", req.body.password, req.body.id)
+
   connection.query('UPDATE BBY_25_users SET password = ? WHERE identity = ?',
     [req.body.password, req.body.id],
     function (error, results, fields) {
       if (error) {
-        console.log(error);
+// catch error and save to database
       }
-      //console.log('Rows returned are: ', results);
+
       res.send({
         status: "success",
         msg: "Recorded updated."
@@ -451,15 +441,14 @@ app.post('/admin-update-isAdmin', function (req, res) {
   //     req.body.isAdmin = 0;
   // }
 
-  console.log("update values", req.body.isAdmin, req.body.id)
 
   connection.query('UPDATE BBY_25_users SET is_admin = ? WHERE identity = ?',
     [req.body.isAdmin, req.body.id],
     function (error, results, fields) {
       if (error) {
-        console.log(error);
+// catch error and save to database
       }
-      //console.log('Rows returned are: ', results);
+
       res.send({
         status: "success",
         msg: "Recorded updated."
@@ -473,12 +462,7 @@ app.post('/admin-update-isAdmin', function (req, res) {
 app.post('/add-user', function (req, res) {
   res.setHeader('Content-Type', 'application/json');
 
-  console.log("userName", req.body.userName);
-  console.log("firstName", req.body.firstName);
-  console.log("lastName", req.body.lastName);
-  console.log("Email", req.body.email);
-  console.log("password", req.body.password);
-  console.log("isAdmin", req.body.isAdmin);
+
 
   let connection = mysql.createConnection({
     host: '127.0.0.1',
@@ -489,13 +473,13 @@ app.post('/add-user', function (req, res) {
   connection.connect();
   // TO PREVENT SQL INJECTION, DO THIS:
   // (FROM https://www.npmjs.com/package/mysql#escaping-query-values)
-  connection.query(`INSERT INTO BBY_25_users (user_name, first_name, last_name, email, password, is_admin) values (?, ?, ?, ?, ?, ?)`,
-    [req.body.userName, req.body.firstName, req.body.lastName, req.body.email, req.body.password, req.body.isAdmin],
+  connection.query(`INSERT INTO BBY_25_users (user_name, first_name, last_name, email, password, is_admin, profile_pic) values (?, ?, ?, ?, ?, ?, ?)`,
+    [req.body.userName, req.body.firstName, req.body.lastName, req.body.email, req.body.password, req.body.isAdmin, "/img/luffy.png"],
     function (error, results, fields) {
       if (error) {
-        console.log(error);
+// catch error and save to database
       }
-      //console.log('Rows returned are: ', results);
+
       res.send({
         status: "success",
         msg: "Record added."
@@ -514,19 +498,20 @@ app.post('/delete-user', function (req, res) {
     host: 'localhost',
     user: 'root',
     password: '',
-    database: 'comp2800'
+    database: 'comp2800',
+    multipleStatements: true
   });
   connection.connect();
 
-  console.log("idNumber" + req.body.idNumber);
 
-  connection.query("DELETE FROM bby_25_users WHERE identity = ?",
+
+  if(req.body.idNumber != req.session.identity) {
+    connection.query("DELETE FROM bby_25_users WHERE identity = ?",
     [req.body.idNumber],
     function (error, results, fields) {
       if (error) {
-        console.log(error);
+// catch error and save to database
       }
-      //console.log('Rows returned are: ', results);
       res.send({
         status: "success",
         msg: "Record deleted."
@@ -534,7 +519,12 @@ app.post('/delete-user', function (req, res) {
 
     });
   connection.end();
-
+  } else {
+    res.send({
+      status: "fail",
+      msg: "Not a valid input."
+    })
+  }
 });
 
 
@@ -570,21 +560,19 @@ app.post('/update-firstName', async function (req, res) {
     database: 'comp2800'
   });
   connection.connect();
-  console.log("update values", req.body.name, req.body.id)
+
   connection.query('UPDATE BBY_25_users SET first_name = ? WHERE identity = ?',
     [req.body.name, req.body.id],
     function (error, results, fields) {
       if (error) {
-        console.log(error);
+// catch error and save to database
       }
-      //console.log('Rows returned are: ', results);
       res.send({
         status: "success",
         msg: "Recorded updated."
       });
 
-      req.session.name = req.body.name;
-      console.log(req.session.name);
+      req.session.name = req.body.nam
 
       req.session.save(function (err) {
         // session saved. for analytics we could record this in db
@@ -606,21 +594,21 @@ app.post('/update-lastName', async function (req, res) {
     database: 'comp2800'
   });
   connection.connect();
-  console.log("update values", req.body.lastName, req.body.id)
+
   connection.query('UPDATE BBY_25_users SET last_name = ? WHERE identity = ?',
     [req.body.lastName, req.body.id],
     function (error, results, fields) {
       if (error) {
-        console.log(error);
+// catch error and save to database
       }
-      //console.log('Rows returned are: ', results);
+
       res.send({
         status: "success",
         msg: "Recorded updated."
       });
 
       req.session.lastName = req.body.lastName;
-      console.log(req.session.lastName);
+
 
       req.session.save(function (err) {
         // session saved. for analytics we could record this in db
@@ -642,21 +630,21 @@ app.post('/update-email', async function (req, res) {
     database: 'comp2800'
   });
   connection.connect();
-  console.log("update values", req.body.email, req.body.id)
+
   connection.query('UPDATE BBY_25_users SET email = ? WHERE identity = ?',
     [req.body.email, req.body.id],
     function (error, results, fields) {
       if (error) {
-        console.log(error);
+// catch error and save to database
       }
-      //console.log('Rows returned are: ', results);
+
       res.send({
         status: "success",
         msg: "Recorded updated."
       });
 
       req.session.email = req.body.email;
-      console.log(req.session.email);
+
 
       req.session.save(function (err) {
         // session saved. for analytics we could record this in db
@@ -678,18 +666,18 @@ app.post('/update-lastName', async function (req, res) {
     database: 'comp2800'
   });
   connection.connect();
-console.log("update values", req.body.lastName, req.body.id)
+
   connection.query('UPDATE BBY_25_users SET last_name = ? WHERE ID = ?',
         [req.body.lastName, req.body.id],
         function (error, results, fields) {
     if (error) {
-        console.log(error);
+// catch error and save to database
     }
-    //console.log('Rows returned are: ', results);
+
     res.send({ status: "success", msg: "Recorded updated." });
 
     req.session.lastName = req.body.lastName;
-    console.log(req.session.lastName);
+
 
     req.session.save(function (err) {
       // session saved. for analytics we could record this in db
@@ -715,21 +703,21 @@ app.post('/update-password', function (req, res) {
     database: 'comp2800'
   });
   connection.connect();
-  console.log("update values", req.body.password, req.body.id)
+
   connection.query('UPDATE BBY_25_users SET password = ? WHERE identity = ?',
     [req.body.password, req.body.id],
     function (error, results, fields) {
       if (error) {
-        console.log(error);
+// catch error and save to database
       }
-      //console.log('Rows returned are: ', results);
+
       res.send({
         status: "success",
         msg: "Recorded updated."
       });
 
       req.session.password = req.body.password;
-      console.log(req.session.password);
+
 
       req.session.save(function (err) {
         // session saved. for analytics we could record this in db
@@ -756,21 +744,21 @@ app.post('/update-profilePic', function (req, res) {
     database: 'comp2800'
   });
   connection.connect();
-  console.log("update values", req.body.profilePic, req.body.id)
+
   connection.query('UPDATE BBY_25_users SET profile_pic = ? WHERE identity = ?',
     [req.body.profilePic, req.body.id],
     function (error, results, fields) {
       if (error) {
-        console.log(error);
+// catch error and save to database
       }
-      //console.log('Rows returned are: ', results);
+
       res.send({
         status: "success",
         msg: "Recorded updated."
       });
 
       req.session.profilePic = req.body.profilePic;
-      console.log(req.session.profilePic);
+
 
       req.session.save(function (err) {
         // session saved. for analytics we could record this in db

@@ -1,4 +1,4 @@
-document.getElementById("fir")
+
 
 // change user first name
 let firstNameRecords = document.getElementById("first_name");
@@ -29,8 +29,6 @@ function editName(e) {
             parent.innerHTML = "";
             parent.appendChild(newSpan);
 
-            
-
             let dataToSend = {
                 id: parent.parentNode.querySelector("#id").innerHTML,
                 name: v
@@ -47,7 +45,10 @@ function editName(e) {
                         //   getCustomers();
 
 
-                    } 
+                    } else {
+                    }
+                } else {
+                }
             }
             xhr.open("POST", "/update-firstName");
             xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
@@ -91,7 +92,6 @@ function editlastName(e) {
             parent.innerHTML = "";
             parent.appendChild(newSpan);
 
-          
             let dataToSend = {
                 id: parent.parentNode.querySelector("#id").innerHTML,
                 lastName: v
@@ -105,10 +105,16 @@ function editlastName(e) {
                     // 200 means everthing worked
                     if (xhr.status === 200) {
                         document.getElementById("status").innerHTML = "Record updated.";
-                        //   getCustomers();
+
+
+                    } else {
 
 
                     }
+
+                } else {
+
+                }
             }
             xhr.open("POST", "/update-lastName");
             xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
@@ -117,7 +123,6 @@ function editlastName(e) {
 
 
         }
-      }
     });
     parent.innerHTML = "";
     parent.appendChild(input);
@@ -153,6 +158,7 @@ function editEmail(e) {
             parent.innerHTML = "";
             parent.appendChild(newSpan);
 
+
             let dataToSend = {
                 id: parent.parentNode.querySelector("#id").innerHTML,
                 email: v
@@ -167,16 +173,17 @@ function editEmail(e) {
                     if (xhr.status === 200) {
                         document.getElementById("status").innerHTML = "Record updated.";
                         //   getCustomers();
-
-
-                    } 
+                    } else {
+                    }
+                } else {
+                }
             }
             xhr.open("POST", "/update-email");
             xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
             xhr.send("id=" + dataToSend.id + "&email=" + dataToSend.email);
 
-          }
+
         }
     });
     parent.innerHTML = "";
@@ -213,7 +220,6 @@ function editPassword(e) {
             parent.innerHTML = "";
             parent.appendChild(newSpan);
 
-
             let dataToSend = {
                 id: parent.parentNode.querySelector("#id").innerHTML,
                 password: v
@@ -227,17 +233,17 @@ function editPassword(e) {
                     // 200 means everthing worked
                     if (xhr.status === 200) {
                         document.getElementById("status").innerHTML = "Record updated.";
-                        //   getCustomers();
-
-
+                    } else {
                     }
+                } else {
+                }
             }
             xhr.open("POST", "/update-password");
             xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
             xhr.send("id=" + dataToSend.id + "&password=" + dataToSend.password);
 
-          }
+
         }
     });
     parent.innerHTML = "";
@@ -261,21 +267,12 @@ document.getElementById("submit").addEventListener("click", function (e) {
         }
     }
 
-    // got help with how to get the file name from:
-    // https://thewebdev.info/2022/02/16/how-to-get-the-filename-from-a-file-input-with-javascript/
-
-    // const input = document.querySelector("input")
-    // input.onchange = (e) => {
-    // const [file] = e.target.files
     let parent = e.target.parentNode;
-    //add /img/ to file name for pathing
-    //   let v = "/img/" + file.name;
     let v = "/img/" + profilePicVal;
     let dataToSend = {
         id: parent.parentNode.querySelector("#id").innerHTML,
         profilePic: v
     };
-
 
     // now send
     const xhr = new XMLHttpRequest();
@@ -285,21 +282,27 @@ document.getElementById("submit").addEventListener("click", function (e) {
             // 200 means everthing worked
             if (xhr.status === 200) {
                 document.getElementById("status").innerHTML = "Record updated.";
-                //   getCustomers();
 
 
-            } 
+            } else {
+            }
+        } else {
+        }
     }
     xhr.open("POST", "/update-profilePic");
     xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    console.log("dataToSend", "id=" + dataToSend.id + "&profilePic=" + dataToSend.profilePic);
     xhr.send("id=" + dataToSend.id + "&profilePic=" + dataToSend.profilePic);
 
-  }
+
 });
 
-document.getElementById("dropLogo").addEventListener("click", function (e) {
+document.getElementById("dropLogo").addEventListener("click", function(e) {
   e.preventDefault;
   window.location.replace("/");
-});
+})
+
+document.getElementById("about").addEventListener("click", function(e) {
+  e.preventDefault;
+  window.location.replace("/account")
+})
