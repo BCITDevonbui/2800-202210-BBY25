@@ -48,10 +48,9 @@ ready(function () {
     xhr.send(params);
   }
 
-  function getItems() {
+  let getItems = new Promise(function(resolve,reject) {
     ajaxGET("/get-catalogue", function (data) {
       let parsedData = JSON.parse(data);
-      console.log(`this is parsed: ${parsedData}`);
       if (parsedData.status == "success") {
         let str = `<tr>
           <th class="id_header"><span>ID</span></th>
@@ -63,26 +62,40 @@ ready(function () {
 
         for (let i = 0; i < parsedData.rows.length; i++) {
           let row = parsedData.rows[i];
-          console.log(`new row: ${row}`);
           str +=
-            "<tr><td class='id'>" +
+            "<tr class='row'><td class='id'>" +
             row.itemID +
             "</td><td class='name'><span>" +
             row.name +
             "</span></td><td class='quantity'><span>" +
             row.quantity +
-            "</span></td><td class='price'><span>" +
+            "</span></td><td class='price'><span> $" +
             row.price +
             "</span>" +
             "</td><td class='most_wanted'><span>" +
-            row.most_wanted +
+            (row.most_wanted ? "True" : "False"); +
             "</span></td></tr>";
         }
-        document.getElementById("content").innerHTML = str;
+        resolve(str);
       }
     });
-  }
-  getItems();
+  });
+  
+  getItems.then(function(data) {
+    document.getElementById("content").innerHTML = data;
+    const rowList = document.querySelectorAll(".row");
+    let cartItemQuantity = 0;
+    document.getElementById("quantity").innerHTML = cartItemQuantity;
+    for (let i = 0; i < rowList.length; i++) {
+      rowList[i].addEventListener("click", function(e) {
+        e.preventDefault;
+        cartItemQuantity++;
+        document.getElementById("quantity").innerHTML = cartItemQuantity;
+      });
+    }
+  });
+
+  
 });
 
 function ready(callback) {
