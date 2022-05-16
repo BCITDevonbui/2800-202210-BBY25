@@ -73,7 +73,7 @@ ready(function () {
   // GET TO THE SERVER
   document.querySelector("#notMemberP").addEventListener("click", function(e) {
     e.preventDefault;
-    window.location.replace("/register")
+    window.location.assign("/register")
   })
 
 });

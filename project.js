@@ -65,6 +65,15 @@ app.get("/get-catalogue", function(req, res) {
   connection.end();
 });
 
+app.get("/cart", function (req, res) {
+  let doc = fs.readFileSync("./app/html/cart.html", "utf8");
+  res.send(doc);
+});
+
+app.post("/get-cart", function (req, res) {
+  res.send({ status : "success", msg: "yay"});
+})
+
 app.get("/package", function (req, res) {
   let doc = fs.readFileSync("./app/html/catalogue.html", "utf8");
   // let docDOM = new JSDOM(doc);

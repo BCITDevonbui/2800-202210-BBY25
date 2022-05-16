@@ -2,25 +2,24 @@ CREATE DATABASE IF NOT EXISTS COMP2800;
 use COMP2800;
 
 CREATE TABLE IF NOT EXISTS BBY_25_users (
-  ID int NOT NULL AUTO_INCREMENT,
+  identity int NOT NULL AUTO_INCREMENT,
   user_name varchar(30),
   first_name varchar(30),
   last_name varchar(30),
   email varchar(30),
   password varchar(30),
   is_admin BOOLEAN,
-  PRIMARY KEY (ID));
+  PRIMARY KEY (identity));
 
 CREATE TABLE IF NOT EXISTS BBY_25_users_packages (
   userID int NOT NULL,
   packageID int NOT NULL AUTO_INCREMENT,
-  postdate DATE,
-  posttext varchar(300),
-  posttime TIME,
+  postdate DATETIME,
+  contents JSON,
   PRIMARY KEY(packageID),
-  CONSTRAINT fk_category
+  CONSTRAINT fk_user
   FOREIGN KEY (userID)
-    REFERENCES BBY_25_users(ID));
+    REFERENCES BBY_25_users(identity));
 
 CREATE TABLE IF NOT EXISTS BBY_25_catalogue (
   itemID int NOT NULL AUTO_INCREMENT,

@@ -1,5 +1,7 @@
 "use strict";
 ready(function () {
+  let cartItemID = [];
+  let cartItemQuantity = 0;
   function ajaxGET(url, callback) {
     const xhr = new XMLHttpRequest();
     xhr.onload = function () {
@@ -73,7 +75,7 @@ ready(function () {
             row.price +
             "</span>" +
             "</td><td class='most_wanted'><span>" +
-            (row.most_wanted ? "True" : "False"); +
+            (row.most_wanted ? "High Demand" : ""); +
             "</span></td></tr>";
         }
         resolve(str);
@@ -84,18 +86,32 @@ ready(function () {
   getItems.then(function(data) {
     document.getElementById("content").innerHTML = data;
     const rowList = document.querySelectorAll(".row");
-    let cartItemQuantity = 0;
     document.getElementById("quantity").innerHTML = cartItemQuantity;
     for (let i = 0; i < rowList.length; i++) {
       rowList[i].addEventListener("click", function(e) {
         e.preventDefault;
-        cartItemQuantity++;
-        document.getElementById("quantity").innerHTML = cartItemQuantity;
+        if(!cartItemID.includes(i+1)) {
+          cartItemID.push(i+1);
+          cartItemQuantity++;
+          document.getElementById("quantity").innerHTML = cartItemQuantity;
+        } else {
+          document.getElementById("errorMsg").innerHTML = `Item ID: ${i+1} is already in your cart!`;
+          setTimeout(() => {
+            document.getElementById("errorMsg").innerHTML = "";
+          }, 2000);
+        }
+
       });
     }
-  });
 
+    document.getElementById("cart").addEventListener("click", function(e) {
+      e.preventDefault;
+      console.log(cartItemID);
+      window.location.assign("/cart");
+    })
+  });
   
+
 });
 
 function ready(callback) {
