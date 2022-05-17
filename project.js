@@ -10,14 +10,6 @@ const {
   JSDOM
 } = require('jsdom');
 const mysql = require('mysql2');
-const is_heroku = process.env.is_heroku || false;
-
-const dbConfigHeroku = {
-  host: 'us-cdbr-east-05.cleardb.net',
-  user: 'b16ad059f5434a',
-  password: '2255f096',
-  database: 'heroku_02ad04623fadaa9'
-}
 
 const dbConfigLocal = {
   host: "127.0.0.1",
@@ -36,15 +28,6 @@ app.use("/img", express.static("./public/img"));
 app.use("/fonts", express.static("./public/fonts"));
 app.use("/html", express.static("./public/html"));
 app.use("/media", express.static("./public/media"));
-
-function databaseSwitcher () {
-  if(is_heroku) {
-    connection = mysql.createConnection(dbConfigHeroku);
-  } else {
-    connection = mysql.createConnection(dbConfigLocal);
-  }
-
-}
 
 //session connection
 app.use(session({
@@ -91,7 +74,6 @@ app.get("/donate", function (req,res) {
 
 app.post("/donate", function(req,res) {
   res.setHeader("Content-Type", "application/json");
-  databaseSwitcher();
   connection.connect();
 
   let amount = req.body.amount;
@@ -181,7 +163,6 @@ app.get("/thanks", function (req, res) {
 
 app.post("/payment", function (req,res) {
   res.setHeader("Content-Type", "application/json");
-  databaseSwitcher();
 
   connection.connect();
 
@@ -195,7 +176,6 @@ app.post("/payment", function (req,res) {
 
 app.post("/register", function(req, res) {
   res.setHeader("Content-Type", "application/json");
-  databaseSwitcher();
 
   connection.connect();
 
@@ -227,7 +207,6 @@ app.post("/register", function(req, res) {
 
 app.post("/login", function (req, res) {
   res.setHeader("Content-Type", "application/json");
-  databaseSwitcher();
 
 
 
@@ -271,7 +250,6 @@ app.post("/login", function (req, res) {
 
 //admin users edit-------------------------------------------------------------------------
 app.get('/get-allUsers', function (req, res) {
-  databaseSwitcher();
 
 
   connection.connect();
@@ -293,7 +271,7 @@ app.get('/get-allUsers', function (req, res) {
 // admin change emails!!!
 app.post('/admin-update-email', function (req, res) {
   res.setHeader('Content-Type', 'application/json');
-  databaseSwitcher();
+
 
 
   connection.connect();
@@ -317,7 +295,7 @@ app.post('/admin-update-email', function (req, res) {
 // admin change username!!!
 app.post('/admin-update-username', function (req, res) {
   res.setHeader('Content-Type', 'application/json');
-  databaseSwitcher();
+
 
 
   connection.connect();
@@ -342,7 +320,6 @@ app.post('/admin-update-username', function (req, res) {
 // admin change first name!!!
 app.post('/admin-update-firstname', function (req, res) {
   res.setHeader('Content-Type', 'application/json');
-  databaseSwitcher();
 
 
   connection.connect();
@@ -367,7 +344,6 @@ app.post('/admin-update-firstname', function (req, res) {
 // admin change last name!!!
 app.post('/admin-update-lastname', function (req, res) {
   res.setHeader('Content-Type', 'application/json');
-  databaseSwitcher();
 
 
   connection.connect();
@@ -391,7 +367,6 @@ app.post('/admin-update-lastname', function (req, res) {
 // admin change password!!!
 app.post('/admin-update-password', function (req, res) {
   res.setHeader('Content-Type', 'application/json');
-  databaseSwitcher();
 
 
   connection.connect();
@@ -417,7 +392,6 @@ app.post('/admin-update-password', function (req, res) {
 app.post('/admin-update-isAdmin', function (req, res) {
   res.setHeader('Content-Type', 'application/json');
 
-  databaseSwitcher();
 
 
   connection.connect();
@@ -448,11 +422,6 @@ app.post('/admin-update-isAdmin', function (req, res) {
 app.post('/add-user', function (req, res) {
   res.setHeader('Content-Type', 'application/json');
 
-
-  databaseSwitcher();
-
-
-
   connection.connect();
   // TO PREVENT SQL INJECTION, DO THIS:
   // (FROM https://www.npmjs.com/package/mysql#escaping-query-values)
@@ -476,9 +445,6 @@ app.post('/add-user', function (req, res) {
 // POST: we are changing stuff on the server!!!
 app.post('/delete-user', function (req, res) {
   res.setHeader('Content-Type', 'application/json');
-
-  databaseSwitcher();
-
 
   connection.connect();
 
@@ -527,8 +493,6 @@ app.get('/account', function (req, res) {
 app.post('/update-firstName', async function (req, res) {
   res.setHeader('Content-Type', 'application/json');
 
-  databaseSwitcher();
-
 
   connection.connect();
   connection.query('UPDATE BBY_25_users SET first_name = ? WHERE identity = ?',
@@ -558,8 +522,6 @@ app.post('/update-firstName', async function (req, res) {
 app.post('/update-lastName', async function (req, res) {
   res.setHeader('Content-Type', 'application/json');
 
-  databaseSwitcher();
-
 
   connection.connect();
 
@@ -588,8 +550,6 @@ app.post('/update-lastName', async function (req, res) {
 // updating email!!!
 app.post('/update-email', async function (req, res) {
   res.setHeader('Content-Type', 'application/json');
-
-  databaseSwitcher();
 
 
   connection.connect();
@@ -622,8 +582,6 @@ app.post('/update-email', async function (req, res) {
 app.post('/update-lastName', async function (req, res) {
   res.setHeader('Content-Type', 'application/json');
 
-  databaseSwitcher();
-
 
   connection.connect();
   connection.query('UPDATE BBY_25_users SET last_name = ? WHERE ID = ?',
@@ -655,7 +613,6 @@ app.post('/update-email', async function (req, res) {
 app.post('/update-password', function (req, res) {
   res.setHeader('Content-Type', 'application/json');
 
-  databaseSwitcher();
   connection.connect();
   
   connection.query('UPDATE BBY_25_users SET password = ? WHERE identity = ?',
@@ -689,7 +646,7 @@ app.post('/update-password', function (req, res) {
 // update password!!!
 app.post('/update-profilePic', function (req, res) {
   res.setHeader('Content-Type', 'application/json');
-  databaseSwitcher();
+
   connection.connect();
 
   connection.query('UPDATE BBY_25_users SET profile_pic = ? WHERE identity = ?',
@@ -732,4 +689,4 @@ app.get("/logout", function (req, res) {
 
 
 let port = 8000;
-app.listen(port, init);
+app.listen(port);
