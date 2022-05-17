@@ -1,3 +1,36 @@
+function ajaxPOST(url, callback, data) {
+
+  /*
+   * - Keys method of the object class returns an array of all of the keys for an object
+   * - The map method of the array type returns a new array with the values of the old array
+   *   and allows a callback function to perform an action on each key
+   *   The join method of the arra type accepts an array and creates a string based on the values
+   *   of the array, using '&' we are specifying the delimiter
+   * - The encodeURIComponent function escapes a string so that non-valid characters are replaced
+   *   for a URL (e.g., space character, ampersand, less than symbol, etc.)
+   *
+   *
+   * References:
+   * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map
+   * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys
+   * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent
+   */
+  let params = typeof data == 'string' ? data : Object.keys(data).map(
+      function (k) { return encodeURIComponent(k) + '=' + encodeURIComponent(data[k]) }
+  ).join('&');
+
+  const xhr = new XMLHttpRequest();
+  xhr.onload = function () {
+      if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
+          callback(this.responseText);
+      }
+  }
+  xhr.open("POST", url);
+  xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+  xhr.send(params);
+}
+
 function getUsers() {
 
     const xhr = new XMLHttpRequest();
@@ -263,13 +296,13 @@ function editFirstName(e) {
                     }
 
                 } else {
-                    console.log("ERROR", this.status);
+
                 }
             }
             xhr.open("POST", "/admin-update-firstname");
             xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            console.log("dataToSend", "id=" + dataToSend.id + "&firstName=" + dataToSend.firstName);
+
             xhr.send("id=" + dataToSend.id + "&firstName=" + dataToSend.firstName);
 
         }
@@ -326,13 +359,13 @@ function editLastName(e) {
                     }
 
                 } else {
-                    console.log("ERROR", this.status);
+
                 }
             }
             xhr.open("POST", "/admin-update-lastname");
             xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            console.log("dataToSend", "id=" + dataToSend.id + "&lastName=" + dataToSend.lastName);
+
             xhr.send("id=" + dataToSend.id + "&lastName=" + dataToSend.lastName);
 
         }
@@ -389,13 +422,13 @@ function editPassword(e) {
                     }
 
                 } else {
-                    console.log("ERROR", this.status);
+
                 }
             }
             xhr.open("POST", "/admin-update-password");
             xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            console.log("dataToSend", "id=" + dataToSend.id + "&password=" + dataToSend.password);
+
             xhr.send("id=" + dataToSend.id + "&password=" + dataToSend.password);
 
         }
@@ -432,31 +465,7 @@ function editIsAdmin(e) {
                 document.getElementById("message").innerHTML = "Not a valid input.";
             }
 
-            // const button = document.querySelector('.isAdmin');
 
-            // const div = button.parentNode;
-
-            // const divparent = div.parentNode;
-
-            // var lookForOne = [];
-            // let isAdminRecords = document.querySelectorAll("td[class='isAdmin'] span");
-            // for(let j = 0; j < isAdminRecords.length; j++) {
-            //     let i = 0;
-            //     let isAdmin = divparent.querySelector(".isAdmin").innerHTML;
-            //     lookForOne.push(isAdmin);
-            //     console.log(isAdmin);
-            //     console.log(lookForOne);
-            //     i++;
-            // }
-            // if (lookForOne.includes("1")){
-            //     v = v;
-            //     console.log("there is a 1!")
-            //     lookForOne = [];
-            // } else {
-            //     v = 1;
-            //     console.log("There is no one :(")
-            //     lookForOne = [];
-            // }
 
             let newSpan = document.createElement("span");
             // have to wire an event listener to the new element
@@ -496,13 +505,13 @@ function editIsAdmin(e) {
                     }
 
                 } else {
-                    console.log("ERROR", this.status);
+
                 }
             }
             xhr.open("POST", "/admin-update-isAdmin");
             xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            console.log("dataToSend", "id=" + dataToSend.id + "&isAdmin=" + dataToSend.isAdmin);
+
             xhr.send("id=" + dataToSend.id + "&isAdmin=" + dataToSend.isAdmin);
 
         }
@@ -608,48 +617,37 @@ document.getElementById("submit").addEventListener("click", function (e) {
 
 })
 
-function validate() {
-    var x = document.forms["myForm"]["delete"].value;
-    if (x == "") {
-        alert("Name must be filled out");
-        return false;
-    }
-}
+// function validate(){
+//     var x = document.forms["myForm"]["delete"].value;
+//     if (x == "") {
+//       alert("Name must be filled out");
+//       return false;
+//     }
+//   }
 
 document.getElementById("delete").addEventListener("click", function (e) {
     e.preventDefault();
 
-    document.getElementById("formList").addEventListener("submit", validate);
+    // document.getElementById("formList").addEventListener("submit", validate);
 
     let formData = {
         idNumber: document.getElementById("idToDelete").value
     };
 
-    const xhr = new XMLHttpRequest();
-    xhr.onload = function () {
-        if (this.readyState == XMLHttpRequest.DONE) {
-
-            // 200 means everthing worked
-            if (xhr.status === 200) {
-
-                getUsers();
-                document.getElementById("status").innerHTML = "person deleted.";
-
-            } else {
-
-                // not a 200, could be anything (404, 500, etc.)
-                console.log(this.status);
-
-            }
-
+    ajaxPOST("/delete-user", function(data) {
+      if(data) {
+        let dataParsed = JSON.parse(data);
+        if(dataParsed.status == "fail") {
+          document.getElementById("status").innerHTML = dataParsed.msg;
+          setTimeout(function() {
+            document.getElementById("status").innerHTML = "";
+          }, 1500);
         } else {
-            console.log("ERROR", this.status);
+          document.getElementById("status").innerHTML = dataParsed.msg;
+          getUsers();
         }
-    }
-    xhr.open("POST", "/delete-user");
-    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    console.log("formToSend", "idNumber=" + formData.idNumber);
-    xhr.send("idNumber=" + formData.idNumber);
+      }
+    }, formData);
+
 
 });

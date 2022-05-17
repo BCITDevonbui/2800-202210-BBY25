@@ -1,9 +1,3 @@
-    // GET TO THE SERVER
-    document.querySelector("#dropLogo").addEventListener("click", function (e) {
-        e.preventDefault;
-        window.location.replace("/")
-    })
-
     // change user first name
     let firstNameRecords = document.getElementById("first_name");
 
@@ -304,3 +298,13 @@
 
         }
     });
+
+    document.getElementById("dropLogo").addEventListener("click", function(e) {
+        e.preventDefault;
+        window.location.replace("/");
+      })
+      
+      document.getElementById("about").addEventListener("click", function(e) {
+        e.preventDefault;
+        window.location.replace("/account")
+      })

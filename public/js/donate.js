@@ -72,11 +72,12 @@ ready(function () {
         }
     }, queryString);
 
-    document.getElementById("home").addEventListener("click", function(e) {
-      e.preventDefault;
-      window.location.replace("/");
-    });
 
+
+  });
+  document.getElementById("home").addEventListener("click", function(e) {
+    e.preventDefault;
+    window.location.replace("/");
   });
 });
 
