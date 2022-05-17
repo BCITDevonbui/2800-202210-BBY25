@@ -11,26 +11,6 @@ body {
     margin-right: 30px;
   }
   
-  .button {
-    font-size: 16px;
-    background-color: #a862ea;
-    border: 3px solid #a862ea;
-    color: white;
-    cursor: pointer;
-    padding: 7px 14px;
-    border-radius: 25px;
-    font-family: "Heebo", sans-serif;
-  }
-  
-  .donationButton {
-    background-color: #a862ea;
-  }
-  
-  .donationButton:hover {
-    background-color: #d60000;
-    border: 3px solid #d60000;
-  }
-  
   .topnav {
     overflow: hidden;
     background-color: #3482c1;
@@ -88,6 +68,12 @@ body {
     color: #bdc6d2;
     font-family: "Merriweather", serif;
   }
+
+  p {
+    font-size: 15px;
+    color: black;
+    font-family: "Merriweather", serif;
+  }
   
   img {
     width: 160px;
@@ -112,20 +98,9 @@ body {
   #content {
     display: grid;
     width: 100%;
-    height: 50vh;
+    height: 60vh;
     grid-template-columns: 15% 35% 35% 15%;
     grid-template-rows: 10% 10% 40% 40% 10%;
-  }
-  
-  #DonationRedirect,
-  #ProfileRedirect {
-    font-family: "Mulish", sans-serif;
-  }
-  
-  #ProfileRedirect:hover {
-    color: #3482c1;
-    cursor: pointer;
-    text-align: center;
   }
   
   #formPanel {
@@ -156,7 +131,7 @@ body {
     border: 3px solid #d60000;
   }
   
-  #ThankYouForm {
+  #AboutUsForm {
     align-items: center;
     justify-items: center;
     text-align: center;
@@ -227,6 +202,7 @@ body {
       position: fixed;
       bottom: 0;
       width: 100%;
+      padding: 1%;
     }
   
     .bottomnav a {
