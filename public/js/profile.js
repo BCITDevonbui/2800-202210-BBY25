@@ -75,3 +75,51 @@ function ready(callback) {
       document.addEventListener("DOMContentLoaded", callback);
   }
 }
+
+let v = "";
+
+D.onclick = function() {
+  v += "d";
+  console.log(v);
+  R.onclick = function(){
+    v += "r";
+    console.log(v);
+    O.onclick = function(){
+      v += "o";
+      console.log(v);
+      P.onclick = function(){
+        if (v == "dro"){
+          let start = Date.now();
+
+          let timer = setInterval(function() {
+            let timePassed = Date.now() - start;
+        
+            drop.style.top = timePassed / 5 + 'px';
+        
+            // onFinish();
+        
+            if (timePassed > 3460) clearInterval(timer);
+        
+          }, 20);
+          v = "";
+          console.log(v);
+        } else {
+          v = "";
+        }
+
+      }
+    }
+  }
+}
+
+function onFinish(){
+  let start = Date.now();
+
+  let timer = setInterval(function(){
+    let timePassed = Date.now() - start;
+    if (timePassed > 2000){
+      document.getElementById("drop").style.display = "none";
+    }
+  })
+
+}

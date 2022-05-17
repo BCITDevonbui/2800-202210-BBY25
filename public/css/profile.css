@@ -26,6 +26,11 @@ img {
     margin: 0 auto;
     display: block;
   }
+
+#drop {
+    position: relative;
+}
+
 aside {
     grid-row: 1;
     grid-column: 2;
