@@ -70,6 +70,38 @@ app.get("/cart", function (req, res) {
   res.send(doc);
 });
 
+app.post("/create-cart", function (req, res) {
+  const mysql = require("mysql2");
+  const connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "COMP2800",
+    multipleStatements: "true"
+  });
+  connection.connect();
+  let postDate = getDateTime();
+  let cartItemID = req.body.cartItemID.split(",");
+  console.log(cartItemID);
+  console.log(postDate);
+  // identity is undefined right now check if its still req.session.id or if its req.session.identity in project.js
+  connection.query(`INSERT INTO BBY_25_users_packages (userID, postdate, contents) VALUES (${req.session.identity}, ${postDate}, ${cartItemID});`)
+  res.send({status: "success", msg : "Created new cart"});
+  connection.end();
+});
+
+function getDateTime() {
+  let date = new Date();
+  let splitDate = String(date).split(" ");
+  let month = 0;
+  if(date.getMonth() + 1 < 9) {
+    month = `0${date.getMonth() + 1}`;
+  } else {
+    month = `${date.getMonth() + 1}`;
+  }
+  return `${splitDate[3]}-${month}-${splitDate[2]} ${splitDate[4]}`
+}
+
 async function getItems(callback) {
   const mysql = require("mysql2/promise");
   const connection = await mysql.createConnection({
@@ -103,7 +135,6 @@ function buildCards(results){
   let html="";
   //loops through the database and prints
       results.forEach((result) => {
-        console.log(result);
           //injecting variables into card DOM
           cardDOM.window.document.getElementById("name").innerHTML
           = result.name;
@@ -117,7 +148,7 @@ function buildCards(results){
           html += cardDOM.serialize();
       });
   return html;
-  }
+}
 
 app.get("/profile", function (req, res) {
   // Check if user properly authenticated and logged in

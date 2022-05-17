@@ -70,10 +70,20 @@ ready(function () {
     e.preventDefault;
     // sorts ID by ascending order
     cartItemID.sort((a,b) => a - b);
-    console.log(cartItemID);
-    window.location.assign("/cart");
+    let queryString = {"cartItemID" : [cartItemID]}
+    ajaxPOST("/create-cart", function (data) {
+      if (data) {
+        let dataParsed = JSON.parse(data);
+        if (dataParsed.status == "fail") {
+          document.getElementsById("errorMsg").innerHTML = dataParsed.msg;
+        } else {
+          window.location.assign("/cart");
+        }
+      }
+    }, queryString);
+
   })
-  
+
 });
 
 function ready(callback) {
