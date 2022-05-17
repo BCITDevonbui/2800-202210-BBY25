@@ -70,53 +70,54 @@ app.get("/cart", function (req, res) {
   res.send(doc);
 });
 
-app.post("/get-cart", function (req, res) {
-  res.send({ status : "success", msg: "yay"});
-})
+async function getItems(callback) {
+  const mysql = require("mysql2/promise");
+  const connection = await mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "COMP2800"
+  });
+  const [results] = await connection.query("SELECT * FROM BBY_25_catalogue");
+  callback(results);
+}
 
 app.get("/package", function (req, res) {
   let doc = fs.readFileSync("./app/html/catalogue.html", "utf8");
-  // let docDOM = new JSDOM(doc);
+  let docDOM = new JSDOM(doc);
 
-  // const mysql = require("mysql2");
-  // const connection = mysql.createConnection({
-  //   host: "127.0.0.1",
-  //   user: "root",
-  //   password: "",
-  //   multipleStatements: "true",
-  // });
-  // connection.connect();
-
-  // connection.query(
-  //   `use COMP2800; select * from BBY_25_catalogue;`,
-  //   function (error, results, fields) {
-  //     let items = results[1];
-  //     console.log(items[0]["itemID"]);
-  //     let contentSelector = docDOM.window.document;
-  //     console.log(items.length);
-  //     for (let i = 0; i < items.length; i++) {
-  //       let j = i++;
-  //       let cardID = contentSelector.getElementById(`item${j}ID`);
-  //       let cardName = contentSelector.getElementById(`item${j}Name`);
-  //       let cardQuantity = contentSelector.getElementById(`item${j}Quantity`);
-  //       let cardPrice = contentSelector.getElementById(`item${j}Price`);
-  //       let cardMostWanted = contentSelector.getElementById(
-  //         `item${j}MostWanted`
-  //       );
-  //       cardID.innerHTML = items[i]["itemID"];
-  //       cardName.innerHTML = items[i].name;
-  //       cardQuantity.innerHTML = items[i].quantity;
-  //       cardPrice.innerHTML = items[i].price;
-  //       cardMostWanted.innerHTML = items[i].most_wanted;
-  //     }
-  //   }
-  // );
-  // res.set("Server", "Wazubi Engine");
-  // res.set("X-Powered-By", "Wazubi");
-  // res.send(docDOM.serialize());
-  // connection.end();
-  res.send(doc);
+  getItems((results) => {
+    let html = buildCards(results);
+    docDOM.window.document.getElementById("content").innerHTML = html;
+  }).then(() => {
+    res.set("Server", "Wazubi Engine");
+    res.set("X-Powered-By", "Wazubi");
+    res.send(docDOM.serialize());
+  });
 });
+
+function buildCards(results){
+  //reads card.html template
+  let card = fs.readFileSync("./app/html/card.html", "utf8");
+  let cardDOM = new JSDOM(card);
+  let html="";
+  //loops through the database and prints
+      results.forEach((result) => {
+        console.log(result);
+          //injecting variables into card DOM
+          cardDOM.window.document.getElementById("name").innerHTML
+          = result.name;
+          cardDOM.window.document.getElementById("itemID").innerHTML
+          = result.itemID;
+          cardDOM.window.document.getElementById("price").innerHTML
+          = `$${result.price}`;
+          cardDOM.window.document.getElementById("most_wanted").innerHTML
+          = (result.most_wanted ? "High Demand" : "");
+          //converts card DOM into html
+          html += cardDOM.serialize();
+      });
+  return html;
+  }
 
 app.get("/profile", function (req, res) {
   // Check if user properly authenticated and logged in

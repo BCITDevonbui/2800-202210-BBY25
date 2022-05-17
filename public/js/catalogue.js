@@ -49,69 +49,31 @@ ready(function () {
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.send(params);
   }
-
-  let getItems = new Promise(function(resolve,reject) {
-    ajaxGET("/get-catalogue", function (data) {
-      let parsedData = JSON.parse(data);
-      if (parsedData.status == "success") {
-        let str = `<tr>
-          <th class="id_header"><span>ID</span></th>
-          <th class="name_header"><span>Name</span></th>
-          <th class="quantity_header"><span>Quantity</span></th>
-          <th class="price_header"><span>Price</span></th>
-          <th class="mostWanted_header"><span>Most Wanted</span></th>
-          </tr>`;
-
-        for (let i = 0; i < parsedData.rows.length; i++) {
-          let row = parsedData.rows[i];
-          str +=
-            "<tr class='row'><td class='id'>" +
-            row.itemID +
-            "</td><td class='name'><span>" +
-            row.name +
-            "</span></td><td class='quantity'><span>" +
-            row.quantity +
-            "</span></td><td class='price'><span> $" +
-            row.price +
-            "</span>" +
-            "</td><td class='most_wanted'><span>" +
-            (row.most_wanted ? "High Demand" : ""); +
-            "</span></td></tr>";
-        }
-        resolve(str);
+  const cardList = document.querySelectorAll(".card");
+  for (let i = 0; i < cardList.length; i++) {
+    cardList[i].addEventListener("click", function(e) {
+      e.preventDefault;
+      if(!cartItemID.includes(i+1)) {
+        cartItemID.push(i+1);
+        cartItemQuantity++;
+        document.getElementById("quantity").innerHTML = cartItemQuantity;
+      } else {
+        document.getElementById("errorMsg").innerHTML = `Item ID: ${i+1} is already in your cart!`;
+        setTimeout(() => {
+          document.getElementById("errorMsg").innerHTML = "";
+        }, 2000);
       }
     });
-  });
+  }
+
+  document.getElementById("cart").addEventListener("click", function(e) {
+    e.preventDefault;
+    // sorts ID by ascending order
+    cartItemID.sort((a,b) => a - b);
+    console.log(cartItemID);
+    window.location.assign("/cart");
+  })
   
-  getItems.then(function(data) {
-    document.getElementById("content").innerHTML = data;
-    const rowList = document.querySelectorAll(".row");
-    document.getElementById("quantity").innerHTML = cartItemQuantity;
-    for (let i = 0; i < rowList.length; i++) {
-      rowList[i].addEventListener("click", function(e) {
-        e.preventDefault;
-        if(!cartItemID.includes(i+1)) {
-          cartItemID.push(i+1);
-          cartItemQuantity++;
-          document.getElementById("quantity").innerHTML = cartItemQuantity;
-        } else {
-          document.getElementById("errorMsg").innerHTML = `Item ID: ${i+1} is already in your cart!`;
-          setTimeout(() => {
-            document.getElementById("errorMsg").innerHTML = "";
-          }, 2000);
-        }
-
-      });
-    }
-
-    document.getElementById("cart").addEventListener("click", function(e) {
-      e.preventDefault;
-      console.log(cartItemID);
-      window.location.assign("/cart");
-    })
-  });
-  
-
 });
 
 function ready(callback) {
