@@ -249,7 +249,7 @@ app.post("/login", function (req, res) {
       req.session.loggedIn = true;
       req.session.email = validUserInfo.email;
       req.session.name = validUserInfo.first_name;
-      req.session.identity = validUserInfo.ID;
+      req.session.identity = validUserInfo.identity;
       req.session.userType = validUserInfo.is_admin;
       req.session.save(function (err) {
         // session saved. for analytics we could record this in db
