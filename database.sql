@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS BBY_25_users_packages (
   userID int NOT NULL,
   packageID int NOT NULL AUTO_INCREMENT,
   postdate DATETIME,
-  contents JSON,
+  contents varchar(1000),
   PRIMARY KEY(packageID),
   CONSTRAINT fk_user
   FOREIGN KEY (userID)

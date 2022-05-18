@@ -1,8 +1,6 @@
 "use strict";
 
 ready(function () {
-  let cartItem = [];
-  let cartItemQuantity = 0;
   function ajaxGET(url, callback) {
     const xhr = new XMLHttpRequest();
     xhr.onload = function () {
@@ -50,64 +48,6 @@ ready(function () {
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.send(params);
   }
-  const cardList = document.querySelectorAll(".add");
-  for (let i = 0; i < cardList.length; i++) {
-    cardList[i].addEventListener("click", function(e) {
-      e.preventDefault;
-      let itemID = i + 1;
-      if(cartItem.includes(itemID)) {
-        document.getElementById("errorMsg").innerHTML = `item${itemID} is already in your cart`;
-      } else {
-        cartItem.push(itemID);
-        cartItemQuantity++;
-      }
-      // alert(`the itemID is: ${itemID}. the quantity selected is ${quantity}`);
-      // create map instead of array for cartItem
-      // let map = new Map()
-      // if(cartItem[`item${itemID}`] != null || cartItem[`item${itemID}`] != undefined) {
-      //   cartItem[`item${itemID}`] = quantity;
-      // } else {
-      //   let oldQuantity = cartItem[`item${itemID}`];
-      //   cartItem[`item${itemID}`] = oldQuantity + quantity;
-      // }
-      
-      // if(cartItem.has(itemID)) {
-      //   let updatedQuantity = cartItem.get(itemID);
-      //   cartItem.set(`${itemID}`, updatedQuantity + quantity);
-      // } else {
-      //   cartItem.set(`${itemID}`, quantity);
-      // }
-
-
-      document.getElementById("quantity").innerHTML = cartItemQuantity;
-    });
-  }
-
-  document.getElementById("cart").addEventListener("click", function(e) {
-    e.preventDefault;
-    // let jsonData = {};
-    // cartItem.forEach((value, key) => {
-    //   jsonData[key] = value;
-    // })
-    // let array = Array.from(cartItem, ([id,value]) => ({id, value}));
-    let queryString = {"cart": cartItem};
-
-    // let parsedJSON = JSON.stringify(cartItem);
-    // console.log(array);
-    console.log(cartItem);
-    ajaxPOST("/create-cart", function (data) {
-      if (data) {
-        let dataParsed = JSON.parse(data);
-        if (dataParsed.status == "fail") {
-          document.getElementsById("errorMsg").innerHTML = dataParsed.msg;
-        } else {
-          window.location.assign("/cart");
-        }
-      }
-    }, queryString);
-
-  })
-
 });
 
 function ready(callback) {

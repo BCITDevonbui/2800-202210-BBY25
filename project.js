@@ -67,8 +67,57 @@ app.get("/get-catalogue", function(req, res) {
 
 app.get("/cart", function (req, res) {
   let doc = fs.readFileSync("./app/html/cart.html", "utf8");
-  res.send(doc);
+  let docDOM = new JSDOM(doc);
+  const mysql = require("mysql2");
+  const connection =  mysql.createConnection({
+    host:"127.0.0.1",
+    user: "root",
+    password: "",
+    database: "COMP2800"
+  });
+  let cartItems="";
+  connection.query(`SELECT contents FROM BBY_25_users_packages WHERE userID = '${req.session.identity}' ORDER BY postdate desc LIMIT 1;`, 
+  function(error, results,fields) {
+    console.log(results[0]["contents"]);
+
+    req.session.parsedData = results[0]["contents"].split(",");
+    req.session.save();
+    for (let i = 0; i < req.session.parsedData.length; i++) {
+      connection.query(`SELECT * from BBY_25_catalogue WHERE itemID = "${req.session.parsedData[i]}"`, 
+      function(error, results, fields) {
+        console.log(results[0]);
+        cartItems += buildCard(results[0]);
+        console.log(cartItems);
+      });
+    }
+  });
+
+  docDOM.window.document.getElementById("cart").innerHTML = cartItems;
+  res.set("Server", "Wazubi Engine");
+  res.set("X-Powered-By", "Wazubi");
+  res.send(docDOM.serialize());
 });
+
+function buildCard(result){
+  //reads card.html template
+  let card = fs.readFileSync("./app/html/card.html", "utf8");
+  let html="";
+      let cardDOM = new JSDOM(card);
+      //injecting variables into card DOM
+      cardDOM.window.document.getElementById("cards").setAttribute("id", `${result.itemID}`);
+      cardDOM.window.document.getElementById("name").setAttribute("id", `nameOfItem${result.itemID}`);
+      cardDOM.window.document.getElementById(`nameOfItem${result.itemID}`).innerHTML
+      = result.name;
+      cardDOM.window.document.getElementById("price").setAttribute("id", `priceOfItem${result.itemID}`);
+      cardDOM.window.document.getElementById(`priceOfItem${result.itemID}`).innerHTML
+      = `$${result.price}`;
+      cardDOM.window.document.getElementById("most_wanted").setAttribute("id", `mostWanted${result.itemID}`);
+      cardDOM.window.document.getElementById(`mostWanted${result.itemID}`).innerHTML
+      = (result.most_wanted ? "High Demand" : "");
+      //converts card DOM into html
+      html = cardDOM.serialize();
+  return html;
+}
 
 app.post("/create-cart", function (req, res) {
   const mysql = require("mysql2");
@@ -81,16 +130,9 @@ app.post("/create-cart", function (req, res) {
   });
   connection.connect();
   let postDate = getDateTime();
-  let json = req.body;
-  console.log(json.value);
+  connection.query(`INSERT INTO BBY_25_users_packages (userID, postdate, contents) VALUES ("${req.session.identity}", "${postDate}", "${req.body.cart}");`)
 
-  // console.log(`this is server side cart: ${req.body.cart["cart"].get(7)["quantity"]}`);
-  let cart = req.body.cart;
-  // console.log(cart.get('7'));
-  console.log(postDate);
-  // identity is undefined right now check if its still req.session.id or if its req.session.identity in project.js
-  // connection.query(`INSERT INTO BBY_25_users_packages (userID, postdate, contents) VALUES (${req.session.identity}, ${postDate}, ${cartItemID});`)
-  // res.send({status: "success", msg : "Created new cart"});
+  res.send({status: "success", msg : "Created new cart"});
   connection.end();
 });
 
@@ -106,7 +148,7 @@ function getDateTime() {
   return `${splitDate[3]}-${month}-${splitDate[2]} ${splitDate[4]}`
 }
 
-async function getItems(callback) {
+async function getAllItems(callback) {
   const mysql = require("mysql2/promise");
   const connection = await mysql.createConnection({
     host: "127.0.0.1",
@@ -118,12 +160,13 @@ async function getItems(callback) {
   callback(results);
 }
 
+
+
 app.get("/package", function (req, res) {
   let doc = fs.readFileSync("./app/html/catalogue.html", "utf8");
   let docDOM = new JSDOM(doc);
-  getItems((results) => {
-    let html = buildCards(results);
-    docDOM.window.document.getElementById("content").innerHTML = html;
+  getAllItems((results) => {
+    docDOM.window.document.getElementById("content").innerHTML = buildCards(results);
   }).then(() => {
     res.set("Server", "Wazubi Engine");
     res.set("X-Powered-By", "Wazubi");
@@ -149,10 +192,10 @@ function buildCards(results){
       cardDOM.window.document.getElementById("most_wanted").setAttribute("id", `mostWanted${result.itemID}`);
       cardDOM.window.document.getElementById(`mostWanted${result.itemID}`).innerHTML
       = (result.most_wanted ? "High Demand" : "");
-      cardDOM.window.document.getElementById("amt").setAttribute("id", `quantityOfItem${result.itemID}`);
       //converts card DOM into html
       html += cardDOM.serialize();
   });
+  console.log(html);
   return html;
 }
 
