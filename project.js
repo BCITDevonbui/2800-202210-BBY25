@@ -65,34 +65,29 @@ app.get("/get-catalogue", function(req, res) {
   connection.end();
 });
 
-app.get("/cart", function (req, res) {
+app.get("/cart", async function (req, res) {
   let doc = fs.readFileSync("./app/html/cart.html", "utf8");
   let docDOM = new JSDOM(doc);
-  const mysql = require("mysql2");
-  const connection =  mysql.createConnection({
+  const mysql = require("mysql2/promise");
+  const connection =  await mysql.createConnection({
     host:"127.0.0.1",
     user: "root",
     password: "",
     database: "COMP2800"
   });
   let cartItems="";
-  connection.query(`SELECT contents FROM BBY_25_users_packages WHERE userID = '${req.session.identity}' ORDER BY postdate desc LIMIT 1;`, 
-  function(error, results,fields) {
-    console.log(results[0]["contents"]);
-
-    req.session.parsedData = results[0]["contents"].split(",");
-    req.session.save();
-    for (let i = 0; i < req.session.parsedData.length; i++) {
-      connection.query(`SELECT * from BBY_25_catalogue WHERE itemID = "${req.session.parsedData[i]}"`, 
-      function(error, results, fields) {
-        console.log(results[0]);
-        cartItems += buildCard(results[0]);
-        console.log(cartItems);
-      });
+  const [results] = await connection.query(`SELECT contents FROM BBY_25_users_packages WHERE userID = '${req.session.identity}' ORDER BY postdate desc LIMIT 1;`);
+  let contents = results[0]["contents"].split(",");
+  let myPromise = new Promise(function(resolve) {
+    for (let i = 0; i < contents.length; i++) {
+      const answer = connection.query(`SELECT * from BBY_25_catalogue WHERE itemID = "${contents[i]}";`);
+      console.log(answer);
+      cartItems += buildCard(answer);
+      console.log(cartItems);
     }
+    resolve(cartItems);
   });
-
-  docDOM.window.document.getElementById("cart").innerHTML = cartItems;
+  docDOM.window.document.getElementById("cart").innerHTML = await myPromise;
   res.set("Server", "Wazubi Engine");
   res.set("X-Powered-By", "Wazubi");
   res.send(docDOM.serialize());
@@ -100,22 +95,22 @@ app.get("/cart", function (req, res) {
 
 function buildCard(result){
   //reads card.html template
-  let card = fs.readFileSync("./app/html/card.html", "utf8");
+  let card = fs.readFileSync("./app/html/cardDelete.html", "utf8");
   let html="";
-      let cardDOM = new JSDOM(card);
-      //injecting variables into card DOM
-      cardDOM.window.document.getElementById("cards").setAttribute("id", `${result.itemID}`);
-      cardDOM.window.document.getElementById("name").setAttribute("id", `nameOfItem${result.itemID}`);
-      cardDOM.window.document.getElementById(`nameOfItem${result.itemID}`).innerHTML
-      = result.name;
-      cardDOM.window.document.getElementById("price").setAttribute("id", `priceOfItem${result.itemID}`);
-      cardDOM.window.document.getElementById(`priceOfItem${result.itemID}`).innerHTML
-      = `$${result.price}`;
-      cardDOM.window.document.getElementById("most_wanted").setAttribute("id", `mostWanted${result.itemID}`);
-      cardDOM.window.document.getElementById(`mostWanted${result.itemID}`).innerHTML
-      = (result.most_wanted ? "High Demand" : "");
-      //converts card DOM into html
-      html = cardDOM.serialize();
+  let cardDOM = new JSDOM(card);
+  //injecting variables into card DOM
+  cardDOM.window.document.getElementById("cards").setAttribute("id", `${result.itemID}`);
+  cardDOM.window.document.getElementById("name").setAttribute("id", `nameOfItem${result.itemID}`);
+  cardDOM.window.document.getElementById(`nameOfItem${result.itemID}`).innerHTML
+  = result.name;
+  cardDOM.window.document.getElementById("price").setAttribute("id", `priceOfItem${result.itemID}`);
+  cardDOM.window.document.getElementById(`priceOfItem${result.itemID}`).innerHTML
+  = `$${result.price}`;
+  cardDOM.window.document.getElementById("most_wanted").setAttribute("id", `mostWanted${result.itemID}`);
+  cardDOM.window.document.getElementById(`mostWanted${result.itemID}`).innerHTML
+  = (result.most_wanted ? "High Demand" : "");
+  //converts card DOM into html
+  html = cardDOM.serialize();
   return html;
 }
 
@@ -131,7 +126,6 @@ app.post("/create-cart", function (req, res) {
   connection.connect();
   let postDate = getDateTime();
   connection.query(`INSERT INTO BBY_25_users_packages (userID, postdate, contents) VALUES ("${req.session.identity}", "${postDate}", "${req.body.cart}");`)
-
   res.send({status: "success", msg : "Created new cart"});
   connection.end();
 });
@@ -160,8 +154,6 @@ async function getAllItems(callback) {
   callback(results);
 }
 
-
-
 app.get("/package", function (req, res) {
   let doc = fs.readFileSync("./app/html/catalogue.html", "utf8");
   let docDOM = new JSDOM(doc);
@@ -176,7 +168,7 @@ app.get("/package", function (req, res) {
 
 function buildCards(results){
   //reads card.html template
-  let card = fs.readFileSync("./app/html/card.html", "utf8");
+  let card = fs.readFileSync("./app/html/cardAdd.html", "utf8");
   let html="";
   //loops through the database and prints
     results.forEach((result) => {
