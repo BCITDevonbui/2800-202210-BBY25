@@ -76,39 +76,68 @@ function ready(callback) {
   }
 }
 
+
+//for easter egg to drop dropLogo
 let v = "";
 
-D.onclick = function() {
-  v += "d";
-  console.log(v);
-  R.onclick = function(){
-    v += "r";
-    console.log(v);
-    O.onclick = function(){
-      v += "o";
-      console.log(v);
-      P.onclick = function(){
-        if (v == "dro"){
-          let start = Date.now();
+let Ds = document.querySelectorAll(".D");
 
-          let timer = setInterval(function() {
-            let timePassed = Date.now() - start;
-        
-            drop.style.top = timePassed / 5 + 'px';
-        
-            // onFinish();
-        
-            if (timePassed > 3460) clearInterval(timer);
-        
-          }, 20);
-          v = "";
-          console.log(v);
-        } else {
-          v = "";
-        }
-
-      }
+Ds.forEach(d => {
+  d.addEventListener("click", function clickD(){
+    if (v == ""){
+      v += "d";
+    } else {
+      v = "";
     }
+    console.log(v);
+  });
+})
+
+let Rs = document.querySelectorAll(".R");
+
+Rs.forEach(r => {
+  r.addEventListener("click", function clickR(){
+    if (v == "d"){
+      v += "r";
+    } else {
+      v = "";
+    }
+    console.log(v);
+  });
+})
+
+
+let Os = document.querySelectorAll(".O");
+
+Os.forEach(o => {
+  o.addEventListener("click", function clickO(){
+    if (v == "dr"){
+      v += "o";
+    } else {
+      v = "";
+    }
+    console.log(v);
+  });
+})
+
+P.onclick = function(){
+  if (v == "dro"){
+    let start = Date.now();
+
+    let timer = setInterval(function() {
+    let timePassed = Date.now() - start;
+        
+    drop.style.top = timePassed / 5 + 'px';
+        
+    onFinish();
+        
+    if (timePassed > 4000) clearInterval(timer);
+        
+    }, 20);
+  v = "";
+  console.log(v);
+  } else {
+    v = "";
   }
 }
 
@@ -117,7 +146,7 @@ function onFinish(){
 
   let timer = setInterval(function(){
     let timePassed = Date.now() - start;
-    if (timePassed > 2000){
+    if (timePassed > 4000){
       document.getElementById("drop").style.display = "none";
     }
   })
