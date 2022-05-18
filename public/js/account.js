@@ -1,10 +1,9 @@
-    // change user first name
-    let firstNameRecords = document.getElementById("first_name");
+// change user first name
+let firstNameRecords = document.getElementById("first_name");
 
-    firstNameRecords.addEventListener("click", editName);
+firstNameRecords.addEventListener("click", editName);
 
     function editName(e) {
-        document.getElementById("status").innerHTML = "";
 
         // add a listener for clicking on the field to change email
         // span's text
@@ -14,11 +13,11 @@
         // create a new input, and add a key listener to it
         let input = document.createElement("input");
         input.value = spanText;
-        input.addEventListener("keyup", function (e) {
+        input.addEventListener("keyup", function(e) {
             let s = null;
             let v = null;
             // pressed enter
-            if (e.which == 13) {
+            if(e.which == 13) {
                 v = input.value;
                 let newSpan = document.createElement("span");
                 // have to wire an event listener to the new element
@@ -27,12 +26,10 @@
                 parent.innerHTML = "";
                 parent.appendChild(newSpan);
 
+                console.log(parent.parentNode.querySelector("#id").innerHTML);
 
-
-                let dataToSend = {
-                    id: parent.parentNode.querySelector("#id").innerHTML,
-                    name: v
-                };
+                let dataToSend = {id: parent.parentNode.querySelector("#id").innerHTML,
+                                  name: v};
 
                 // now send
                 const xhr = new XMLHttpRequest();
@@ -41,22 +38,30 @@
 
                         // 200 means everthing worked
                         if (xhr.status === 200) {
-                            document.getElementById("status").innerHTML = "Record updated.";
-                            //   getCustomers();
+                          document.getElementById("status").innerHTML = "Record updated.";
+                        //   getCustomers();
 
+
+                        } else {
+
+                          // not a 200, could be anything (404, 500, etc.)
+                          console.log(this.status);
 
                         }
+
+                    } else {
+                        console.log("ERROR", this.status);
                     }
-                    xhr.open("POST", "/update-firstName");
-                    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-                    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-                    xhr.send("id=" + dataToSend.id + "&name=" + dataToSend.name);
-
-
                 }
+                xhr.open("POST", "/update-firstName");
+                xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                console.log("dataToSend", "id=" + dataToSend.id + "&name=" + dataToSend.name);
+                xhr.send("id=" + dataToSend.id + "&name=" + dataToSend.name);
+                
+
             }
         });
-
         parent.innerHTML = "";
         parent.appendChild(input);
 
@@ -245,10 +250,6 @@
 
     }
 
-    // change user profile pic name
-    // radio buttons got help from:
-    // https://www.w3schools.com/tags/att_input_type_radio.asp
-
     const radioButtons = document.querySelectorAll('input[name="profilePic"]');
     let profilePicVal;
     document.getElementById("submit").addEventListener("click", function (e) {
@@ -261,43 +262,43 @@
             }
         }
 
-        // got help with how to get the file name from:
-        // https://thewebdev.info/2022/02/16/how-to-get-the-filename-from-a-file-input-with-javascript/
+  let parent = e.target.parentNode;
+  let v = "/img/" + profilePicVal;
+  let dataToSend = {id: parent.parentNode.querySelector("#id").innerHTML,
+                    profilePic: v};
+  console.log("im the id " + dataToSend.id);
+  console.log("Im the pic to be sent " + dataToSend.profilePic);
 
-        // const input = document.querySelector("input")
-        // input.onchange = (e) => {
-        // const [file] = e.target.files
-        let parent = e.target.parentNode;
-        //add /img/ to file name for pathing
-        //   let v = "/img/" + file.name;
-        let v = "/img/" + profilePicVal;
-        let dataToSend = {
-            id: parent.parentNode.querySelector("#id").innerHTML,
-            profilePic: v
-        };
-
-
-        // now send
-        const xhr = new XMLHttpRequest();
-        xhr.onload = function () {
-            if (this.readyState == XMLHttpRequest.DONE) {
-
-                // 200 means everthing worked
-                if (xhr.status === 200) {
-                    document.getElementById("status").innerHTML = "Record updated.";
-                    //   getCustomers();
-
-
-                }
-            }
-            xhr.open("POST", "/update-profilePic");
-            xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            console.log("dataToSend", "id=" + dataToSend.id + "&profilePic=" + dataToSend.profilePic);
-            xhr.send("id=" + dataToSend.id + "&profilePic=" + dataToSend.profilePic);
-
-        }
-    });
+                  // now send
+                  const xhr = new XMLHttpRequest();
+                  xhr.onload = function () {
+                      if (this.readyState == XMLHttpRequest.DONE) {
+  
+                          // 200 means everthing worked
+                          if (xhr.status === 200) {
+                            document.getElementById("status").innerHTML = "Record updated.";
+                          //   getCustomers();
+  
+  
+                          } else {
+  
+                            // not a 200, could be anything (404, 500, etc.)
+                            console.log(this.status);
+  
+                          }
+  
+                      } else {
+                          console.log("ERROR", this.status);
+                      }
+                  }
+                  xhr.open("POST", "/update-profilePic");
+                  xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+                  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                  console.log("dataToSend", "id=" + dataToSend.id + "&profilePic=" + dataToSend.profilePic);
+                  xhr.send("id=" + dataToSend.id + "&profilePic=" + dataToSend.profilePic);
+                  
+  
+              });
 
     document.getElementById("dropLogo").addEventListener("click", function(e) {
         e.preventDefault;

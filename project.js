@@ -291,20 +291,19 @@ app.post('/admin-update-email', function (req, res) {
     database: 'comp2800'
   });
   connection.connect();
-  connection.query('UPDATE BBY_25_users SET email = ? WHERE identity = ?',
-    [req.body.email, req.body.id],
-    function (error, results, fields) {
-      if (error) {
-// catch error and save to database
-      }
 
-      res.send({
-        status: "success",
-        msg: "Recorded updated."
+  console.log("update values", req.body.email, req.body.id)
+      connection.query('UPDATE BBY_25_users SET email = ? WHERE identity = ?',
+            [req.body.email, req.body.id],
+            function (error, results, fields) {
+        if (error) {
+            console.log(error);
+        }
+        //console.log('Rows returned are: ', results);
+        res.send({ status: "success", msg: "Recorded updated." });
+
       });
-
-    });
-  connection.end();
+      connection.end();
 
 });
 
@@ -502,8 +501,6 @@ app.post('/delete-user', function (req, res) {
   });
   connection.connect();
 
-
-
   if(req.body.idNumber != req.session.identity) {
     connection.query("DELETE FROM bby_25_users WHERE identity = ?",
     [req.body.idNumber],
@@ -517,13 +514,14 @@ app.post('/delete-user', function (req, res) {
       });
 
     });
-  connection.end();
+
   } else {
     res.send({
       status: "fail",
       msg: "Not a valid input."
     })
   }
+  connection.end();
 });
 
 
@@ -559,19 +557,21 @@ app.post('/update-firstName', async function (req, res) {
     database: 'comp2800'
   });
   connection.connect();
-
+  console.log("update values", req.body.name, req.body.id)
   connection.query('UPDATE BBY_25_users SET first_name = ? WHERE identity = ?',
     [req.body.name, req.body.id],
     function (error, results, fields) {
       if (error) {
-// catch error and save to database
+        console.log(error);
       }
+      //console.log('Rows returned are: ', results);
       res.send({
         status: "success",
         msg: "Recorded updated."
       });
 
-      req.session.name = req.body.nam
+      req.session.name = req.body.name;
+      console.log(req.session.name);
 
       req.session.save(function (err) {
         // session saved. for analytics we could record this in db
@@ -727,12 +727,7 @@ app.post('/update-password', function (req, res) {
 
 });
 
-
-// update password!!!
-app.post('/update-password', function (req, res) {
-});
 // updating profile pic!!!
-// update password!!!
 app.post('/update-profilePic', function (req, res) {
   res.setHeader('Content-Type', 'application/json');
 
@@ -743,21 +738,21 @@ app.post('/update-profilePic', function (req, res) {
     database: 'comp2800'
   });
   connection.connect();
-
+  console.log("update values", req.body.profilePic, req.body.id)
   connection.query('UPDATE BBY_25_users SET profile_pic = ? WHERE identity = ?',
     [req.body.profilePic, req.body.id],
     function (error, results, fields) {
       if (error) {
-// catch error and save to database
+        console.log(error);
       }
-
+      //console.log('Rows returned are: ', results);
       res.send({
         status: "success",
         msg: "Recorded updated."
       });
 
       req.session.profilePic = req.body.profilePic;
-
+      console.log(req.session.profilePic);
 
       req.session.save(function (err) {
         // session saved. for analytics we could record this in db
