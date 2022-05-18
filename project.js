@@ -81,12 +81,16 @@ app.post("/create-cart", function (req, res) {
   });
   connection.connect();
   let postDate = getDateTime();
-  let cartItemID = req.body.cartItemID.split(",");
-  console.log(cartItemID);
+  let json = req.body;
+  console.log(json.value);
+
+  // console.log(`this is server side cart: ${req.body.cart["cart"].get(7)["quantity"]}`);
+  let cart = req.body.cart;
+  // console.log(cart.get('7'));
   console.log(postDate);
   // identity is undefined right now check if its still req.session.id or if its req.session.identity in project.js
-  connection.query(`INSERT INTO BBY_25_users_packages (userID, postdate, contents) VALUES (${req.session.identity}, ${postDate}, ${cartItemID});`)
-  res.send({status: "success", msg : "Created new cart"});
+  // connection.query(`INSERT INTO BBY_25_users_packages (userID, postdate, contents) VALUES (${req.session.identity}, ${postDate}, ${cartItemID});`)
+  // res.send({status: "success", msg : "Created new cart"});
   connection.end();
 });
 
@@ -117,7 +121,6 @@ async function getItems(callback) {
 app.get("/package", function (req, res) {
   let doc = fs.readFileSync("./app/html/catalogue.html", "utf8");
   let docDOM = new JSDOM(doc);
-
   getItems((results) => {
     let html = buildCards(results);
     docDOM.window.document.getElementById("content").innerHTML = html;
@@ -131,22 +134,25 @@ app.get("/package", function (req, res) {
 function buildCards(results){
   //reads card.html template
   let card = fs.readFileSync("./app/html/card.html", "utf8");
-  let cardDOM = new JSDOM(card);
   let html="";
   //loops through the database and prints
-      results.forEach((result) => {
-          //injecting variables into card DOM
-          cardDOM.window.document.getElementById("name").innerHTML
-          = result.name;
-          cardDOM.window.document.getElementById("itemID").innerHTML
-          = result.itemID;
-          cardDOM.window.document.getElementById("price").innerHTML
-          = `$${result.price}`;
-          cardDOM.window.document.getElementById("most_wanted").innerHTML
-          = (result.most_wanted ? "High Demand" : "");
-          //converts card DOM into html
-          html += cardDOM.serialize();
-      });
+    results.forEach((result) => {
+      let cardDOM = new JSDOM(card);
+      //injecting variables into card DOM
+      cardDOM.window.document.getElementById("cards").setAttribute("id", `${result.itemID}`);
+      cardDOM.window.document.getElementById("name").setAttribute("id", `nameOfItem${result.itemID}`);
+      cardDOM.window.document.getElementById(`nameOfItem${result.itemID}`).innerHTML
+      = result.name;
+      cardDOM.window.document.getElementById("price").setAttribute("id", `priceOfItem${result.itemID}`);
+      cardDOM.window.document.getElementById(`priceOfItem${result.itemID}`).innerHTML
+      = `$${result.price}`;
+      cardDOM.window.document.getElementById("most_wanted").setAttribute("id", `mostWanted${result.itemID}`);
+      cardDOM.window.document.getElementById(`mostWanted${result.itemID}`).innerHTML
+      = (result.most_wanted ? "High Demand" : "");
+      cardDOM.window.document.getElementById("amt").setAttribute("id", `quantityOfItem${result.itemID}`);
+      //converts card DOM into html
+      html += cardDOM.serialize();
+  });
   return html;
 }
 

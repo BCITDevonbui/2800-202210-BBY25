@@ -1,6 +1,7 @@
 "use strict";
+
 ready(function () {
-  let cartItemID = [];
+  let cartItem = new Map();
   let cartItemQuantity = 0;
   function ajaxGET(url, callback) {
     const xhr = new XMLHttpRequest();
@@ -49,28 +50,35 @@ ready(function () {
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.send(params);
   }
-  const cardList = document.querySelectorAll(".card");
+  const cardList = document.querySelectorAll(".add");
   for (let i = 0; i < cardList.length; i++) {
     cardList[i].addEventListener("click", function(e) {
       e.preventDefault;
-      if(!cartItemID.includes(i+1)) {
-        cartItemID.push(i+1);
-        cartItemQuantity++;
-        document.getElementById("quantity").innerHTML = cartItemQuantity;
+      let itemID = i + 1;
+      let quantity = parseInt(document.getElementById(`quantityOfItem${i + 1}`).value);
+      // alert(`the itemID is: ${itemID}. the quantity selected is ${quantity}`);
+      // create map instead of array for cartItem
+      // let map = new Map()
+      
+      if(cartItem.has(itemID)) {
+        let updatedQuantity = cartItem.get(itemID);
+        cartItem.set(`${itemID}`, updatedQuantity += quantity);
       } else {
-        document.getElementById("errorMsg").innerHTML = `Item ID: ${i+1} is already in your cart!`;
-        setTimeout(() => {
-          document.getElementById("errorMsg").innerHTML = "";
-        }, 2000);
+        cartItem.set(`${itemID}`, quantity);
       }
+      cartItemQuantity += quantity;
+      document.getElementById("quantity").innerHTML = cartItemQuantity;
     });
   }
 
   document.getElementById("cart").addEventListener("click", function(e) {
     e.preventDefault;
-    // sorts ID by ascending order
-    cartItemID.sort((a,b) => a - b);
-    let queryString = {"cartItemID" : [cartItemID]}
+    // let jsonData = {};
+    // cartItem.forEach((value, key) => {
+    //   jsonData[key] = value;
+    // })
+    // let array = Array.from(cartItem, ([id,value]) => ({id, value}));
+    console.log(cartItem);
     ajaxPOST("/create-cart", function (data) {
       if (data) {
         let dataParsed = JSON.parse(data);
@@ -80,7 +88,7 @@ ready(function () {
           window.location.assign("/cart");
         }
       }
-    }, queryString);
+    }, cartItem);
 
   })
 
