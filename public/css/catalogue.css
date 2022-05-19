@@ -31,7 +31,7 @@ p {
   font-size: 18px;
 }
 
-#checkout {
+#cart {
   grid-row: 1;
   grid-column: 4;
   justify-self: end;
@@ -189,7 +189,7 @@ input[type='submit']:hover{
       margin-right: 110px;
   }
 
-  #checkout {
+  #cart {
     grid-row: 1;
     grid-column: 1;
     justify-self: end;
@@ -271,7 +271,7 @@ input[type='submit']:hover{
       margin-right: 110px;
   }
 
-  #checkout {
+  #cart {
     grid-row: 1;
     grid-column: 1;
     justify-self: end;
