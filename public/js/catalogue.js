@@ -52,11 +52,13 @@ ready(function () {
   }
   const cardList = document.querySelectorAll(".add");
   for (let i = 0; i < cardList.length; i++) {
-    cardList[i].addEventListener("click", function(e) {
+    cardList[i].addEventListener("click", function (e) {
       e.preventDefault;
       let itemID = i + 1;
-      if(cartItem.includes(itemID)) {
-        document.getElementById("errorMsg").innerHTML = `item${itemID} is already in your cart`;
+      if (cartItem.includes(itemID)) {
+        document.getElementById(
+          "errorMsg"
+        ).innerHTML = `item${itemID} is already in your cart`;
       } else {
         cartItem.push(itemID);
         cartItemQuantity++;
@@ -70,7 +72,7 @@ ready(function () {
       //   let oldQuantity = cartItem[`item${itemID}`];
       //   cartItem[`item${itemID}`] = oldQuantity + quantity;
       // }
-      
+
       // if(cartItem.has(itemID)) {
       //   let updatedQuantity = cartItem.get(itemID);
       //   cartItem.set(`${itemID}`, updatedQuantity + quantity);
@@ -78,64 +80,66 @@ ready(function () {
       //   cartItem.set(`${itemID}`, quantity);
       // }
 
-
       document.getElementById("quantity").innerHTML = cartItemQuantity;
     });
   }
 
-  document.getElementById("cart").addEventListener("click", function(e) {
+  document.getElementById("cart").addEventListener("click", function (e) {
     e.preventDefault;
     // let jsonData = {};
     // cartItem.forEach((value, key) => {
     //   jsonData[key] = value;
     // })
     // let array = Array.from(cartItem, ([id,value]) => ({id, value}));
-    let queryString = {"cart": cartItem};
+    let queryString = { cart: cartItem };
 
     // let parsedJSON = JSON.stringify(cartItem);
     // console.log(array);
     console.log(cartItem);
-    ajaxPOST("/create-cart", function (data) {
-      if (data) {
-        let dataParsed = JSON.parse(data);
-        if (dataParsed.status == "fail") {
-          document.getElementsById("errorMsg").innerHTML = dataParsed.msg;
-        } else {
-          window.location.assign("/cart");
+    ajaxPOST(
+      "/create-cart",
+      function (data) {
+        if (data) {
+          let dataParsed = JSON.parse(data);
+          if (dataParsed.status == "fail") {
+            document.getElementsById("errorMsg").innerHTML = dataParsed.msg;
+          } else {
+            window.location.assign("/cart");
+          }
         }
-      }
-    }, queryString);
-
-  })
+      },
+      queryString
+    );
+  });
   let button = document.querySelectorAll(".add");
 
-button.forEach(add => {
-  add.addEventListener("click", function clickButton(){
-    add.style.backgroundColor = '#d4b9f7';
-    add.value = 'Added to cart ✓';
+  button.forEach((add) => {
+    add.addEventListener("click", function clickButton() {
+      add.style.backgroundColor = "#d4b9f7";
+      add.value = "Added to cart ✓";
+    });
   });
-})
 
-    // GET TO THE SERVER
-    document.querySelector("#dropLogo").addEventListener("click", function(e) {
-      e.preventDefault;
-      window.location.replace("/")
-    })
+  // GET TO THE SERVER
+  document.querySelector("#dropLogo").addEventListener("click", function (e) {
+    e.preventDefault;
+    window.location.replace("/");
+  });
 
-    document.getElementById("account").addEventListener("click", function(e) {
-      e.preventDefault;
-      window.location.replace("/account");
-    })
+  document.getElementById("account").addEventListener("click", function (e) {
+    e.preventDefault;
+    window.location.replace("/account");
+  });
 
-    document.getElementById("about").addEventListener("click", function(e) {
-      e.preventDefault;
-      window.location.replace("/about");
-    })
+  document.getElementById("about").addEventListener("click", function (e) {
+    e.preventDefault;
+    window.location.replace("/about");
+  });
 
-    document.getElementById("contact").addEventListener("click", function(e) {
-      e.preventDefault;
-      window.location.replace("/contactus");
-    })
+  document.getElementById("contact").addEventListener("click", function (e) {
+    e.preventDefault;
+    window.location.replace("/contactus");
+  });
 });
 
 function ready(callback) {
@@ -145,4 +149,3 @@ function ready(callback) {
     document.addEventListener("DOMContentLoaded", callback);
   }
 }
-

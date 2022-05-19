@@ -51,61 +51,59 @@ ready(function () {
 
   let button = document.querySelectorAll(".add");
 
-button.forEach(add => {
-  add.addEventListener("click", function clickButton(){
-    add.style.backgroundColor = '#fb0066';
-    add.value = 'Removed from cart';
+  button.forEach((add) => {
+    add.addEventListener("click", function clickButton() {
+      add.style.backgroundColor = "#fb0066";
+      add.value = "Removed from cart";
+    });
   });
-})
 
-    // GET TO THE SERVER
-    document.querySelector("#dropLogo").addEventListener("click", function(e) {
+  // GET TO THE SERVER
+  document.querySelector("#dropLogo").addEventListener("click", function (e) {
+    e.preventDefault;
+    window.location.replace("/");
+  });
+
+  // GET TO THE SERVER
+  document
+    .querySelector("#proceedPayment")
+    .addEventListener("click", function (e) {
       e.preventDefault;
-      window.location.replace("/");
-    })
+      window.location.replace("/payment");
+    });
 
-      // GET TO THE SERVER
-      document.querySelector("#proceedPayment").addEventListener("click", function(e) {
-        e.preventDefault;
-        window.location.replace("/payment");
-      })
+  document.getElementById("account").addEventListener("click", function (e) {
+    e.preventDefault;
+    window.location.replace("/account");
+  });
 
-      document.getElementById("about").addEventListener("click", function(e) {
-        e.preventDefault;
-        window.location.replace("/account");
-      })
+  let notPushed = true;
 
-
-      let notPushed = true;
-
-      document.getElementById("deleteCart").addEventListener("click", function(e) {
-        e.preventDefault;
-        if (notPushed){
-          ajaxGET("/delete-cart", (data) => {
-            if (data) {
-              let dataParsed = JSON.parse(data);
-              if (dataParsed.status == "fail") {
-                console.log(error);
-              }
-            }
-          });
-          document.getElementById("content").innerHTML = "Cart has been deleted";
-          notPushed = false;
-          document.getElementById("deleteCart").style.visibility = "hidden";
-          document.getElementById("proceedPayment").style.visibility = "hidden";
+  document.getElementById("deleteCart").addEventListener("click", function (e) {
+    e.preventDefault;
+    if (notPushed) {
+      ajaxGET("/delete-cart", (data) => {
+        if (data) {
+          let dataParsed = JSON.parse(data);
+          if (dataParsed.status == "fail") {
+            console.log(error);
+          }
         }
       });
+      document.getElementById("content").innerHTML = "Cart has been deleted";
+      notPushed = false;
+      document.getElementById("deleteCart").style.visibility = "hidden";
+      document.getElementById("proceedPayment").style.visibility = "hidden";
+    }
+  });
 
-      document.getElementById("about").addEventListener("click", function(e) {
-        e.preventDefault;
-        window.location.replace("/about");
-      })
+  document.getElementById("about").addEventListener("click", () => {
+    window.location.assign("/about");
+  });
 
-      document.getElementById("contact").addEventListener("click", function(e) {
-        e.preventDefault;
-        window.location.replace("/contactus");
-      })
-
+  document.getElementById("contact").addEventListener("click", () => {
+    window.location.assign("/contactus");
+  });
 });
 
 function ready(callback) {
@@ -115,4 +113,3 @@ function ready(callback) {
     document.addEventListener("DOMContentLoaded", callback);
   }
 }
-
