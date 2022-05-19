@@ -69,13 +69,13 @@ ready(function () {
   // GET TO THE SERVER
   document.querySelector("#packageButton").addEventListener("click", function(e) {
     e.preventDefault;
-    window.location.replace("/package")
+    window.location.assign("/package")
   })
 
   // GET TO THE SERVER
   document.querySelector("#notifButton").addEventListener("click", function(e) {
     e.preventDefault;
-    window.location.replace("/history")
+    window.location.assign("/history")
   })
 
 });
