@@ -82,6 +82,11 @@ ready(function () {
     e.preventDefault;
     window.location.replace("/about");
   })
+
+  document.getElementById("contact").addEventListener("click", function(e) {
+    e.preventDefault;
+    window.location.replace("/contactus");
+  })
 });
 
 function ready(callback) {
