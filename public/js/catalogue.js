@@ -107,18 +107,7 @@ ready(function () {
     }, queryString);
 
   })
-
-});
-
-function ready(callback) {
-  if (document.readyState != "loading") {
-    callback();
-  } else {
-    document.addEventListener("DOMContentLoaded", callback);
-  }
-}
-
-let button = document.querySelectorAll(".add");
+  let button = document.querySelectorAll(".add");
 
 button.forEach(add => {
   add.addEventListener("click", function clickButton(){
@@ -133,7 +122,24 @@ button.forEach(add => {
       window.location.replace("/")
     })
 
-    document.getElementById("about").addEventListener("click", function(e) {
+    document.getElementById("account").addEventListener("click", function(e) {
       e.preventDefault;
       window.location.replace("/account");
     })
+    
+    document.getElementById("about").addEventListener("click", function(e) {
+      e.preventDefault;
+      window.location.replace("/about");
+    })
+
+
+});
+
+function ready(callback) {
+  if (document.readyState != "loading") {
+    callback();
+  } else {
+    document.addEventListener("DOMContentLoaded", callback);
+  }
+}
+

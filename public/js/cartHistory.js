@@ -110,7 +110,7 @@ getDonateHistory();
         window.location.replace("/")
       })
 
-      document.getElementById("about").addEventListener("click", function(e) {
+      document.getElementById("account").addEventListener("click", function(e) {
         e.preventDefault;
         window.location.replace("/account")
       })

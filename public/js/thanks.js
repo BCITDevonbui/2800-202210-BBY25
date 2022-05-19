@@ -61,6 +61,11 @@ ready(function () {
     e.preventDefault;
     window.location.replace("/");
   })
+
+  document.getElementById("about").addEventListener("click", function(e) {
+    e.preventDefault;
+    window.location.replace("/about");
+  })
   
 });
 

@@ -303,6 +303,15 @@ app.get("/thanks", function (req, res) {
   }
 })
 
+app.get("/about", function (req, res) {
+  if (req.session.loggedIn) {
+    let doc = fs.readFileSync("./app/html/aboutus.html", "utf8");
+    res.send(doc);
+  } else {
+    res.redirect("/");
+  }
+})
+
 app.post("/payment", function (req,res) {
   res.setHeader("Content-Type", "application/json");
   const mysql = require("mysql2");

@@ -96,6 +96,11 @@ button.forEach(add => {
         }
       });
 
+      document.getElementById("about").addEventListener("click", function(e) {
+        e.preventDefault;
+        window.location.replace("/about");
+      })
+
 });
 
 function ready(callback) {

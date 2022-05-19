@@ -653,3 +653,8 @@ document.getElementById("submit").addEventListener("click", function(e) {
 
 
 });
+
+document.getElementById("about").addEventListener("click", function(e) {
+  e.preventDefault;
+  window.location.replace("/about");
+})

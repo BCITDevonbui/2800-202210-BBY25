@@ -79,12 +79,17 @@ ready(function () {
     e.preventDefault;
     window.location.replace("/");
   });
-});
-
-document.getElementById("submit").addEventListener("click", function(e) {
+  document.getElementById("about").addEventListener("click", function(e) {
+    e.preventDefault;
+    window.location.replace("/about");
+  })
+  document.getElementById("submit").addEventListener("click", function(e) {
     e.preventDefault;
     window.location.replace("/payment");
   });
+});
+
+
 
 
 
