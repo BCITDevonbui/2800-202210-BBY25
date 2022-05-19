@@ -48,29 +48,27 @@ ready(function () {
     xhr.send(params);
   }
 
-  //   document.getElementById("DonationRedirect").addEventListener("click", function (e) {
-  //     e.preventDefault;
-  //     window.location.replace("/donate");
-  //   })
+  document.getElementById("donateRedirect").addEventListener("click", () => {
+    window.location.assign("/donate");
+  });
 
-  //   document.getElementById("PackageRedirect").addEventListener("click", function (e) {
-  //     e.preventDefault;
-  //     window.location.replace("/package");
-  //   })
+  document.getElementById("packageRedirect").addEventListener("click", () => {
+    window.location.assign("/package");
+  });
 
   document.getElementById("home").addEventListener("click", function (e) {
     e.preventDefault;
-    window.location.replace("/");
+    window.location.assign("/");
   });
 
   document.getElementById("about").addEventListener("click", function (e) {
     e.preventDefault;
-    window.location.replace("/about");
+    window.location.assign("/about");
   });
 
   document.getElementById("contact").addEventListener("click", function (e) {
     e.preventDefault;
-    window.location.replace("/contactus");
+    window.location.assign("/contactus");
   });
 });
 

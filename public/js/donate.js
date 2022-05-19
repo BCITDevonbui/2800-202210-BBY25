@@ -79,20 +79,20 @@ ready(function () {
   });
   document.getElementById("home").addEventListener("click", function (e) {
     e.preventDefault;
-    window.location.replace("/");
+    window.location.assign("/");
   });
   document.getElementById("about").addEventListener("click", function (e) {
     e.preventDefault;
-    window.location.replace("/about");
+    window.location.assign("/about");
   });
   document.getElementById("submit").addEventListener("click", function (e) {
     e.preventDefault;
-    window.location.replace("/payment");
+    window.location.assign("/payment");
   });
 
   document.getElementById("contact").addEventListener("click", function (e) {
     e.preventDefault;
-    window.location.replace("/contactus");
+    window.location.assign("/contactus");
   });
 });
 

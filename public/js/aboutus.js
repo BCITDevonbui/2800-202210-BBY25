@@ -4,9 +4,9 @@ document.getElementById("home").addEventListener("click", () => {
 
 document.getElementById("about").addEventListener("click", () => {
 
-  window.location.replace("/about");
+  window.location.assign("/about");
 })
 
 document.getElementById("contact").addEventListener("click", () => {
-  window.location.replace("/contactus");
+  window.location.assign("/contactus");
 })

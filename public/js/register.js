@@ -86,12 +86,12 @@ ready(function () {
     .querySelector("#loginRedirect")
     .addEventListener("click", function (e) {
       e.preventDefault();
-      window.location.replace("/");
+      window.location.assign("/");
     });
 
   document.getElementById("contact").addEventListener("click", function (e) {
     e.preventDefault;
-    window.location.replace("/contactus");
+    window.location.assign("/contactus");
   });
 });
 

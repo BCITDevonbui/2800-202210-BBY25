@@ -104,15 +104,15 @@ getDonateHistory();
 // GET TO THE SERVER
 document.querySelector("#dropLogo").addEventListener("click", function (e) {
   e.preventDefault;
-  window.location.replace("/");
+  window.location.assign("/");
 });
 
 document.getElementById("account").addEventListener("click", function (e) {
   e.preventDefault;
-  window.location.replace("/account");
+  window.location.assign("/account");
 });
 
 document.getElementById("contact").addEventListener("click", function (e) {
   e.preventDefault;
-  window.location.replace("/contactus");
+  window.location.assign("/contactus");
 });

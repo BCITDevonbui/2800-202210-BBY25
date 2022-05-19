@@ -86,12 +86,12 @@ ready(function () {
 
   document.getElementById("about").addEventListener("click", function (e) {
     e.preventDefault;
-    window.location.replace("/about");
+    window.location.assign("/about");
   });
 
   document.getElementById("contact").addEventListener("click", function (e) {
     e.preventDefault;
-    window.location.replace("/contactus");
+    window.location.assign("/contactus");
   });
 });
 
