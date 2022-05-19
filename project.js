@@ -87,7 +87,7 @@ app.get("/cart", async function (req, res) {
     }
     resolve(cartItems);
   });
-  docDOM.window.document.getElementById("cart").innerHTML = await myPromise;
+  docDOM.window.document.getElementById("content").innerHTML = await myPromise;
   res.set("Server", "Wazubi Engine");
   res.set("X-Powered-By", "Wazubi");
   res.send(docDOM.serialize());

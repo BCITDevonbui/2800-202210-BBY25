@@ -57,3 +57,12 @@ function ready(callback) {
     document.addEventListener("DOMContentLoaded", callback);
   }
 }
+
+let button = document.querySelectorAll(".add");
+
+button.forEach(add => {
+  add.addEventListener("click", function clickButton(){
+    add.style.backgroundColor = '#fb0066';
+    add.value = 'Removed from cart';
+  });
+})
