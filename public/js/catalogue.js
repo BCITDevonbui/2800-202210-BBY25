@@ -117,3 +117,13 @@ function ready(callback) {
     document.addEventListener("DOMContentLoaded", callback);
   }
 }
+
+let button = document.querySelectorAll(".add");
+
+button.forEach(add => {
+  add.addEventListener("click", function clickButton(){
+    add.style.backgroundColor = '#d4b9f7';
+    add.value = 'Added to cart';
+    console.log("i was clicked :)");
+  });
+})
