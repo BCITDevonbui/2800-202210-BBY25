@@ -76,6 +76,12 @@ ready(function () {
   });
 });
 
+      // GET TO THE SERVER
+      document.querySelector("#submit").addEventListener("click", function(e) {
+        e.preventDefault;
+        window.location.replace("/thanks")
+      })
+
 
 
 function ready(callback) {
