@@ -48,17 +48,8 @@ ready(function () {
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.send(params);
   }
-});
 
-function ready(callback) {
-  if (document.readyState != "loading") {
-    callback();
-  } else {
-    document.addEventListener("DOMContentLoaded", callback);
-  }
-}
-
-let button = document.querySelectorAll(".add");
+  let button = document.querySelectorAll(".add");
 
 button.forEach(add => {
   add.addEventListener("click", function clickButton(){
@@ -70,11 +61,48 @@ button.forEach(add => {
     // GET TO THE SERVER
     document.querySelector("#dropLogo").addEventListener("click", function(e) {
       e.preventDefault;
-      window.location.replace("/")
+      window.location.replace("/");
     })
 
       // GET TO THE SERVER
       document.querySelector("#proceedPayment").addEventListener("click", function(e) {
         e.preventDefault;
-        window.location.replace("/payment")
+        window.location.replace("/payment");
       })
+
+      document.getElementById("about").addEventListener("click", function(e) {
+        e.preventDefault;
+        window.location.replace("/account");
+      })
+
+
+      let notPushed = true;
+
+      document.getElementById("deleteCart").addEventListener("click", function(e) {
+        e.preventDefault;
+        if (notPushed){
+          ajaxGET("/delete-cart", (data) => {
+            if (data) {
+              let dataParsed = JSON.parse(data);
+              if (dataParsed.status == "fail") {
+                console.log(error);
+              }
+            }
+          });
+          document.getElementById("content").innerHTML = "Cart has been deleted";
+          notPushed = false;
+          document.getElementById("deleteCart").style.visibility = "hidden";
+          document.getElementById("proceedPayment").style.visibility = "hidden";
+        }
+      });
+
+});
+
+function ready(callback) {
+  if (document.readyState != "loading") {
+    callback();
+  } else {
+    document.addEventListener("DOMContentLoaded", callback);
+  }
+}
+

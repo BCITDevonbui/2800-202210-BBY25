@@ -21,6 +21,14 @@
     src: url("./fonts/Mulish-Regular.ttf");
 }
 
+#dropLogo{
+    cursor: pointer;
+  }
+
+a{
+    cursor: pointer;
+}
+
 aside {
     grid-row: 1;
     grid-column: 4;
@@ -28,11 +36,6 @@ aside {
     align-self: center;
     margin-right: 30px;
 }
-
-#dropLogo{
-    cursor: pointer;
-  }
-
 
 #navbar{
     grid-row: 1;
@@ -79,6 +82,25 @@ h1 {
     font-family: 'Merriweather', serif;
     font-size: 32px;
 }
+
+h3 {
+    font-family: "Merriweather", serif;
+    font-size: 20px;
+  }
+
+  table {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  th {
+      font-family: 'Merriweather', serif;
+      padding: 2px;
+  }
+  
+  td {
+      font-family: 'Mulish', sans-serif;
+  }
 
 #cartHistory {
     grid-column: 4;
@@ -164,17 +186,8 @@ button:hover{
     align-items: center;
     justify-items: center;
     border-radius: 25px;
-    display: grid;
-    grid-template-columns: 15% 35% 35% 15%;
-    grid-template-rows: 100%;
+    
 }
-
-#smallestDiv{
-    height: 100%;
-    grid-column: 2 / span 2;
-    grid-row: 1;
-}
-
 /* ----------------------- The mobile view css starts here! ------------------------------- */
 
 @media only screen and (max-width: 800px) {

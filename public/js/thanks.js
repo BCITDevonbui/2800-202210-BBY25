@@ -47,25 +47,22 @@ ready(function () {
       xhr.send(params);
   }
 
-  
-});
+//   document.getElementById("DonationRedirect").addEventListener("click", function (e) {
+//     e.preventDefault;
+//     window.location.replace("/donate");
+//   })
 
-document.getElementById("DonationRedirect").addEventListener("click", function (e) {
-    e.preventDefault;
-    window.location.replace("/donate");
-  })
-
-  document.getElementById("PackageRedirect").addEventListener("click", function (e) {
-    e.preventDefault;
-    window.location.replace("/package");
-  })
+//   document.getElementById("PackageRedirect").addEventListener("click", function (e) {
+//     e.preventDefault;
+//     window.location.replace("/package");
+//   })
 
   document.getElementById("home").addEventListener("click", function(e) {
     e.preventDefault;
     window.location.replace("/");
   })
-
-
+  
+});
 
 function ready(callback) {
   if (document.readyState != "loading") {

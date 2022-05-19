@@ -309,3 +309,8 @@ firstNameRecords.addEventListener("click", editName);
         e.preventDefault;
         window.location.replace("/account")
       })
+
+      document.getElementById("history").addEventListener("click", function(e) {
+        e.preventDefault;
+        window.location.replace("/cartHistory")
+      })

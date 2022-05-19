@@ -17,6 +17,7 @@ CREATE TABLE IF NOT EXISTS BBY_25_users_packages (
   packageID int NOT NULL AUTO_INCREMENT,
   postdate DATETIME,
   contents varchar(1000),
+  purchased BOOLEAN,
   PRIMARY KEY(packageID),
   CONSTRAINT fk_user
   FOREIGN KEY (userID)

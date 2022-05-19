@@ -2,6 +2,10 @@ body {
     background-color: #a3e1ff;
     margin: 0px;
   }
+
+  #home {
+    margin-top: 12px;
+  }
   
   aside {
     grid-row: 1;

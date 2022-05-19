@@ -60,6 +60,14 @@ app.get("/donate", function (req,res) {
 });
 
 app.post("/donate", function(req,res) {
+  const mysql = require("mysql2");
+  const connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "COMP2800",
+    multipleStatements: "true"
+  });
     let amount = req.body.amount;
   if(amount < 0 || amount > 9999999.99 || amount === "") {
     res.send({status: "fail", msg: "Invalid amount entered!"});
@@ -74,7 +82,8 @@ app.post("/donate", function(req,res) {
       month = `${date.getMonth()+1}`;
     }
     let postedDate = `${splitDate[3]}-${month}-${splitDate[2]} ${splitDate[4]}`
-    connection.query(`use COMP2800; INSERT INTO BBY_25_users_donation (userID, postdate, amount) VALUES (?, ?, ?)`, [req.session.identity, postedDate, amount]);
+    connection.query(`use COMP2800; INSERT INTO BBY_25_users_donation (userID, postdate, amount) VALUES (?, ?, ?)`,
+     [req.session.identity, postedDate, amount]);
     res.send({status: "success", msg: "Record added."});
     connection.end();
   }
@@ -162,7 +171,7 @@ app.post("/create-cart", function (req, res) {
   });
   connection.connect();
   let postDate = getDateTime();
-  connection.query(`INSERT INTO BBY_25_users_packages (userID, postdate, contents) VALUES ("${req.session.identity}", "${postDate}", "${req.body.cart}");`)
+  connection.query(`INSERT INTO BBY_25_users_packages (userID, postdate, contents, purchased) VALUES ("${req.session.identity}", "${postDate}", "${req.body.cart}", false);`)
   res.send({status: "success", msg : "Created new cart"});
   connection.end();
 });
@@ -269,6 +278,15 @@ app.get("/profile", function (req, res) {
 app.get("/payment", function (req, res) {
   if(req.session.loggedIn) {
     let doc = fs.readFileSync("./app/html/payment.html", "utf8");
+    res.send(doc);
+  } else {
+    res.redirect("/");
+  }
+});
+
+app.get("/cartHistory", function (req, res) {
+  if(req.session.loggedIn) {
+    let doc = fs.readFileSync("./app/html/cartHistory.html", "utf8");
     res.send(doc);
   } else {
     res.redirect("/");
@@ -389,6 +407,127 @@ app.post("/login", function (req, res) {
   connection.end();
 });
 
+//user cart page ***********************************************************************
+
+app.get('/get-packages', function (req, res) {
+
+  let connection = mysql.createConnection({
+    host: '127.0.0.1',
+    user: 'root',
+    password: '',
+    database: 'comp2800'
+  });
+  connection.connect();
+  connection.query(`SELECT * FROM BBY_25_USERS_PACKAGES WHERE userID = '${req.session.identity}';`, function (error, results, fields) {
+    if (error) {
+      // catch error and save to database
+    } else {
+      res.send({
+        status: "success",
+        rows: results
+      });
+    }
+
+
+  });
+  connection.end();
+
+
+});
+
+app.get('/get-donation', function (req, res) {
+
+  let connection = mysql.createConnection({
+    host: '127.0.0.1',
+    user: 'root',
+    password: '',
+    database: 'comp2800'
+  });
+  connection.connect();
+  connection.query(`SELECT * FROM BBY_25_USERS_DONATION WHERE userID = '${req.session.identity}';`, function (error, results, fields) {
+    if (error) {
+      // catch error and save to database
+      console.log(error);
+    } else {
+      res.send({
+        status: "success",
+        rows: results
+      });
+    }
+
+
+  });
+  connection.end();
+
+
+});
+
+// change purchased!!!
+app.post('/update-purchased', function (req, res) {
+  res.setHeader('Content-Type', 'application/json');
+
+  let connection = mysql.createConnection({
+    host: '127.0.0.1',
+    user: 'root',
+    password: '',
+    database: 'comp2800'
+  });
+  connection.connect();
+
+  connection.query(`UPDATE BBY_25_users_packages SET purchased = ? WHERE userID = '${req.session.identity}' ORDER BY postdate desc LIMIT 1;`,
+    [req.body.purchased],
+    function (error, results, fields) {
+      if (error) {
+// catch error and save to database
+      }
+
+      res.send({
+        status: "success",
+        msg: "Recorded updated."
+      });
+
+    });
+  connection.end();
+
+});
+
+// delete cart
+app.get('/delete-cart', function (req, res) {
+  res.setHeader('Content-Type', 'application/json');
+
+  let connection = mysql.createConnection({
+    host: '127.0.0.1',
+    user: 'root',
+    password: '',
+    database: 'comp2800',
+    multipleStatements: true
+  });
+  connection.connect();
+
+    connection.query("DELETE FROM bby_25_users_packages WHERE userID = ? order by postdate desc limit 1;",
+    [req.session.identity],
+    function (error, results, fields) {
+      if (error) {
+        res.send({
+          status: "fail",
+          msg: error
+        });
+      } else {
+        res.send({
+          status: "success",
+          msg: "Record deleted."
+        });
+      }
+
+
+    });
+
+  
+  connection.end();
+  });
+
+
+//*****************************************************************************************
 
 //admin users edit-------------------------------------------------------------------------
 app.get('/get-allUsers', function (req, res) {

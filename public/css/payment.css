@@ -4,6 +4,10 @@ p{
   color: #bdc6d2;
 
 }
+
+#home {
+  margin-top: 12px;
+}
 #formPanel{
   border: 2px solid #ffffff;
   background-color: #ffffff;
