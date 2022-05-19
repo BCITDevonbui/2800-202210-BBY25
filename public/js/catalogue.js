@@ -126,3 +126,9 @@ button.forEach(add => {
     add.value = 'Added to cart ✓';
   });
 })
+
+    // GET TO THE SERVER
+    document.querySelector("#dropLogo").addEventListener("click", function(e) {
+      e.preventDefault;
+      window.location.replace("/")
+    })

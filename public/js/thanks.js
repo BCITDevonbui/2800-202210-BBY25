@@ -47,7 +47,15 @@ ready(function () {
       xhr.send(params);
   }
 
-  document.getElementById("DonationRedirect").addEventListener("click", function (e) {
+  
+});
+
+document.getElementById("DonationRedirect").addEventListener("click", function (e) {
+    e.preventDefault;
+    window.location.replace("/donate");
+  })
+
+  document.getElementById("PackageRedirect").addEventListener("click", function (e) {
     e.preventDefault;
     window.location.replace("/package");
   })
@@ -56,10 +64,6 @@ ready(function () {
     e.preventDefault;
     window.location.replace("/");
   })
-
-
-  
-});
 
 
 

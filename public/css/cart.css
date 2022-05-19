@@ -86,6 +86,10 @@
   .centertext {
     text-align: center;
   }
+
+  #dropLogo{
+    cursor: pointer;
+  }
   
   footer {
     background-color: #3482c1;

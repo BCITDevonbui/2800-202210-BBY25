@@ -81,6 +81,11 @@ ready(function () {
   });
 });
 
+document.getElementById("submit").addEventListener("click", function(e) {
+    e.preventDefault;
+    window.location.replace("/payment");
+  });
+
 
 
 function ready(callback) {

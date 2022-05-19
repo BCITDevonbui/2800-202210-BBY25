@@ -66,3 +66,15 @@ button.forEach(add => {
     add.value = 'Removed from cart';
   });
 })
+
+    // GET TO THE SERVER
+    document.querySelector("#dropLogo").addEventListener("click", function(e) {
+      e.preventDefault;
+      window.location.replace("/")
+    })
+
+      // GET TO THE SERVER
+      document.querySelector("#proceedPayment").addEventListener("click", function(e) {
+        e.preventDefault;
+        window.location.replace("/payment")
+      })

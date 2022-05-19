@@ -117,6 +117,10 @@ input[type='submit']:hover{
     border: 3px solid #d60000;
 }
 
+#dropLogo{
+  cursor: pointer;
+}
+
 #content {
   margin-left: 10px;
   margin-right: 10px;

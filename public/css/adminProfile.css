@@ -43,7 +43,6 @@ nav {
   margin-top: 20px;
 }
 
-<<<<<<< HEAD
 th {
     font-family: 'Merriweather', serif;
     padding: 2px;
@@ -74,18 +73,6 @@ input[type='submit'] {
     border-radius: 25px;
     font-family: 'Heebo', sans-serif;
   }
-=======
-input[type="submit"] {
-  font-size: 16px;
-  background-color: #fb0066;
-  border: 3px solid #fb0066;
-  color: white;
-  cursor: pointer;
-  padding: 7px 14px;
-  border-radius: 25px;
-  font-family: "Heebo", sans-serif;
-}
->>>>>>> princeton_dychinco_cart
 
 input[type="submit"]:hover {
   background-color: #d60000;
@@ -252,13 +239,8 @@ button {
 
 /* ----------------------- The mobile view css starts here! ------------------------------- */
 
-<<<<<<< HEAD
 @media only screen and (max-width: 850px) {
     #container {
-=======
-@media only screen and (max-width: 700px) {
-  #container {
->>>>>>> princeton_dychinco_cart
     grid-template-columns: 100%;
     grid-template-rows: 10% 35% 10% 125% 10%;
     justify-items: center;
@@ -312,7 +294,6 @@ button {
     justify-items: center;
   }
 
-<<<<<<< HEAD
     button{
         background-color: #a862ea;
         border-radius: 50%;
@@ -353,20 +334,3 @@ button {
         grid-column: 1;
     }
 }
-=======
-  button {
-    background-color: #a862ea;
-    border-radius: 50%;
-    border-style: none;
-    color: #ffffff;
-    cursor: pointer;
-    font-size: 16px;
-    height: 115px;
-    padding: 0 15px;
-    min-width: 115px;
-    max-width: 115px;
-    text-align: center;
-    margin-bottom: 15px;
-  }
-}
->>>>>>> princeton_dychinco_cart
