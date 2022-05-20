@@ -1,9 +1,10 @@
-#container {
+
+#container , body {
     display: grid;
     width: 100%;
-    height: 100vh;
-    grid-template-columns: 30% 70%;
-    grid-template-rows: 10% 40% 40% 10%;
+    height: 100%;
+    grid-template-columns: 33% 33% 33%;
+    grid-template-rows: 10% 80% 10%;
 }
 
 @font-face {
@@ -280,7 +281,7 @@ button:hover{
         grid-row: 1;
         margin-bottom: 0;
     }
-    
+
     #packageDescrip{
         grid-column: 2;
         grid-row: 1;
