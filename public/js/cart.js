@@ -1,4 +1,5 @@
 "use strict";
+
 ready(function () {
   function ajaxGET(url, callback) {
     const xhr = new XMLHttpRequest();
@@ -48,49 +49,70 @@ ready(function () {
     xhr.send(params);
   }
 
-  // POST TO THE SERVER
-  document.querySelector("#submit").addEventListener("click", function (e) {
-    e.preventDefault();
-    // Get info filled in by user
-    let email = document.getElementById("email");
-    let password = document.getElementById("password");
-    let userName = document.getElementById("userName");
-    let firstName = document.getElementById("firstName");
-    let lastName = document.getElementById("lastName");
-    const vars = {
-      email: email.value,
-      password: password.value,
-      userName: userName.value,
-      firstName: firstName.value,
-      lastName: lastName.value,
-    };
+  let button = document.querySelectorAll(".add");
 
-    ajaxPOST(
-      "/register",
-      function (data) {
+  button.forEach((add) => {
+    add.addEventListener("click", function clickButton() {
+      add.style.backgroundColor = "#fb0066";
+      add.value = "Removed from cart";
+    });
+  });
+
+  // GET TO THE SERVER
+  document.querySelector("#dropLogo").addEventListener("click", function (e) {
+    e.preventDefault;
+    window.location.replace("/");
+  });
+
+  // GET TO THE SERVER
+  document
+    .querySelector("#proceedPayment")
+    .addEventListener("click", function (e) {
+      e.preventDefault;
+      window.location.replace("/payment");
+    });
+
+  document.getElementById("account").addEventListener("click", function (e) {
+    e.preventDefault;
+    window.location.replace("/account");
+  });
+
+  let notPushed = true;
+
+  document.getElementById("deleteCart").addEventListener("click", function (e) {
+    e.preventDefault;
+    if (notPushed) {
+      ajaxGET("/delete-cart", (data) => {
         if (data) {
           let dataParsed = JSON.parse(data);
           if (dataParsed.status == "fail") {
-            document.getElementById("errorMsg").innerHTML = dataParsed.msg;
-          } else {
-            window.location.assign("/profile");
+            console.log(error);
           }
         }
-      },
-      vars
-    );
+      });
+      const deleted = document.querySelector('.container');
+      document.querySelector('.container').innerHTML = "";
+      const text = document.createElement("p");
+      let message = document.createTextNode("Cart has been deleted");
+      text.appendChild(message);
+      text.setAttribute("id", "message");
+      text.setAttribute("class", "centertext")
+      text.style.justifySelf = "stretch";
+      text.style.gridColumn = "2";
+      text.style.alignSelf = "center";
+      text.style.fontSize = "20px";
+      deleted.insertAdjacentElement("beforeend", text);
+      notPushed = false;
+      document.getElementById("deleteCart").style.visibility = "hidden";
+      document.getElementById("proceedPayment").style.visibility = "hidden";
+    }
   });
 
-  // Redirect back to login page
-  document
-    .querySelector("#loginRedirect")
-    .addEventListener("click", function (e) {
-      e.preventDefault();
-      window.location.assign("/");
-    });
+  document.getElementById("about").addEventListener("click", () => {
+    window.location.assign("/about");
+  });
 
-  document.getElementById("contact").addEventListener("click", function (e) {
-    e.preventDefault;
+  document.getElementById("contact").addEventListener("click", () => {
     window.location.assign("/contactus");
   });
 });

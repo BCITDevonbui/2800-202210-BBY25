@@ -1,5 +1,8 @@
 "use strict";
+
 ready(function () {
+  let cartItem = [];
+  let cartItemQuantity = 0;
   function ajaxGET(url, callback) {
     const xhr = new XMLHttpRequest();
     xhr.onload = function () {
@@ -47,47 +50,90 @@ ready(function () {
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.send(params);
   }
-  // POST TO THE SERVER
-  document.querySelector("#submit").addEventListener("click", function (e) {
-    e.preventDefault();
-    let amount = document.getElementById("amount").value;
-    let queryString = "amount=" + amount;
-
-    // GET TO THE SERVER
-    document.querySelector("#dropLogo").addEventListener("click", function (e) {
+  const cardList = document.querySelectorAll(".add");
+  for (let i = 0; i < cardList.length; i++) {
+    cardList[i].addEventListener("click", function (e) {
       e.preventDefault;
-      window.location.replace("/");
-    });
+      let itemID = i + 1;
+      if (cartItem.includes(itemID)) {
+        document.getElementById(
+          "errorMsg"
+        ).innerHTML = `item${itemID} is already in your cart`;
+      } else {
+        cartItem.push(itemID);
+        cartItemQuantity++;
+      }
+      // alert(`the itemID is: ${itemID}. the quantity selected is ${quantity}`);
+      // create map instead of array for cartItem
+      // let map = new Map()
+      // if(cartItem[`item${itemID}`] != null || cartItem[`item${itemID}`] != undefined) {
+      //   cartItem[`item${itemID}`] = quantity;
+      // } else {
+      //   let oldQuantity = cartItem[`item${itemID}`];
+      //   cartItem[`item${itemID}`] = oldQuantity + quantity;
+      // }
 
+      // if(cartItem.has(itemID)) {
+      //   let updatedQuantity = cartItem.get(itemID);
+      //   cartItem.set(`${itemID}`, updatedQuantity + quantity);
+      // } else {
+      //   cartItem.set(`${itemID}`, quantity);
+      // }
+
+      document.getElementById("quantity").innerHTML = cartItemQuantity;
+    });
+  }
+
+  document.getElementById("cart").addEventListener("click", function (e) {
+    e.preventDefault;
+    // let jsonData = {};
+    // cartItem.forEach((value, key) => {
+    //   jsonData[key] = value;
+    // })
+    // let array = Array.from(cartItem, ([id,value]) => ({id, value}));
+    let queryString = { cart: cartItem };
+
+    // let parsedJSON = JSON.stringify(cartItem);
+    // console.log(array);
+    console.log(cartItem);
     ajaxPOST(
-      "/donate",
+      "/create-cart",
       function (data) {
         if (data) {
           let dataParsed = JSON.parse(data);
           if (dataParsed.status == "fail") {
-            document.getElementById("errorMsg").innerHTML = dataParsed.msg;
-            setTimeout(function () {
-              document.getElementById("errorMsg").innerHTML = "";
-            }, 1500);
+            document.getElementsById("errorMsg").innerHTML = dataParsed.msg;
           } else {
-            window.location.replace("/payment");
+            window.location.assign("/cart");
           }
         }
       },
       queryString
     );
   });
-  document.getElementById("home").addEventListener("click", function (e) {
+  let button = document.querySelectorAll(".add");
+
+  button.forEach((add) => {
+    add.addEventListener("click", function clickButton() {
+      add.style.backgroundColor = "#d4b9f7";
+      add.value = "Added to cart ✓";
+    });
+  });
+
+  // GET TO THE SERVER
+  document.querySelector("#dropLogo").addEventListener("click", function (e) {
     e.preventDefault;
     window.location.assign("/");
   });
+
+  document.getElementById("account").addEventListener("click", function (e) {
+    e.preventDefault;
+    window.location.assign("/account");
+  });
+
   document.getElementById("about").addEventListener("click", function (e) {
     e.preventDefault;
     window.location.assign("/about");
-  });
-  document.getElementById("submit").addEventListener("click", function (e) {
-    e.preventDefault;
-    window.location.assign("/payment");
   });
 
   document.getElementById("contact").addEventListener("click", function (e) {
