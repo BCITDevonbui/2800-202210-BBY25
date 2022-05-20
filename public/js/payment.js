@@ -75,7 +75,6 @@ ready(function () {
     );
   });
 
-<<<<<<< HEAD
   document.getElementById("home").addEventListener("click", function (e) {
     e.preventDefault;
     window.location.replace("/");
@@ -88,7 +87,7 @@ ready(function () {
   document.querySelector("#submit").addEventListener("click", function (e) {
     e.preventDefault;
     updatePurchased();
-    window.location.replace("/thanks")
+    // window.location.replace("/thanks")
   });
 
   function updatePurchased() {
@@ -117,12 +116,6 @@ ready(function () {
     console.log("dataToSend", "purchased=" + dataToSend.purchased);
     xhr.send("purchased=" + dataToSend.purchased);
   }
-=======
-  document.getElementById("home").addEventListener("click", function(e) {
-    e.preventDefault;
-    window.location.replace("/");
-  });
->>>>>>> ffec2a64b286b383e1a5f62e4bc42b3cc0aa3a3c
 });
 
 function ready(callback) {
