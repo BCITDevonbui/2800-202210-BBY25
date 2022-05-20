@@ -98,14 +98,10 @@ app.post("/donate", function (req, res) {
 app.get("/get-catalogue", function (req, res) {
   const mysql = require("mysql2");
   const connection = mysql.createConnection({
-    // host: "127.0.0.1",
-    // user: "root",
-    // password: "",
-    // multipleStatements: "true"
-    host: 'us-cdbr-east-05.cleardb.net',
-    user: 'b16ad059f5434a',
-    password: '2255f096',
-    database: 'heroku_02ad04623fadaa9'
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    multipleStatements: "true"
   });
   connection.connect();
 
@@ -403,14 +399,10 @@ app.post("/register", function (req, res) {
   res.setHeader("Content-Type", "application/json");
   const mysql = require("mysql2");
   const connection = mysql.createConnection({
-    // host: "127.0.0.1",
-    // user: "root",
-    // password: "",
-    // multipleStatements: "true"
-    host: 'us-cdbr-east-05.cleardb.net',
-    user: 'b16ad059f5434a',
-    password: '2255f096',
-    database: 'heroku_02ad04623fadaa9'
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    multipleStatements: "true"
   });
   connection.connect();
 
@@ -682,7 +674,7 @@ app.post("/admin-update-email", function (req, res) {
     [req.body.email, req.body.id],
     function (error, results, fields) {
       if (error) {
-        console.log(error);
+// catch error and save to database
       }
       //console.log('Rows returned are: ', results);
       res.send({ status: "success", msg: "Recorded updated." });
@@ -863,6 +855,7 @@ app.post("/admin-update-isAdmin", function (req, res) {
 app.post("/add-user", function (req, res) {
   res.setHeader("Content-Type", "application/json");
 
+
   const connection = mysql.createConnection({
     // host: "127.0.0.1",
     // user: "root",
@@ -985,16 +978,14 @@ app.post("/update-firstName", async function (req, res) {
     [req.body.name, req.body.id],
     function (error, results, fields) {
       if (error) {
-        console.log(error);
+// catch error and save to database
       }
-      //console.log('Rows returned are: ', results);
       res.send({
         status: "success",
         msg: "Recorded updated.",
       });
 
-      req.session.name = req.body.name;
-      console.log(req.session.name);
+      req.session.name = req.body.nam
 
       req.session.save(function (err) {
         // session saved. for analytics we could record this in db
@@ -1181,16 +1172,15 @@ app.post("/update-profilePic", function (req, res) {
     [req.body.profilePic, req.body.id],
     function (error, results, fields) {
       if (error) {
-        console.log(error);
+// catch error and save to database
       }
-      //console.log('Rows returned are: ', results);
+
       res.send({
         status: "success",
         msg: "Recorded updated.",
       });
 
       req.session.profilePic = req.body.profilePic;
-      console.log(req.session.profilePic);
 
       req.session.save(function (err) {
         // session saved. for analytics we could record this in db
@@ -1216,6 +1206,5 @@ app.get("/logout", function (req, res) {
   }
 });
 
-
-let port = 5000;
-app.listen(process.env.PORT || port);
+let port = 8000;
+app.listen(port);
