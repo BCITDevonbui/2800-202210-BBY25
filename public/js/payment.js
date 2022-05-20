@@ -101,19 +101,15 @@ ready(function () {
       if (this.readyState == XMLHttpRequest.DONE) {
         // 200 means everthing worked
         if (xhr.status === 200) {
-          console.log("changed purchase status");
         } else {
           // not a 200, could be anything (404, 500, etc.)
-          console.log(this.status);
         }
       } else {
-        console.log("ERROR", this.status);
       }
     };
     xhr.open("POST", "/update-purchased");
     xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    console.log("dataToSend", "purchased=" + dataToSend.purchased);
     xhr.send("purchased=" + dataToSend.purchased);
   }
 });

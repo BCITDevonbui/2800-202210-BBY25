@@ -136,9 +136,7 @@ app.get("/cart", async function (req, res) {
       const answer = connection.query(
         `SELECT * from BBY_25_catalogue WHERE itemID = "${contents[i]}";`
       );
-      console.log(answer);
       cartItems += buildCard(answer);
-      console.log(cartItems);
     }
     resolve(cartItems);
   });
@@ -268,7 +266,6 @@ function buildCards(results) {
     //converts card DOM into html
     html += cardDOM.serialize();
   });
-  console.log(html);
   return html;
 }
 
@@ -510,7 +507,6 @@ app.get("/get-donation", function (req, res) {
     function (error, results, fields) {
       if (error) {
         // catch error and save to database
-        console.log(error);
       } else {
         res.send({
           status: "success",
@@ -622,16 +618,12 @@ app.post("/admin-update-email", function (req, res) {
     database: "comp2800",
   });
   connection.connect();
-
-  console.log("update values", req.body.email, req.body.id);
   connection.query(
     "UPDATE BBY_25_users SET email = ? WHERE identity = ?",
     [req.body.email, req.body.id],
     function (error, results, fields) {
       if (error) {
-        console.log(error);
       }
-      //console.log('Rows returned are: ', results);
       res.send({ status: "success", msg: "Recorded updated." });
     }
   );
@@ -895,22 +887,18 @@ app.post("/update-firstName", async function (req, res) {
     database: "comp2800",
   });
   connection.connect();
-  console.log("update values", req.body.name, req.body.id);
   connection.query(
     "UPDATE BBY_25_users SET first_name = ? WHERE identity = ?",
     [req.body.name, req.body.id],
     function (error, results, fields) {
       if (error) {
-        console.log(error);
       }
-      //console.log('Rows returned are: ', results);
       res.send({
         status: "success",
         msg: "Recorded updated.",
       });
 
       req.session.name = req.body.name;
-      console.log(req.session.name);
 
       req.session.save(function (err) {
         // session saved. for analytics we could record this in db
@@ -1071,22 +1059,18 @@ app.post("/update-profilePic", function (req, res) {
     database: "comp2800",
   });
   connection.connect();
-  console.log("update values", req.body.profilePic, req.body.id);
   connection.query(
     "UPDATE BBY_25_users SET profile_pic = ? WHERE identity = ?",
     [req.body.profilePic, req.body.id],
     function (error, results, fields) {
       if (error) {
-        console.log(error);
       }
-      //console.log('Rows returned are: ', results);
       res.send({
         status: "success",
         msg: "Recorded updated.",
       });
 
       req.session.profilePic = req.body.profilePic;
-      console.log(req.session.profilePic);
 
       req.session.save(function (err) {
         // session saved. for analytics we could record this in db

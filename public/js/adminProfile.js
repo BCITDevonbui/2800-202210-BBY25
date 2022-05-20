@@ -55,7 +55,6 @@ function getUsers() {
 
           for (let i = 0; i < data.rows.length; i++) {
             let row = data.rows[i];
-            //console.log("row", row);
             str +=
               "<tr><td class='id'>" +
               row.identity +
@@ -75,7 +74,6 @@ function getUsers() {
               row.is_admin +
               "</span></tr>";
           }
-          //console.log(str);
           document.getElementById("customers").innerHTML = str;
 
           // select all spans under the email class of td elements
@@ -126,14 +124,12 @@ function getUsers() {
             isAdminRecords[j].addEventListener("click", editIsAdmin);
           }
         } else {
-          console.log("Error!");
+
         }
       } else {
         // not a 200, could be anything (404, 500, etc.)
-        console.log(this.status);
       }
     } else {
-      console.log("ERROR", this.status);
     }
   };
   xhr.open("GET", "/get-allUsers");
@@ -196,16 +192,13 @@ function editEmail(e) {
             }
           } else {
             // not a 200, could be anything (404, 500, etc.)
-            console.log(this.status);
           }
         } else {
-          console.log("ERROR", this.status);
         }
       };
       xhr.open("POST", "/admin-update-email");
       xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
       xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-      //console.log("dataToSend", "id=" + dataToSend.id + "&email=" + dataToSend.email);
       xhr.send("id=" + dataToSend.id + "&email=" + dataToSend.email);
     }
   });
@@ -250,19 +243,13 @@ function editUserName(e) {
             // getCustomers();
           } else {
             // not a 200, could be anything (404, 500, etc.)
-            console.log(this.status);
           }
         } else {
-          console.log("ERROR", this.status);
         }
       };
       xhr.open("POST", "/admin-update-username");
       xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
       xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-      console.log(
-        "dataToSend",
-        "id=" + dataToSend.id + "&userName=" + dataToSend.userName
-      );
       xhr.send("id=" + dataToSend.id + "&userName=" + dataToSend.userName);
     }
   });
@@ -307,19 +294,13 @@ function editFirstName(e) {
             // getCustomers();
           } else {
             // not a 200, could be anything (404, 500, etc.)
-            console.log(this.status);
           }
         } else {
-          console.log("ERROR", this.status);
         }
       };
       xhr.open("POST", "/admin-update-firstname");
       xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
       xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-      console.log(
-        "dataToSend",
-        "id=" + dataToSend.id + "&firstName=" + dataToSend.firstName
-      );
       xhr.send("id=" + dataToSend.id + "&firstName=" + dataToSend.firstName);
     }
   });
@@ -364,19 +345,13 @@ function editLastName(e) {
             // getCustomers();
           } else {
             // not a 200, could be anything (404, 500, etc.)
-            console.log(this.status);
           }
         } else {
-          console.log("ERROR", this.status);
         }
       };
       xhr.open("POST", "/admin-update-lastname");
       xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
       xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-      console.log(
-        "dataToSend",
-        "id=" + dataToSend.id + "&lastName=" + dataToSend.lastName
-      );
       xhr.send("id=" + dataToSend.id + "&lastName=" + dataToSend.lastName);
     }
   });
@@ -421,19 +396,13 @@ function editPassword(e) {
             // getCustomers();
           } else {
             // not a 200, could be anything (404, 500, etc.)
-            console.log(this.status);
           }
         } else {
-          console.log("ERROR", this.status);
         }
       };
       xhr.open("POST", "/admin-update-password");
       xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
       xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-      console.log(
-        "dataToSend",
-        "id=" + dataToSend.id + "&password=" + dataToSend.password
-      );
       xhr.send("id=" + dataToSend.id + "&password=" + dataToSend.password);
     }
   });
@@ -497,19 +466,13 @@ function editIsAdmin(e) {
             // getCustomers();
           } else {
             // not a 200, could be anything (404, 500, etc.)
-            console.log(this.status);
           }
         } else {
-          console.log("ERROR", this.status);
         }
       };
       xhr.open("POST", "/admin-update-isAdmin");
       xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
       xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-      console.log(
-        "dataToSend",
-        "id=" + dataToSend.id + "&isAdmin=" + dataToSend.isAdmin
-      );
       xhr.send("id=" + dataToSend.id + "&isAdmin=" + dataToSend.isAdmin);
     }
   });
@@ -572,7 +535,6 @@ document.getElementById("submit").addEventListener("click", function (e) {
   document.getElementById("add-email").value = "";
   document.getElementById("add-password").value = "";
   document.getElementById("add-isAdmin").value = "";
-  console.log(document.getElementById("add-email").value);
 
   const xhr = new XMLHttpRequest();
   xhr.onload = function () {
@@ -591,30 +553,13 @@ document.getElementById("submit").addEventListener("click", function (e) {
         getUsers();
       } else {
         // not a 200, could be anything (404, 500, etc.)
-        console.log(this.status);
       }
     } else {
-      console.log("ERROR", this.status);
     }
   };
   xhr.open("POST", "/add-user");
   xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
   xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-  console.log(
-    "formToSend",
-    "userName=" +
-      formData.userName +
-      "&firstName=" +
-      formData.firstName +
-      "&lastName=" +
-      formData.lastName +
-      "&email=" +
-      formData.email +
-      "&password=" +
-      formData.password +
-      "&isAdmin=" +
-      formData.isAdmin
-  );
   xhr.send(
     "userName=" +
       formData.userName +
@@ -653,13 +598,11 @@ document.getElementById("delete").addEventListener("click", function (e) {
         let dataParsed = JSON.parse(data);
         if (dataParsed.status == "fail") {
           document.getElementById("status").innerHTML = dataParsed.msg;
-          console.log(dataParsed.msg);
           setTimeout(function () {
             document.getElementById("status").innerHTML = "";
           }, 1500);
         } else {
           document.getElementById("status").innerHTML = dataParsed.msg;
-          console.log(dataParsed.msg);
           getUsers();
         }
       }

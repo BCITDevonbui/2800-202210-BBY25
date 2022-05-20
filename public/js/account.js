@@ -25,8 +25,6 @@ function editName(e) {
       parent.innerHTML = "";
       parent.appendChild(newSpan);
 
-      console.log(parent.parentNode.querySelector("#id").innerHTML);
-
       let dataToSend = {
         id: parent.parentNode.querySelector("#id").innerHTML,
         name: v,
@@ -42,19 +40,13 @@ function editName(e) {
             //   getCustomers();
           } else {
             // not a 200, could be anything (404, 500, etc.)
-            console.log(this.status);
           }
         } else {
-          console.log("ERROR", this.status);
         }
       };
       xhr.open("POST", "/update-firstName");
       xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
       xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-      console.log(
-        "dataToSend",
-        "id=" + dataToSend.id + "&name=" + dataToSend.name
-      );
       xhr.send("id=" + dataToSend.id + "&name=" + dataToSend.name);
     }
   });
@@ -254,8 +246,6 @@ document.getElementById("submit").addEventListener("click", function (e) {
     id: parent.parentNode.querySelector("#id").innerHTML,
     profilePic: v,
   };
-  console.log("im the id " + dataToSend.id);
-  console.log("Im the pic to be sent " + dataToSend.profilePic);
 
   // now send
   const xhr = new XMLHttpRequest();
@@ -267,19 +257,13 @@ document.getElementById("submit").addEventListener("click", function (e) {
         //   getCustomers();
       } else {
         // not a 200, could be anything (404, 500, etc.)
-        console.log(this.status);
       }
     } else {
-      console.log("ERROR", this.status);
     }
   };
   xhr.open("POST", "/update-profilePic");
   xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
   xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-  console.log(
-    "dataToSend",
-    "id=" + dataToSend.id + "&profilePic=" + dataToSend.profilePic
-  );
   xhr.send("id=" + dataToSend.id + "&profilePic=" + dataToSend.profilePic);
 });
 

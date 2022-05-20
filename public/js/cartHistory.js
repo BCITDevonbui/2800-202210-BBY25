@@ -16,7 +16,6 @@ function getCartHistory() {
 
           for (let i = 0; i < data.rows.length; i++) {
             let row = data.rows[i];
-            //console.log("row", row);
             str +=
               "<tr><td class='id'>" +
               row.userID +
@@ -33,17 +32,15 @@ function getCartHistory() {
               (row.purchased ? "Yes" : "No") +
               "</span></tr>";
           }
-          //console.log(str);
           document.getElementById("packages").innerHTML = str;
         } else {
-          console.log("Error!");
         }
       } else {
         // not a 200, could be anything (404, 500, etc.)
-        console.log(this.status);
+
       }
     } else {
-      console.log("ERROR", this.status);
+
     }
   };
   xhr.open("GET", "/get-packages");
@@ -68,7 +65,7 @@ function getDonateHistory() {
 
           for (let i = 0; i < data.rows.length; i++) {
             let row = data.rows[i];
-            //console.log("row", row);
+
             str +=
               "<tr><td class='id'>" +
               row.userID +
@@ -83,17 +80,17 @@ function getDonateHistory() {
               "</span>" +
               "</td></tr>";
           }
-          //console.log(str);
+
           document.getElementById("donation").innerHTML = str;
         } else {
-          console.log("Error!");
+
         }
       } else {
         // not a 200, could be anything (404, 500, etc.)
-        console.log(this.status);
+
       }
     } else {
-      console.log("ERROR", this.status);
+
     }
   };
   xhr.open("GET", "/get-donation");
