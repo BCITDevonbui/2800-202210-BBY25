@@ -154,7 +154,7 @@ P.onclick = function(){
     let timer = setInterval(function() {
     let timePassed = Date.now() - start;
         
-    drop.style.top = timePassed / 5 + 'px';
+    document.getElementById("drop").style.top = timePassed / 5 + 'px';
         
     onFinish();
         
