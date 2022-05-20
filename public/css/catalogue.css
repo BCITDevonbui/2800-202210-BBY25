@@ -6,7 +6,7 @@
   grid-template-rows: 10% 10% 80% 85% 10%;
 }
 
-#account{
+#account {
   cursor: pointer;
 }
 
@@ -26,7 +26,7 @@ a {
   text-decoration: none;
 }
 
-a:hover{
+a:hover {
   color: #d4b9f7
 }
 
@@ -44,7 +44,7 @@ p {
   cursor: pointer;
 }
 
-#navbar{
+#navbar {
   grid-row: 1;
   grid-column: 4;
   text-align: center;
@@ -61,7 +61,7 @@ nav {
 }
 
 .icon {
-  width:50px;
+  width: 50px;
   height: auto;
   margin-left: 15px;
   margin-top: 7px;
@@ -101,8 +101,8 @@ input[type='button'] {
   font-family: 'Heebo', sans-serif;
 }
 
-input[type='button']:hover{
-opacity: 0.8;
+input[type='button']:hover {
+  opacity: 0.8;
 }
 
 input[type='submit'] {
@@ -116,12 +116,12 @@ input[type='submit'] {
   font-family: 'Heebo', sans-serif;
 }
 
-input[type='submit']:hover{
-    background-color: #d60000;
-    border: 3px solid #d60000;
+input[type='submit']:hover {
+  background-color: #d60000;
+  border: 3px solid #d60000;
 }
 
-#dropLogo{
+#dropLogo {
   cursor: pointer;
 }
 
@@ -139,16 +139,16 @@ input[type='submit']:hover{
   border-radius: 25px;
 }
 
-.container{
-  display:grid;
+.container {
+  display: grid;
   grid-template-columns: 33% 33% 33%;
-  width:100%;
+  width: 100%;
   opacity: 0.9;
 }
 
-.card{
+.card {
   margin: 12%;
-  padding:5%;
+  padding: 5%;
   grid-template-columns: 33% 33% 33%;
   background-color: #75b7d8;
   border-radius: 10px;
@@ -158,43 +158,43 @@ input[type='submit']:hover{
   width: 300px;
 }
 
-.bold{
+.bold {
   color: #fff;
   text-shadow:
-      0 0 7px #fff,
-      0 0 10px #fff,
-      0 0 21px #fff,
-      0 0 42px #a862ea,
-      0 0 82px #a862ea,
-      0 0 92px #a862ea,
-      0 0 102px #a862ea,
-      0 0 151px #a862ea;
+    0 0 7px #fff,
+    0 0 10px #fff,
+    0 0 21px #fff,
+    0 0 42px #a862ea,
+    0 0 82px #a862ea,
+    0 0 92px #a862ea,
+    0 0 102px #a862ea,
+    0 0 151px #a862ea;
 }
 
 /* ----------------------- The smaller view css starts here! ------------------------------- */
 
 @media only screen and (max-width: 1500px) {
   #container {
-  grid-template-columns: 100%;
-  grid-template-rows: 10% 15% 350% 10%;
-  justify-items: center;
+    grid-template-columns: 100%;
+    grid-template-rows: 10% 15% 350% 10%;
+    justify-items: center;
   }
 
   aside {
-      grid-row: 1;
-      grid-column: 1;
-      justify-self: end;
-      align-self: center;
-      margin-right: 15px;
+    grid-row: 1;
+    grid-column: 1;
+    justify-self: end;
+    align-self: center;
+    margin-right: 15px;
   }
 
-  #navbar{
-      grid-row: 1;
-      grid-column: 1;
-      text-align: center;
-      justify-self: end;
-      align-self: center;
-      margin-right: 110px;
+  #navbar {
+    grid-row: 1;
+    grid-column: 1;
+    text-align: center;
+    justify-self: end;
+    align-self: center;
+    margin-right: 110px;
   }
 
   #cart {
@@ -207,40 +207,40 @@ input[type='submit']:hover{
   }
 
   nav {
-      grid-row: 1;
-      grid-column: 1;
-      justify-self: stretch;
+    grid-row: 1;
+    grid-column: 1;
+    justify-self: stretch;
   }
 
-  h1{
-      grid-column: 1;
-      grid-row: 2;
+  h1 {
+    grid-column: 1;
+    grid-row: 2;
   }
 
   footer {
-      grid-column: 1;
-      grid-row: 4;
-      justify-self: stretch;
+    grid-column: 1;
+    grid-row: 4;
+    justify-self: stretch;
   }
 
   #content {
-      grid-column: 1;
-      grid-row: 3;
-      justify-self: stretch;
-      align-items: center;
-      justify-items: center;
+    grid-column: 1;
+    grid-row: 3;
+    justify-self: stretch;
+    align-items: center;
+    justify-items: center;
   }
-  
-  .container{
-    display:grid;
+
+  .container {
+    display: grid;
     grid-template-columns: 49% 49%;
-    width:99%;
+    width: 99%;
     opacity: 0.9;
   }
-  
-  .card{
+
+  .card {
     margin: 5%;
-    padding:5%;
+    padding: 5%;
     grid-template-columns: 33% 33% 33%;
     background-color: #75b7d8;
     border-radius: 10px;
@@ -257,26 +257,26 @@ input[type='submit']:hover{
 
 @media only screen and (max-width: 1000px) {
   #container {
-  grid-template-columns: 100%;
-  grid-template-rows: 10% 15% 600% 10%;
-  justify-items: center;
+    grid-template-columns: 100%;
+    grid-template-rows: 10% 15% 600% 10%;
+    justify-items: center;
   }
 
   aside {
-      grid-row: 1;
-      grid-column: 1;
-      justify-self: end;
-      align-self: center;
-      margin-right: 15px;
+    grid-row: 1;
+    grid-column: 1;
+    justify-self: end;
+    align-self: center;
+    margin-right: 15px;
   }
 
-  #navbar{
-      grid-row: 1;
-      grid-column: 1;
-      text-align: center;
-      justify-self: end;
-      align-self: center;
-      margin-right: 110px;
+  #navbar {
+    grid-row: 1;
+    grid-column: 1;
+    text-align: center;
+    justify-self: end;
+    align-self: center;
+    margin-right: 110px;
   }
 
   #cart {
@@ -289,40 +289,40 @@ input[type='submit']:hover{
   }
 
   nav {
-      grid-row: 1;
-      grid-column: 1;
-      justify-self: stretch;
+    grid-row: 1;
+    grid-column: 1;
+    justify-self: stretch;
   }
 
-  h1{
-      grid-column: 1;
-      grid-row: 2;
+  h1 {
+    grid-column: 1;
+    grid-row: 2;
   }
 
   footer {
-      grid-column: 1;
-      grid-row: 4;
-      justify-self: stretch;
+    grid-column: 1;
+    grid-row: 4;
+    justify-self: stretch;
   }
 
   #content {
-      grid-column: 1;
-      grid-row: 3;
-      justify-self: stretch;
-      align-items: center;
-      justify-items: center;
+    grid-column: 1;
+    grid-row: 3;
+    justify-self: stretch;
+    align-items: center;
+    justify-items: center;
   }
-  
-  .container{
-    display:grid;
+
+  .container {
+    display: grid;
     grid-template-columns: 99%;
-    width:99%;
+    width: 99%;
     opacity: 0.9;
   }
-  
-  .card{
+
+  .card {
     margin: 5%;
-    padding:5%;
+    padding: 5%;
     grid-template-columns: 33% 33% 33%;
     background-color: #75b7d8;
     border-radius: 10px;
@@ -339,8 +339,8 @@ input[type='submit']:hover{
 
 @media only screen and (max-width: 600px) {
   #container {
-  grid-template-columns: 100%;
-  grid-template-rows: 10% 10% 40.5% 10%;
-  justify-items: center;
+    grid-template-columns: 100%;
+    grid-template-rows: 10% 10% 40.5% 10%;
+    justify-items: center;
   }
 }

@@ -44,35 +44,36 @@ nav {
 }
 
 th {
-    font-family: 'Merriweather', serif;
-    padding: 2px;
+  font-family: 'Merriweather', serif;
+  padding: 2px;
 }
 
 td {
-    font-family: 'Mulish', sans-serif;
+  font-family: 'Mulish', sans-serif;
 }
 
-input[type=text], input[type=email] {
-    width: 60%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    display: inline-block;
-    border: 1px solid #ccc;
-    box-sizing: border-box;
-    border-radius: 10px;
-    font-family: 'Mulish', sans-serif;
+input[type=text],
+input[type=email] {
+  width: 60%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  border-radius: 10px;
+  font-family: 'Mulish', sans-serif;
 }
 
 input[type='submit'] {
-    font-size: 16px;
-    background-color: #fb0066;
-    border: 3px solid #fb0066;
-    color: white;
-    cursor: pointer;
-    padding: 7px 14px;
-    border-radius: 25px;
-    font-family: 'Heebo', sans-serif;
-  }
+  font-size: 16px;
+  background-color: #fb0066;
+  border: 3px solid #fb0066;
+  color: white;
+  cursor: pointer;
+  padding: 7px 14px;
+  border-radius: 25px;
+  font-family: 'Heebo', sans-serif;
+}
 
 input[type="submit"]:hover {
   background-color: #d60000;
@@ -151,8 +152,8 @@ a:hover {
 }
 
 table {
-    margin-left: auto;
-    margin-right: auto;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 #formDiv {
@@ -240,7 +241,7 @@ button {
 /* ----------------------- The mobile view css starts here! ------------------------------- */
 
 @media only screen and (max-width: 850px) {
-    #container {
+  #container {
     grid-template-columns: 100%;
     grid-template-rows: 10% 35% 10% 125% 10%;
     justify-items: center;
@@ -294,43 +295,44 @@ button {
     justify-items: center;
   }
 
-    button{
-        background-color: #a862ea;
-        border-radius: 50%;
-        border-style: none;
-        color: #FFFFFF;
-        cursor: pointer;
-        font-size: 16px;
-        height: 115px;
-        padding: 0 15px;
-        min-width: 115px;
-        max-width: 115px;
-        text-align: center;
-        margin-bottom: 15px;
-      }
+  button {
+    background-color: #a862ea;
+    border-radius: 50%;
+    border-style: none;
+    color: #FFFFFF;
+    cursor: pointer;
+    font-size: 16px;
+    height: 115px;
+    padding: 0 15px;
+    min-width: 115px;
+    max-width: 115px;
+    text-align: center;
+    margin-bottom: 15px;
+  }
 
 
 }
 
-@media only screen and (max-width: 700px){
-    table{
-        display: none;
-    }
-    #edit{
-        display:none;
-    }
+@media only screen and (max-width: 700px) {
+  table {
+    display: none;
+  }
 
-    #miniContainer {
-        display: grid;
-        grid-template-columns: 100%;
-        grid-template-rows: 100%;
-        justify-self: stretch;
-        align-items: center;
-        justify-items: center;
-    }
+  #edit {
+    display: none;
+  }
 
-    form{
-        grid-row: 1;
-        grid-column: 1;
-    }
+  #miniContainer {
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 100%;
+    justify-self: stretch;
+    align-items: center;
+    justify-items: center;
+  }
+
+  form {
+    grid-row: 1;
+    grid-column: 1;
+  }
 }

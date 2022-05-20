@@ -95,41 +95,46 @@ div {
   justify-content: center;
 }
 
-input[type=text],input[type=email],input[type=first_name], input[type=last_name] {
-    width: 75%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    display: inline-block;
-    border: 1px solid #ccc;
-    box-sizing: border-box;
-    border-radius: 10px;
-    font-family: 'Mulish', sans-serif;
+input[type=text],
+input[type=email],
+input[type=first_name],
+input[type=last_name] {
+  width: 75%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  border-radius: 10px;
+  font-family: 'Mulish', sans-serif;
 }
 
-input[type=text], select, textarea {
-    width: 75%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    display: inline-block;
-    border: 1px solid #ccc;
-    box-sizing: border-box;
-    border-radius: 10px;
-    font-family: 'Mulish', sans-serif;
-  }
+input[type=text],
+select,
+textarea {
+  width: 75%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  border-radius: 10px;
+  font-family: 'Mulish', sans-serif;
+}
 
- input[type=button]{
-    background-color: #a862ea;
-    color: white;
-    padding: 14px 20px;
-    margin: 8px 0;
-    border: none;
-    cursor: pointer;
-    width: 75%;
-    border-radius: 10px;
-  }
+input[type=button] {
+  background-color: #a862ea;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 75%;
+  border-radius: 10px;
+}
 
 input[type=button]:hover {
-    opacity: 0.8;
+  opacity: 0.8;
 }
 
 #content {
@@ -192,6 +197,7 @@ input[type="submit"]:hover {
     grid-row: 2 / span 2;
   }
 }
+
 footer {
   background-color: #3482c1;
   grid-column: 1 / span 6;

@@ -1,66 +1,48 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>Drop Contact us</title>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="/css/contactus.css" rel="stylesheet" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Heebo&family=Merriweather&family=Mulish&display=swap"
-      rel="stylesheet"
-    />
-  </head>
-  <body>
-    <div class="topnav">
-      <a id="home">Home</a>
-      <aside>
-        <form class="formlogout" id="Logout" action="/logout" method="get">
-          <input type="submit" value="Logout" />
-        </form>
-      </aside>
-    </div>
+<html lang="en">
 
-    <div id="content">
-      <div id="formPanel">
-        <form id="loginForm">
-          <img src="/img/2800_drop.png" id="drop" alt="drop Logo" />
-          <h1 id="formTitle">Contact Us!</h1>
-          <p>Swing by for a drink, or leave us a message:</p>
-          <input
-            id="firstName"
-            type="first_name"
-            required="required"
-            placeholder="First Name"
-          />
-          <input
-            id="lastName"
-            type="last_name"
-            required="required"
-            placeholder="Last Name"
-          />
-          <input
-            id="email"
-            type="email"
-            required="required"
-            placeholder="Email"
-          />
-          <textarea
-            id="subject"
-            name="subject"
-            placeholder="What would you like to say?"
-            style="height: 120px"
-          ></textarea>
-          <input type="button" value="Submit" id="submit" />
-        </form>
-      </div>
-      <div class="bottomnav">
-        <a id="about">About</a>
-        <a id="faq">FAQ</a>
-        <a id="help">Help</a>
-        <a id="contact">Contact</a>
-      </div>
-    </div>
+<head>
+  <title>Drop Contact us</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="/css/contactus.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Heebo&family=Merriweather&family=Mulish&display=swap"
+    rel="stylesheet" />
+</head>
 
-    <script src="/js/contactus.js"></script>
-  </body>
+<body>
+  <div class="topnav">
+    <a id="home">Home</a>
+    <aside>
+      <form class="formlogout" id="Logout" action="/logout" method="get">
+        <input type="submit" value="Logout" />
+      </form>
+    </aside>
+  </div>
+
+  <div id="content">
+    <div id="formPanel">
+      <form id="loginForm">
+        <img src="/img/2800_drop.png" id="drop" alt="drop Logo" />
+        <h1 id="formTitle">Contact Us!</h1>
+        <p>Swing by for a drink, or leave us a message:</p>
+        <input id="firstName" type="text" required="required" placeholder="First Name" />
+        <input id="lastName" type="text" required="required" placeholder="Last Name" />
+        <input id="email" type="email" required="required" placeholder="Email" />
+        <textarea id="subject" name="subject" placeholder="What would you like to say?"
+          style="height: 120px"></textarea>
+        <input type="button" value="Submit" id="submit" />
+      </form>
+    </div>
+    <div class="bottomnav">
+      <a id="about">About</a>
+      <a id="faq">FAQ</a>
+      <a id="help">Help</a>
+      <a id="contact">Contact</a>
+    </div>
+  </div>
+
+  <script src="/js/contactus.js"></script>
+</body>
+
 </html>

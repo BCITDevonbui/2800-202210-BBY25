@@ -34,7 +34,7 @@ function getCartHistory() {
               "</span></tr>";
           }
           //console.log(str);
-          document.getElementById("customers").innerHTML = str;
+          document.getElementById("packages").innerHTML = str;
         } else {
           console.log("Error!");
         }
