@@ -28,7 +28,7 @@ img {
   }
 
 #drop {
-    position: relative;
+    position: absolute;
 }
 
 aside {
