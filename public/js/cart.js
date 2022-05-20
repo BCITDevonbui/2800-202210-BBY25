@@ -90,7 +90,18 @@ ready(function () {
           }
         }
       });
-      document.getElementById("content").innerHTML = "Cart has been deleted";
+      const deleted = document.querySelector('.container');
+      document.querySelector('.container').innerHTML = "";
+      const text = document.createElement("p");
+      let message = document.createTextNode("Cart has been deleted");
+      text.appendChild(message);
+      text.setAttribute("id", "message");
+      text.setAttribute("class", "centertext")
+      text.style.justifySelf = "stretch";
+      text.style.gridColumn = "2";
+      text.style.alignSelf = "center";
+      text.style.fontSize = "20px";
+      deleted.insertAdjacentElement("beforeend", text);
       notPushed = false;
       document.getElementById("deleteCart").style.visibility = "hidden";
       document.getElementById("proceedPayment").style.visibility = "hidden";

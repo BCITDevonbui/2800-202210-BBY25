@@ -6,6 +6,10 @@
   grid-template-rows: 10% 40% 40% 10%;
 }
 
+#account{
+  cursor: pointer;
+}
+
 @font-face {
   font-family: 'customHeebo';
   src: url("fonts/Heebo-Regular.ttf");

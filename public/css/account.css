@@ -1,9 +1,9 @@
 #container {
     display: grid;
     width: 100%;
-    height: 100vh;
+    height: 100%;
     grid-template-columns: 15% 35% 35% 15%;
-    grid-template-rows: 10% 10% 50% 40% 10%;
+    grid-template-rows: 9% 10% 50% 40% 10%;
 }
 
 @font-face {
@@ -73,11 +73,16 @@ input[type='submit'] {
       border: 3px solid #d60000;
   }
 
+  #account{
+      cursor: pointer;
+  }
+
 h1 {
     grid-column: 1 / span 4;
     grid-row: 2;
     font-family: 'Merriweather', serif;
     font-size: 32px;
+    align-self: center;
 }
 
 #cartHistory {
@@ -91,8 +96,12 @@ h1 {
 
 p {
     font-family: 'Mulish', sans-serif;
-    font-size: 18px;
+    font-size: 100%;
     margin-left: 10px;
+    margin-bottom: 0;
+    margin-top: 0;
+    padding:1%;
+    color: black;
        
 }
 
@@ -106,6 +115,8 @@ p {
 
 .centertext {
     text-align: center;
+    margin:0 auto;
+    padding: 0;
 }
 
 footer {
@@ -145,6 +156,7 @@ input[type=button]{
     text-align: center;
     font-family: 'Heebo', sans-serif;
     margin-left: 20px;
+    margin-bottom: 3%;
   }
 
 button:hover{
@@ -152,11 +164,8 @@ button:hover{
 }
 
 #miniContainer {
-    margin-left: 10px;
-    margin-right: 10px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    padding-top: 15px;
+    margin: 1%;
+    padding: 10%;
     background-color: #a3e1ff;
     grid-column: 2 / span 2;
     grid-row: 3 / span 2;
@@ -174,6 +183,7 @@ button:hover{
     grid-column: 2 / span 2;
     grid-row: 1;
 }
+
 
 /* ----------------------- The mobile view css starts here! ------------------------------- */
 

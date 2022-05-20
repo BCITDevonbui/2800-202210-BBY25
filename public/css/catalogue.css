@@ -6,6 +6,10 @@
   grid-template-rows: 10% 10% 80% 85% 10%;
 }
 
+#account{
+  cursor: pointer;
+}
+
 aside {
   grid-row: 1;
   grid-column: 4;
