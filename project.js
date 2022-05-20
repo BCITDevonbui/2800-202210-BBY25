@@ -68,6 +68,7 @@ app.post("/donate", function (req, res) {
     database: "COMP2800",
     multipleStatements: "true",
   });
+    connection.connect();
   let amount = req.body.amount;
   if (amount < 0 || amount > 9999999.99 || amount === "") {
     res.send({ status: "fail", msg: "Invalid amount entered!" });
@@ -124,6 +125,7 @@ app.get("/cart", async function (req, res) {
     password: "",
     database: "COMP2800",
   });
+  connection.connect();
   let cartItems = "";
   const [results] = await connection.query(
     `SELECT contents FROM BBY_25_users_packages WHERE userID = '${req.session.identity}' ORDER BY postdate desc LIMIT 1;`
@@ -216,6 +218,7 @@ async function getAllItems(callback) {
     password: "",
     database: "COMP2800",
   });
+  connection.connect();
   const [results] = await connection.query("SELECT * FROM BBY_25_catalogue");
   callback(results);
 }
