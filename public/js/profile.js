@@ -49,12 +49,6 @@ ready(function () {
   }
 
   // GET TO THE SERVER
-  document.querySelector("#dropLogo").addEventListener("click", function (e) {
-    e.preventDefault;
-    window.location.replace("/");
-  });
-
-  // GET TO THE SERVER
   document
     .querySelector("#donateButton")
     .addEventListener("click", function (e) {
