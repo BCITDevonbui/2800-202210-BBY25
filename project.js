@@ -62,16 +62,13 @@ app.get("/donate", function (req, res) {
 app.post("/donate", function (req, res) {
   const mysql = require("mysql2");
   const connection = mysql.createConnection({
-    // host: "127.0.0.1",
-    // user: "root",
-    // password: "",
-    // multipleStatements: "true"
-    host: 'us-cdbr-east-05.cleardb.net',
-    user: 'b16ad059f5434a',
-    password: '2255f096',
-    database: 'heroku_02ad04623fadaa9'
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "COMP2800",
+    multipleStatements: "true",
   });
-  connection.connect();
+    connection.connect();
   let amount = req.body.amount;
   if (amount < 0 || amount > 9999999.99 || amount === "") {
     res.send({ status: "fail", msg: "Invalid amount entered!" });
@@ -101,7 +98,7 @@ app.get("/get-catalogue", function (req, res) {
     host: "127.0.0.1",
     user: "root",
     password: "",
-    multipleStatements: "true"
+    multipleStatements: "true",
   });
   connection.connect();
 
@@ -122,15 +119,11 @@ app.get("/cart", async function (req, res) {
   let doc = fs.readFileSync("./app/html/cart.html", "utf8");
   let docDOM = new JSDOM(doc);
   const mysql = require("mysql2/promise");
-  const connection = mysql.createConnection({
-    // host: "127.0.0.1",
-    // user: "root",
-    // password: "",
-    // multipleStatements: "true"
-    host: 'us-cdbr-east-05.cleardb.net',
-    user: 'b16ad059f5434a',
-    password: '2255f096',
-    database: 'heroku_02ad04623fadaa9'
+  const connection = await mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "COMP2800",
   });
   connection.connect();
   let cartItems = "";
@@ -143,9 +136,7 @@ app.get("/cart", async function (req, res) {
       const answer = connection.query(
         `SELECT * from BBY_25_catalogue WHERE itemID = "${contents[i]}";`
       );
-      console.log(answer);
       cartItems += buildCard(answer);
-      console.log(cartItems);
     }
     resolve(cartItems);
   });
@@ -190,14 +181,11 @@ function buildCard(result) {
 app.post("/create-cart", function (req, res) {
   const mysql = require("mysql2");
   const connection = mysql.createConnection({
-    // host: "127.0.0.1",
-    // user: "root",
-    // password: "",
-    // multipleStatements: "true"
-    host: 'us-cdbr-east-05.cleardb.net',
-    user: 'b16ad059f5434a',
-    password: '2255f096',
-    database: 'heroku_02ad04623fadaa9'
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "COMP2800",
+    multipleStatements: "true",
   });
   connection.connect();
   let postDate = getDateTime();
@@ -222,15 +210,11 @@ function getDateTime() {
 
 async function getAllItems(callback) {
   const mysql = require("mysql2/promise");
-  const connection = mysql.createConnection({
-    // host: "127.0.0.1",
-    // user: "root",
-    // password: "",
-    // multipleStatements: "true"
-    host: 'us-cdbr-east-05.cleardb.net',
-    user: 'b16ad059f5434a',
-    password: '2255f096',
-    database: 'heroku_02ad04623fadaa9'
+  const connection = await mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "COMP2800",
   });
   connection.connect();
   const [results] = await connection.query("SELECT * FROM BBY_25_catalogue");
@@ -282,7 +266,6 @@ function buildCards(results) {
     //converts card DOM into html
     html += cardDOM.serialize();
   });
-  console.log(html);
   return html;
 }
 
@@ -372,14 +355,10 @@ app.post("/payment", function (req, res) {
   res.setHeader("Content-Type", "application/json");
   const mysql = require("mysql2");
   const connection = mysql.createConnection({
-    // host: "127.0.0.1",
-    // user: "root",
-    // password: "",
-    // multipleStatements: "true"
-    host: 'us-cdbr-east-05.cleardb.net',
-    user: 'b16ad059f5434a',
-    password: '2255f096',
-    database: 'heroku_02ad04623fadaa9'
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    multipleStatements: "true",
   });
   connection.connect();
 
@@ -402,7 +381,7 @@ app.post("/register", function (req, res) {
     host: "127.0.0.1",
     user: "root",
     password: "",
-    multipleStatements: "true"
+    multipleStatements: "true",
   });
   connection.connect();
 
@@ -446,14 +425,10 @@ app.post("/login", function (req, res) {
   res.setHeader("Content-Type", "application/json");
   const mysql = require("mysql2");
   const connection = mysql.createConnection({
-    // host: "127.0.0.1",
-    // user: "root",
-    // password: "",
-    // multipleStatements: "true"
-    host: 'us-cdbr-east-05.cleardb.net',
-    user: 'b16ad059f5434a',
-    password: '2255f096',
-    database: 'heroku_02ad04623fadaa9'
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    multipleStatements: "true",
   });
 
   connection.connect();
@@ -496,15 +471,11 @@ app.post("/login", function (req, res) {
 //user cart page ***********************************************************************
 
 app.get("/get-packages", function (req, res) {
-  const connection = mysql.createConnection({
-    // host: "127.0.0.1",
-    // user: "root",
-    // password: "",
-    // multipleStatements: "true"
-    host: 'us-cdbr-east-05.cleardb.net',
-    user: 'b16ad059f5434a',
-    password: '2255f096',
-    database: 'heroku_02ad04623fadaa9'
+  let connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "comp2800",
   });
   connection.connect();
   connection.query(
@@ -524,15 +495,11 @@ app.get("/get-packages", function (req, res) {
 });
 
 app.get("/get-donation", function (req, res) {
-  const connection = mysql.createConnection({
-    // host: "127.0.0.1",
-    // user: "root",
-    // password: "",
-    // multipleStatements: "true"
-    host: 'us-cdbr-east-05.cleardb.net',
-    user: 'b16ad059f5434a',
-    password: '2255f096',
-    database: 'heroku_02ad04623fadaa9'
+  let connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "comp2800",
   });
   connection.connect();
   connection.query(
@@ -540,7 +507,6 @@ app.get("/get-donation", function (req, res) {
     function (error, results, fields) {
       if (error) {
         // catch error and save to database
-        console.log(error);
       } else {
         res.send({
           status: "success",
@@ -556,15 +522,11 @@ app.get("/get-donation", function (req, res) {
 app.post("/update-purchased", function (req, res) {
   res.setHeader("Content-Type", "application/json");
 
-  const connection = mysql.createConnection({
-    // host: "127.0.0.1",
-    // user: "root",
-    // password: "",
-    // multipleStatements: "true"
-    host: 'us-cdbr-east-05.cleardb.net',
-    user: 'b16ad059f5434a',
-    password: '2255f096',
-    database: 'heroku_02ad04623fadaa9'
+  let connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "comp2800",
   });
   connection.connect();
 
@@ -589,15 +551,12 @@ app.post("/update-purchased", function (req, res) {
 app.get("/delete-cart", function (req, res) {
   res.setHeader("Content-Type", "application/json");
 
-  const connection = mysql.createConnection({
-    // host: "127.0.0.1",
-    // user: "root",
-    // password: "",
-    // multipleStatements: "true"
-    host: 'us-cdbr-east-05.cleardb.net',
-    user: 'b16ad059f5434a',
-    password: '2255f096',
-    database: 'heroku_02ad04623fadaa9'
+  let connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "comp2800",
+    multipleStatements: true,
   });
   connection.connect();
 
@@ -626,15 +585,11 @@ app.get("/delete-cart", function (req, res) {
 
 //admin users edit-------------------------------------------------------------------------
 app.get("/get-allUsers", function (req, res) {
-  const connection = mysql.createConnection({
-    // host: "127.0.0.1",
-    // user: "root",
-    // password: "",
-    // multipleStatements: "true"
-    host: 'us-cdbr-east-05.cleardb.net',
-    user: 'b16ad059f5434a',
-    password: '2255f096',
-    database: 'heroku_02ad04623fadaa9'
+  let connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "comp2800",
   });
   connection.connect();
   connection.query(
@@ -656,27 +611,19 @@ app.get("/get-allUsers", function (req, res) {
 app.post("/admin-update-email", function (req, res) {
   res.setHeader("Content-Type", "application/json");
 
-  const connection = mysql.createConnection({
-    // host: "127.0.0.1",
-    // user: "root",
-    // password: "",
-    // multipleStatements: "true"
-    host: 'us-cdbr-east-05.cleardb.net',
-    user: 'b16ad059f5434a',
-    password: '2255f096',
-    database: 'heroku_02ad04623fadaa9'
+  let connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "comp2800",
   });
   connection.connect();
-
-  console.log("update values", req.body.email, req.body.id);
   connection.query(
     "UPDATE BBY_25_users SET email = ? WHERE identity = ?",
     [req.body.email, req.body.id],
     function (error, results, fields) {
       if (error) {
-// catch error and save to database
       }
-      //console.log('Rows returned are: ', results);
       res.send({ status: "success", msg: "Recorded updated." });
     }
   );
@@ -687,15 +634,11 @@ app.post("/admin-update-email", function (req, res) {
 app.post("/admin-update-username", function (req, res) {
   res.setHeader("Content-Type", "application/json");
 
-  const connection = mysql.createConnection({
-    // host: "127.0.0.1",
-    // user: "root",
-    // password: "",
-    // multipleStatements: "true"
-    host: 'us-cdbr-east-05.cleardb.net',
-    user: 'b16ad059f5434a',
-    password: '2255f096',
-    database: 'heroku_02ad04623fadaa9'
+  let connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "comp2800",
   });
   connection.connect();
 
@@ -720,15 +663,11 @@ app.post("/admin-update-username", function (req, res) {
 app.post("/admin-update-firstname", function (req, res) {
   res.setHeader("Content-Type", "application/json");
 
-  const connection = mysql.createConnection({
-    // host: "127.0.0.1",
-    // user: "root",
-    // password: "",
-    // multipleStatements: "true"
-    host: 'us-cdbr-east-05.cleardb.net',
-    user: 'b16ad059f5434a',
-    password: '2255f096',
-    database: 'heroku_02ad04623fadaa9'
+  let connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "comp2800",
   });
   connection.connect();
 
@@ -753,15 +692,11 @@ app.post("/admin-update-firstname", function (req, res) {
 app.post("/admin-update-lastname", function (req, res) {
   res.setHeader("Content-Type", "application/json");
 
-  const connection = mysql.createConnection({
-    // host: "127.0.0.1",
-    // user: "root",
-    // password: "",
-    // multipleStatements: "true"
-    host: 'us-cdbr-east-05.cleardb.net',
-    user: 'b16ad059f5434a',
-    password: '2255f096',
-    database: 'heroku_02ad04623fadaa9'
+  let connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "comp2800",
   });
   connection.connect();
 
@@ -786,15 +721,11 @@ app.post("/admin-update-lastname", function (req, res) {
 app.post("/admin-update-password", function (req, res) {
   res.setHeader("Content-Type", "application/json");
 
-  const connection = mysql.createConnection({
-    // host: "127.0.0.1",
-    // user: "root",
-    // password: "",
-    // multipleStatements: "true"
-    host: 'us-cdbr-east-05.cleardb.net',
-    user: 'b16ad059f5434a',
-    password: '2255f096',
-    database: 'heroku_02ad04623fadaa9'
+  let connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "comp2800",
   });
   connection.connect();
 
@@ -819,15 +750,11 @@ app.post("/admin-update-password", function (req, res) {
 app.post("/admin-update-isAdmin", function (req, res) {
   res.setHeader("Content-Type", "application/json");
 
-  const connection = mysql.createConnection({
-    // host: "127.0.0.1",
-    // user: "root",
-    // password: "",
-    // multipleStatements: "true"
-    host: 'us-cdbr-east-05.cleardb.net',
-    user: 'b16ad059f5434a',
-    password: '2255f096',
-    database: 'heroku_02ad04623fadaa9'
+  let connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "comp2800",
   });
   connection.connect();
 
@@ -855,16 +782,11 @@ app.post("/admin-update-isAdmin", function (req, res) {
 app.post("/add-user", function (req, res) {
   res.setHeader("Content-Type", "application/json");
 
-
-  const connection = mysql.createConnection({
-    // host: "127.0.0.1",
-    // user: "root",
-    // password: "",
-    // multipleStatements: "true"
-    host: 'us-cdbr-east-05.cleardb.net',
-    user: 'b16ad059f5434a',
-    password: '2255f096',
-    database: 'heroku_02ad04623fadaa9'
+  let connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "comp2800",
   });
   connection.connect();
   // TO PREVENT SQL INJECTION, DO THIS:
@@ -898,15 +820,12 @@ app.post("/add-user", function (req, res) {
 app.post("/delete-user", function (req, res) {
   res.setHeader("Content-Type", "application/json");
 
-  const connection = mysql.createConnection({
-    // host: "127.0.0.1",
-    // user: "root",
-    // password: "",
-    // multipleStatements: "true"
-    host: 'us-cdbr-east-05.cleardb.net',
-    user: 'b16ad059f5434a',
-    password: '2255f096',
-    database: 'heroku_02ad04623fadaa9'
+  let connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "comp2800",
+    multipleStatements: true,
   });
   connection.connect();
 
@@ -961,31 +880,25 @@ app.get("/account", function (req, res) {
 app.post("/update-firstName", async function (req, res) {
   res.setHeader("Content-Type", "application/json");
 
-  const connection = mysql.createConnection({
-    // host: "127.0.0.1",
-    // user: "root",
-    // password: "",
-    // multipleStatements: "true"
-    host: 'us-cdbr-east-05.cleardb.net',
-    user: 'b16ad059f5434a',
-    password: '2255f096',
-    database: 'heroku_02ad04623fadaa9'
+  let connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "comp2800",
   });
   connection.connect();
-  console.log("update values", req.body.name, req.body.id);
   connection.query(
     "UPDATE BBY_25_users SET first_name = ? WHERE identity = ?",
     [req.body.name, req.body.id],
     function (error, results, fields) {
       if (error) {
-// catch error and save to database
       }
       res.send({
         status: "success",
         msg: "Recorded updated.",
       });
 
-      req.session.name = req.body.nam
+      req.session.name = req.body.name;
 
       req.session.save(function (err) {
         // session saved. for analytics we could record this in db
@@ -999,15 +912,11 @@ app.post("/update-firstName", async function (req, res) {
 app.post("/update-lastName", async function (req, res) {
   res.setHeader("Content-Type", "application/json");
 
-  const connection = mysql.createConnection({
-    // host: "127.0.0.1",
-    // user: "root",
-    // password: "",
-    // multipleStatements: "true"
-    host: 'us-cdbr-east-05.cleardb.net',
-    user: 'b16ad059f5434a',
-    password: '2255f096',
-    database: 'heroku_02ad04623fadaa9'
+  let connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "comp2800",
   });
   connection.connect();
 
@@ -1038,15 +947,11 @@ app.post("/update-lastName", async function (req, res) {
 app.post("/update-email", async function (req, res) {
   res.setHeader("Content-Type", "application/json");
 
-  const connection = mysql.createConnection({
-    // host: "127.0.0.1",
-    // user: "root",
-    // password: "",
-    // multipleStatements: "true"
-    host: 'us-cdbr-east-05.cleardb.net',
-    user: 'b16ad059f5434a',
-    password: '2255f096',
-    database: 'heroku_02ad04623fadaa9'
+  let connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "comp2800",
   });
   connection.connect();
 
@@ -1077,15 +982,11 @@ app.post("/update-email", async function (req, res) {
 app.post("/update-lastName", async function (req, res) {
   res.setHeader("Content-Type", "application/json");
 
-  const connection = mysql.createConnection({
-    // host: "127.0.0.1",
-    // user: "root",
-    // password: "",
-    // multipleStatements: "true"
-    host: 'us-cdbr-east-05.cleardb.net',
-    user: 'b16ad059f5434a',
-    password: '2255f096',
-    database: 'heroku_02ad04623fadaa9'
+  let connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "comp2800",
   });
   connection.connect();
 
@@ -1116,15 +1017,11 @@ app.post("/update-email", async function (req, res) {});
 app.post("/update-password", function (req, res) {
   res.setHeader("Content-Type", "application/json");
 
-  const connection = mysql.createConnection({
-    // host: "127.0.0.1",
-    // user: "root",
-    // password: "",
-    // multipleStatements: "true"
-    host: 'us-cdbr-east-05.cleardb.net',
-    user: 'b16ad059f5434a',
-    password: '2255f096',
-    database: 'heroku_02ad04623fadaa9'
+  let connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "comp2800",
   });
   connection.connect();
 
@@ -1155,26 +1052,19 @@ app.post("/update-password", function (req, res) {
 app.post("/update-profilePic", function (req, res) {
   res.setHeader("Content-Type", "application/json");
 
-  const connection = mysql.createConnection({
-    // host: "127.0.0.1",
-    // user: "root",
-    // password: "",
-    // multipleStatements: "true"
-    host: 'us-cdbr-east-05.cleardb.net',
-    user: 'b16ad059f5434a',
-    password: '2255f096',
-    database: 'heroku_02ad04623fadaa9'
+  let connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "comp2800",
   });
   connection.connect();
-  console.log("update values", req.body.profilePic, req.body.id);
   connection.query(
     "UPDATE BBY_25_users SET profile_pic = ? WHERE identity = ?",
     [req.body.profilePic, req.body.id],
     function (error, results, fields) {
       if (error) {
-// catch error and save to database
       }
-
       res.send({
         status: "success",
         msg: "Recorded updated.",
@@ -1193,11 +1083,10 @@ app.post("/update-profilePic", function (req, res) {
 //////////////////////////////////////////////////////////////////////////////////////
 
 app.get("/logout", function (req, res) {
-
   if (req.session) {
     req.session.destroy(function (error) {
       if (error) {
-        res.status(400).send("Unable to log out")
+        res.status(400).send("Unable to log out");
       } else {
         // session deleted, redirect to home
         res.redirect("/");
