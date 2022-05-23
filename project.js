@@ -467,7 +467,7 @@ app.post("/login", function (req, res) {
   connection.connect();
   // Checks if user typed in matching email and password
 //  const loginInfo = `USE COMP2800; SELECT * FROM BBY_25_USERS WHERE email = '${req.body.email}' AND password = '${req.body.password}';`;
-  const loginInfo = `SELECT * FROM BBY_25_USERS WHERE email = '${req.body.email}' AND password = '${req.body.password}';`;
+  const loginInfo = `USE heroku_02ad04623fadaa9; SELECT * FROM BBY_25_USERS WHERE email = '${req.body.email}' AND password = '${req.body.password}';`;
   connection.query(loginInfo, function (error, results, fields) {
     /* If there is an error, alert user of error
      *  If the length of results array is 0, then there was no matches in database
