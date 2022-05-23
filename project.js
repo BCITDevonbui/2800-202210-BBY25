@@ -475,11 +475,11 @@ app.post("/login", function (req, res) {
      */
     if (error) {
       // change this to notify user of error
-    } else if (results[1].length() == 0) {
-      res.send({
-        status: "fail",
-        msg: "Incorrect email or password",
-      });
+    // } else if (results[1].length() == 0) {
+    //   res.send({
+    //     status: "fail",
+    //     msg: "Incorrect email or password",
+    //   });
     } else {
       let validUserInfo = results[1][0];
       req.session.loggedIn = true;
