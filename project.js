@@ -236,7 +236,7 @@ async function getAllItems(callback) {
     password: '2255f096',
     database: 'heroku_02ad04623fadaa9'
   });
-  connection.connect();
+  // connection.connect();
   const [results] = await connection.query("SELECT * FROM BBY_25_catalogue");
   callback(results);
 }
