@@ -1091,7 +1091,7 @@ app.post("/update-lastName", async function (req, res) {
   connection.connect();
 
   connection.query(
-    "UPDATE BBY_25_users SET last_name = ? WHERE ID = ?",
+    "UPDATE BBY_25_users SET last_name = ? WHERE identity = ?",
     [req.body.lastName, req.body.id],
     function (error, results, fields) {
       if (error) {
