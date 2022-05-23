@@ -35,8 +35,15 @@ ready(function () {
               return encodeURIComponent(k) + "=" + encodeURIComponent(data[k]);
             })
             .join("&");
-    
-      // GET TO THE SERVER
+
+    const xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+      if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
+        callback(this.responseText);
+      }
+    };
+
+          // GET TO THE SERVER
   document.querySelector("#drop").addEventListener("click", function (e) {
     e.preventDefault;
     window.location.replace("/");
@@ -81,13 +88,7 @@ ready(function () {
     e.preventDefault;
     window.location.assign("/contactus");
   });
-
-    const xhr = new XMLHttpRequest();
-    xhr.onload = function () {
-      if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
-        callback(this.responseText);
-      }
-    };
+  
     xhr.open("POST", url);
     xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
