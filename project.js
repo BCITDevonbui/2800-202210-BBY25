@@ -475,7 +475,7 @@ app.post("/login", function (req, res) {
      */
     if (error) {
       // change this to notify user of error
-    } else if (results[1].length == 0) {
+    } else if (results[1].length() == 0) {
       res.send({
         status: "fail",
         msg: "Incorrect email or password",
