@@ -94,8 +94,6 @@ ready(function () {
     let queryString = { cart: cartItem };
 
     // let parsedJSON = JSON.stringify(cartItem);
-    // console.log(array);
-    console.log(cartItem);
     ajaxPOST(
       "/create-cart",
       function (data) {

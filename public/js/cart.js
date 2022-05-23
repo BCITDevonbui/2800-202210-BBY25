@@ -86,11 +86,12 @@ ready(function () {
         if (data) {
           let dataParsed = JSON.parse(data);
           if (dataParsed.status == "fail") {
-            console.log(error);
           }
         }
       });
       const deleted = document.querySelector('.container');
+      deleted.style.gridTemplateColumns = "100%";
+      deleted.style.gridTemplateRows = "100%";
       document.querySelector('.container').innerHTML = "";
       const text = document.createElement("p");
       let message = document.createTextNode("Cart has been deleted");
@@ -98,7 +99,8 @@ ready(function () {
       text.setAttribute("id", "message");
       text.setAttribute("class", "centertext")
       text.style.justifySelf = "stretch";
-      text.style.gridColumn = "2";
+      text.style.gridColumn = "1";
+      text.style.gridRow = "1";
       text.style.alignSelf = "center";
       text.style.fontSize = "20px";
       deleted.insertAdjacentElement("beforeend", text);

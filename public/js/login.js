@@ -82,6 +82,10 @@ ready(function () {
     window.location.assign("/register");
   });
 
+  document.getElementById("contact").addEventListener("click", function (e) {
+    e.preventDefault;
+    window.location.assign("/contactus");
+  });
 });
 
 function ready(callback) {
