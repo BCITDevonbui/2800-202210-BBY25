@@ -66,10 +66,16 @@ app.post("/donate", function (req, res) {
     // user: "root",
     // password: "",
     // multipleStatements: "true"
-    host: 'us-cdbr-east-05.cleardb.net',
-    user: 'b16ad059f5434a',
-    password: '2255f096',
-    database: 'heroku_02ad04623fadaa9'
+    // cleardb -----------------------
+    // host: 'us-cdbr-east-05.cleardb.net',
+    // user: 'b16ad059f5434a',
+    // password: '2255f096',
+    // database: 'heroku_02ad04623fadaa9'
+    // jaws ----------------------
+    host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
+    user: 'wx1mc7pu6mewf76i',
+    password: 't95p9w64os2ia6gv',
+    database: 'h4ngdmrfus1wjzhr'
   });
     connection.connect();
   let amount = req.body.amount;
@@ -103,10 +109,16 @@ app.get("/get-catalogue", function (req, res) {
     // user: "root",
     // password: "",
     // multipleStatements: "true"
-    host: 'us-cdbr-east-05.cleardb.net',
-    user: 'b16ad059f5434a',
-    password: '2255f096',
-    database: 'heroku_02ad04623fadaa9'
+    // cleardb -----------------------
+    // host: 'us-cdbr-east-05.cleardb.net',
+    // user: 'b16ad059f5434a',
+    // password: '2255f096',
+    // database: 'heroku_02ad04623fadaa9'
+    // jaws ----------------------
+    host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
+    user: 'wx1mc7pu6mewf76i',
+    password: 't95p9w64os2ia6gv',
+    database: 'h4ngdmrfus1wjzhr'
   });
   connection.connect();
 
@@ -133,10 +145,16 @@ app.get("/cart", async function (req, res) {
     // user: "root",
     // password: "",
     // multipleStatements: "true"
-    host: 'us-cdbr-east-05.cleardb.net',
-    user: 'b16ad059f5434a',
-    password: '2255f096',
-    database: 'heroku_02ad04623fadaa9'
+    // cleardb -----------------------
+    // host: 'us-cdbr-east-05.cleardb.net',
+    // user: 'b16ad059f5434a',
+    // password: '2255f096',
+    // database: 'heroku_02ad04623fadaa9'
+    // jaws ----------------------
+    host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
+    user: 'wx1mc7pu6mewf76i',
+    password: 't95p9w64os2ia6gv',
+    database: 'h4ngdmrfus1wjzhr'
   });
   connection.connect();
   let cartItems = "";
@@ -198,10 +216,16 @@ app.post("/create-cart", function (req, res) {
     // user: "root",
     // password: "",
     // multipleStatements: "true"
-    host: 'us-cdbr-east-05.cleardb.net',
-    user: 'b16ad059f5434a',
-    password: '2255f096',
-    database: 'heroku_02ad04623fadaa9'
+    // cleardb -----------------------
+    // host: 'us-cdbr-east-05.cleardb.net',
+    // user: 'b16ad059f5434a',
+    // password: '2255f096',
+    // database: 'heroku_02ad04623fadaa9'
+    // jaws ----------------------
+    host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
+    user: 'wx1mc7pu6mewf76i',
+    password: 't95p9w64os2ia6gv',
+    database: 'h4ngdmrfus1wjzhr'
   });
   connection.connect();
   let postDate = getDateTime();
@@ -231,10 +255,16 @@ async function getAllItems(callback) {
     // user: "root",
     // password: "",
     // multipleStatements: "true"
-    host: 'us-cdbr-east-05.cleardb.net',
-    user: 'b16ad059f5434a',
-    password: '2255f096',
-    database: 'heroku_02ad04623fadaa9'
+    // cleardb -----------------------
+    // host: 'us-cdbr-east-05.cleardb.net',
+    // user: 'b16ad059f5434a',
+    // password: '2255f096',
+    // database: 'heroku_02ad04623fadaa9'
+    // jaws ----------------------
+    host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
+    user: 'wx1mc7pu6mewf76i',
+    password: 't95p9w64os2ia6gv',
+    database: 'h4ngdmrfus1wjzhr'
   });
   connection.connect();
   const [results] = await connection.query("SELECT * FROM BBY_25_catalogue");
@@ -379,10 +409,16 @@ app.post("/payment", function (req, res) {
     // user: "root",
     // password: "",
     // multipleStatements: "true"
-    host: 'us-cdbr-east-05.cleardb.net',
-    user: 'b16ad059f5434a',
-    password: '2255f096',
-    database: 'heroku_02ad04623fadaa9'
+    // cleardb -----------------------
+    // host: 'us-cdbr-east-05.cleardb.net',
+    // user: 'b16ad059f5434a',
+    // password: '2255f096',
+    // database: 'heroku_02ad04623fadaa9'
+    // jaws ----------------------
+    host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
+    user: 'wx1mc7pu6mewf76i',
+    password: 't95p9w64os2ia6gv',
+    database: 'h4ngdmrfus1wjzhr'
   });
   connection.connect();
 
@@ -406,10 +442,16 @@ app.post("/register", function (req, res) {
     // user: "root",
     // password: "",
     // multipleStatements: "true"
-    host: 'us-cdbr-east-05.cleardb.net',
-    user: 'b16ad059f5434a',
-    password: '2255f096',
-    database: 'heroku_02ad04623fadaa9'
+    // cleardb -----------------------
+    // host: 'us-cdbr-east-05.cleardb.net',
+    // user: 'b16ad059f5434a',
+    // password: '2255f096',
+    // database: 'heroku_02ad04623fadaa9'
+    // jaws ----------------------
+    host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
+    user: 'wx1mc7pu6mewf76i',
+    password: 't95p9w64os2ia6gv',
+    database: 'h4ngdmrfus1wjzhr'
   });
   connection.connect();
 
@@ -458,10 +500,16 @@ app.post("/login", function (req, res) {
     // user: "root",
     // password: "",
     // multipleStatements: "true"
-    host: 'us-cdbr-east-05.cleardb.net',
-    user: 'b16ad059f5434a',
-    password: '2255f096',
-    database: 'heroku_02ad04623fadaa9'
+    // cleardb -----------------------
+    // host: 'us-cdbr-east-05.cleardb.net',
+    // user: 'b16ad059f5434a',
+    // password: '2255f096',
+    // database: 'heroku_02ad04623fadaa9'
+    // jaws ----------------------
+    host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
+    user: 'wx1mc7pu6mewf76i',
+    password: 't95p9w64os2ia6gv',
+    database: 'h4ngdmrfus1wjzhr'
   });
 
   connection.connect();
@@ -510,10 +558,16 @@ app.get("/get-packages", function (req, res) {
     // user: "root",
     // password: "",
     // multipleStatements: "true"
-    host: 'us-cdbr-east-05.cleardb.net',
-    user: 'b16ad059f5434a',
-    password: '2255f096',
-    database: 'heroku_02ad04623fadaa9'
+    // cleardb -----------------------
+    // host: 'us-cdbr-east-05.cleardb.net',
+    // user: 'b16ad059f5434a',
+    // password: '2255f096',
+    // database: 'heroku_02ad04623fadaa9'
+    // jaws ----------------------
+    host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
+    user: 'wx1mc7pu6mewf76i',
+    password: 't95p9w64os2ia6gv',
+    database: 'h4ngdmrfus1wjzhr'
   });
   connection.connect();
   connection.query(
@@ -538,10 +592,16 @@ app.get("/get-donation", function (req, res) {
     // user: "root",
     // password: "",
     // multipleStatements: "true"
-    host: 'us-cdbr-east-05.cleardb.net',
-    user: 'b16ad059f5434a',
-    password: '2255f096',
-    database: 'heroku_02ad04623fadaa9'
+    // cleardb -----------------------
+    // host: 'us-cdbr-east-05.cleardb.net',
+    // user: 'b16ad059f5434a',
+    // password: '2255f096',
+    // database: 'heroku_02ad04623fadaa9'
+    // jaws ----------------------
+    host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
+    user: 'wx1mc7pu6mewf76i',
+    password: 't95p9w64os2ia6gv',
+    database: 'h4ngdmrfus1wjzhr'
   });
   connection.connect();
   connection.query(
@@ -569,10 +629,16 @@ app.post("/update-purchased", function (req, res) {
     // user: "root",
     // password: "",
     // multipleStatements: "true"
-    host: 'us-cdbr-east-05.cleardb.net',
-    user: 'b16ad059f5434a',
-    password: '2255f096',
-    database: 'heroku_02ad04623fadaa9'
+    // cleardb -----------------------
+    // host: 'us-cdbr-east-05.cleardb.net',
+    // user: 'b16ad059f5434a',
+    // password: '2255f096',
+    // database: 'heroku_02ad04623fadaa9'
+    // jaws ----------------------
+    host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
+    user: 'wx1mc7pu6mewf76i',
+    password: 't95p9w64os2ia6gv',
+    database: 'h4ngdmrfus1wjzhr'
   });
   connection.connect();
 
@@ -602,10 +668,16 @@ app.get("/delete-cart", function (req, res) {
     // user: "root",
     // password: "",
     // multipleStatements: "true"
-    host: 'us-cdbr-east-05.cleardb.net',
-    user: 'b16ad059f5434a',
-    password: '2255f096',
-    database: 'heroku_02ad04623fadaa9'
+    // cleardb -----------------------
+    // host: 'us-cdbr-east-05.cleardb.net',
+    // user: 'b16ad059f5434a',
+    // password: '2255f096',
+    // database: 'heroku_02ad04623fadaa9'
+    // jaws ----------------------
+    host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
+    user: 'wx1mc7pu6mewf76i',
+    password: 't95p9w64os2ia6gv',
+    database: 'h4ngdmrfus1wjzhr'
   });
   connection.connect();
 
@@ -639,10 +711,16 @@ app.get("/get-allUsers", function (req, res) {
     // user: "root",
     // password: "",
     // multipleStatements: "true"
-    host: 'us-cdbr-east-05.cleardb.net',
-    user: 'b16ad059f5434a',
-    password: '2255f096',
-    database: 'heroku_02ad04623fadaa9'
+    // cleardb -----------------------
+    // host: 'us-cdbr-east-05.cleardb.net',
+    // user: 'b16ad059f5434a',
+    // password: '2255f096',
+    // database: 'heroku_02ad04623fadaa9'
+    // jaws ----------------------
+    host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
+    user: 'wx1mc7pu6mewf76i',
+    password: 't95p9w64os2ia6gv',
+    database: 'h4ngdmrfus1wjzhr'
   });
   connection.connect();
   connection.query(
@@ -669,10 +747,16 @@ app.post("/admin-update-email", function (req, res) {
     // user: "root",
     // password: "",
     // multipleStatements: "true"
-    host: 'us-cdbr-east-05.cleardb.net',
-    user: 'b16ad059f5434a',
-    password: '2255f096',
-    database: 'heroku_02ad04623fadaa9'
+    // cleardb -----------------------
+    // host: 'us-cdbr-east-05.cleardb.net',
+    // user: 'b16ad059f5434a',
+    // password: '2255f096',
+    // database: 'heroku_02ad04623fadaa9'
+    // jaws ----------------------
+    host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
+    user: 'wx1mc7pu6mewf76i',
+    password: 't95p9w64os2ia6gv',
+    database: 'h4ngdmrfus1wjzhr'
   });
   connection.connect();
   connection.query(
@@ -696,10 +780,16 @@ app.post("/admin-update-username", function (req, res) {
     // user: "root",
     // password: "",
     // multipleStatements: "true"
-    host: 'us-cdbr-east-05.cleardb.net',
-    user: 'b16ad059f5434a',
-    password: '2255f096',
-    database: 'heroku_02ad04623fadaa9'
+    // cleardb -----------------------
+    // host: 'us-cdbr-east-05.cleardb.net',
+    // user: 'b16ad059f5434a',
+    // password: '2255f096',
+    // database: 'heroku_02ad04623fadaa9'
+    // jaws ----------------------
+    host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
+    user: 'wx1mc7pu6mewf76i',
+    password: 't95p9w64os2ia6gv',
+    database: 'h4ngdmrfus1wjzhr'
   });
   connection.connect();
 
@@ -729,10 +819,16 @@ app.post("/admin-update-firstname", function (req, res) {
     // user: "root",
     // password: "",
     // multipleStatements: "true"
-    host: 'us-cdbr-east-05.cleardb.net',
-    user: 'b16ad059f5434a',
-    password: '2255f096',
-    database: 'heroku_02ad04623fadaa9'
+    // cleardb -----------------------
+    // host: 'us-cdbr-east-05.cleardb.net',
+    // user: 'b16ad059f5434a',
+    // password: '2255f096',
+    // database: 'heroku_02ad04623fadaa9'
+    // jaws ----------------------
+    host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
+    user: 'wx1mc7pu6mewf76i',
+    password: 't95p9w64os2ia6gv',
+    database: 'h4ngdmrfus1wjzhr'
   });
   connection.connect();
 
@@ -762,10 +858,16 @@ app.post("/admin-update-lastname", function (req, res) {
     // user: "root",
     // password: "",
     // multipleStatements: "true"
-    host: 'us-cdbr-east-05.cleardb.net',
-    user: 'b16ad059f5434a',
-    password: '2255f096',
-    database: 'heroku_02ad04623fadaa9'
+    // cleardb -----------------------
+    // host: 'us-cdbr-east-05.cleardb.net',
+    // user: 'b16ad059f5434a',
+    // password: '2255f096',
+    // database: 'heroku_02ad04623fadaa9'
+    // jaws ----------------------
+    host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
+    user: 'wx1mc7pu6mewf76i',
+    password: 't95p9w64os2ia6gv',
+    database: 'h4ngdmrfus1wjzhr'
   });
   connection.connect();
 
@@ -795,10 +897,16 @@ app.post("/admin-update-password", function (req, res) {
     // user: "root",
     // password: "",
     // multipleStatements: "true"
-    host: 'us-cdbr-east-05.cleardb.net',
-    user: 'b16ad059f5434a',
-    password: '2255f096',
-    database: 'heroku_02ad04623fadaa9'
+    // cleardb -----------------------
+    // host: 'us-cdbr-east-05.cleardb.net',
+    // user: 'b16ad059f5434a',
+    // password: '2255f096',
+    // database: 'heroku_02ad04623fadaa9'
+    // jaws ----------------------
+    host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
+    user: 'wx1mc7pu6mewf76i',
+    password: 't95p9w64os2ia6gv',
+    database: 'h4ngdmrfus1wjzhr'
   });
   connection.connect();
 
@@ -828,10 +936,16 @@ app.post("/admin-update-isAdmin", function (req, res) {
     // user: "root",
     // password: "",
     // multipleStatements: "true"
-    host: 'us-cdbr-east-05.cleardb.net',
-    user: 'b16ad059f5434a',
-    password: '2255f096',
-    database: 'heroku_02ad04623fadaa9'
+    // cleardb -----------------------
+    // host: 'us-cdbr-east-05.cleardb.net',
+    // user: 'b16ad059f5434a',
+    // password: '2255f096',
+    // database: 'heroku_02ad04623fadaa9'
+    // jaws ----------------------
+    host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
+    user: 'wx1mc7pu6mewf76i',
+    password: 't95p9w64os2ia6gv',
+    database: 'h4ngdmrfus1wjzhr'
   });
   connection.connect();
 
@@ -864,10 +978,16 @@ app.post("/add-user", function (req, res) {
     // user: "root",
     // password: "",
     // multipleStatements: "true"
-    host: 'us-cdbr-east-05.cleardb.net',
-    user: 'b16ad059f5434a',
-    password: '2255f096',
-    database: 'heroku_02ad04623fadaa9'
+    // cleardb -----------------------
+    // host: 'us-cdbr-east-05.cleardb.net',
+    // user: 'b16ad059f5434a',
+    // password: '2255f096',
+    // database: 'heroku_02ad04623fadaa9'
+    // jaws ----------------------
+    host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
+    user: 'wx1mc7pu6mewf76i',
+    password: 't95p9w64os2ia6gv',
+    database: 'h4ngdmrfus1wjzhr'
   });
   connection.connect();
   // TO PREVENT SQL INJECTION, DO THIS:
@@ -906,10 +1026,16 @@ app.post("/delete-user", function (req, res) {
     // user: "root",
     // password: "",
     // multipleStatements: "true"
-    host: 'us-cdbr-east-05.cleardb.net',
-    user: 'b16ad059f5434a',
-    password: '2255f096',
-    database: 'heroku_02ad04623fadaa9'
+    // cleardb -----------------------
+    // host: 'us-cdbr-east-05.cleardb.net',
+    // user: 'b16ad059f5434a',
+    // password: '2255f096',
+    // database: 'heroku_02ad04623fadaa9'
+    // jaws ----------------------
+    host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
+    user: 'wx1mc7pu6mewf76i',
+    password: 't95p9w64os2ia6gv',
+    database: 'h4ngdmrfus1wjzhr'
   });
   connection.connect();
 
@@ -969,10 +1095,16 @@ app.post("/update-firstName", async function (req, res) {
     // user: "root",
     // password: "",
     // multipleStatements: "true"
-    host: 'us-cdbr-east-05.cleardb.net',
-    user: 'b16ad059f5434a',
-    password: '2255f096',
-    database: 'heroku_02ad04623fadaa9'
+    // cleardb -----------------------
+    // host: 'us-cdbr-east-05.cleardb.net',
+    // user: 'b16ad059f5434a',
+    // password: '2255f096',
+    // database: 'heroku_02ad04623fadaa9'
+    // jaws ----------------------
+    host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
+    user: 'wx1mc7pu6mewf76i',
+    password: 't95p9w64os2ia6gv',
+    database: 'h4ngdmrfus1wjzhr'
   });
   connection.connect();
   connection.query(
@@ -1005,10 +1137,16 @@ app.post("/update-lastName", async function (req, res) {
     // user: "root",
     // password: "",
     // multipleStatements: "true"
-    host: 'us-cdbr-east-05.cleardb.net',
-    user: 'b16ad059f5434a',
-    password: '2255f096',
-    database: 'heroku_02ad04623fadaa9'
+    // cleardb -----------------------
+    // host: 'us-cdbr-east-05.cleardb.net',
+    // user: 'b16ad059f5434a',
+    // password: '2255f096',
+    // database: 'heroku_02ad04623fadaa9'
+    // jaws ----------------------
+    host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
+    user: 'wx1mc7pu6mewf76i',
+    password: 't95p9w64os2ia6gv',
+    database: 'h4ngdmrfus1wjzhr'
   });
   connection.connect();
 
@@ -1044,10 +1182,16 @@ app.post("/update-email", async function (req, res) {
     // user: "root",
     // password: "",
     // multipleStatements: "true"
-    host: 'us-cdbr-east-05.cleardb.net',
-    user: 'b16ad059f5434a',
-    password: '2255f096',
-    database: 'heroku_02ad04623fadaa9'
+    // cleardb -----------------------
+    // host: 'us-cdbr-east-05.cleardb.net',
+    // user: 'b16ad059f5434a',
+    // password: '2255f096',
+    // database: 'heroku_02ad04623fadaa9'
+    // jaws ----------------------
+    host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
+    user: 'wx1mc7pu6mewf76i',
+    password: 't95p9w64os2ia6gv',
+    database: 'h4ngdmrfus1wjzhr'
   });
   connection.connect();
 
@@ -1083,10 +1227,16 @@ app.post("/update-lastName", async function (req, res) {
     // user: "root",
     // password: "",
     // multipleStatements: "true"
-    host: 'us-cdbr-east-05.cleardb.net',
-    user: 'b16ad059f5434a',
-    password: '2255f096',
-    database: 'heroku_02ad04623fadaa9'
+    // cleardb -----------------------
+    // host: 'us-cdbr-east-05.cleardb.net',
+    // user: 'b16ad059f5434a',
+    // password: '2255f096',
+    // database: 'heroku_02ad04623fadaa9'
+    // jaws ----------------------
+    host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
+    user: 'wx1mc7pu6mewf76i',
+    password: 't95p9w64os2ia6gv',
+    database: 'h4ngdmrfus1wjzhr'
   });
   connection.connect();
 
@@ -1122,10 +1272,16 @@ app.post("/update-password", function (req, res) {
     // user: "root",
     // password: "",
     // multipleStatements: "true"
-    host: 'us-cdbr-east-05.cleardb.net',
-    user: 'b16ad059f5434a',
-    password: '2255f096',
-    database: 'heroku_02ad04623fadaa9'
+    // cleardb -----------------------
+    // host: 'us-cdbr-east-05.cleardb.net',
+    // user: 'b16ad059f5434a',
+    // password: '2255f096',
+    // database: 'heroku_02ad04623fadaa9'
+    // jaws ----------------------
+    host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
+    user: 'wx1mc7pu6mewf76i',
+    password: 't95p9w64os2ia6gv',
+    database: 'h4ngdmrfus1wjzhr'
   });
   connection.connect();
 
@@ -1161,10 +1317,16 @@ app.post("/update-profilePic", function (req, res) {
     // user: "root",
     // password: "",
     // multipleStatements: "true"
-    host: 'us-cdbr-east-05.cleardb.net',
-    user: 'b16ad059f5434a',
-    password: '2255f096',
-    database: 'heroku_02ad04623fadaa9'
+    // cleardb -----------------------
+    // host: 'us-cdbr-east-05.cleardb.net',
+    // user: 'b16ad059f5434a',
+    // password: '2255f096',
+    // database: 'heroku_02ad04623fadaa9'
+    // jaws ----------------------
+    host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
+    user: 'wx1mc7pu6mewf76i',
+    password: 't95p9w64os2ia6gv',
+    database: 'h4ngdmrfus1wjzhr'
   });
   connection.connect();
   connection.query(
