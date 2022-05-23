@@ -224,22 +224,22 @@ function getDateTime() {
   return `${splitDate[3]}-${month}-${splitDate[2]} ${splitDate[4]}`;
 }
 
-// async function getAllItems(callback) {
-//   const mysql = require("mysql2/promise");
-//   const connection = mysql.createConnection({
-//     // host: "127.0.0.1",
-//     // user: "root",
-//     // password: "",
-//     // multipleStatements: "true"
-//     host: 'us-cdbr-east-05.cleardb.net',
-//     user: 'b16ad059f5434a',
-//     password: '2255f096',
-//     database: 'heroku_02ad04623fadaa9'
-//   });
-//   connection.connect();
-//   const [results] = await connection.query("SELECT * FROM BBY_25_catalogue");
-//   callback(results);
-// }
+async function getAllItems(callback) {
+  const mysql = require("mysql2/promise");
+  const connection = mysql.createConnection({
+    // host: "127.0.0.1",
+    // user: "root",
+    // password: "",
+    // multipleStatements: "true"
+    host: 'us-cdbr-east-05.cleardb.net',
+    user: 'b16ad059f5434a',
+    password: '2255f096',
+    database: 'heroku_02ad04623fadaa9'
+  });
+  connection.connect();
+  const [results] = await connection.query("SELECT * FROM BBY_25_catalogue");
+  callback(results);
+}
 
 app.get("/package", function (req, res) {
   let doc = fs.readFileSync("./app/html/catalogue.html", "utf8");
