@@ -102,3 +102,81 @@ function ready(callback) {
     document.addEventListener("DOMContentLoaded", callback);
   }
 }
+
+//for easter egg to drop dropLogo
+let v = "";
+
+let Ds = document.querySelectorAll(".D");
+
+Ds.forEach(d => {
+  d.addEventListener("click", function clickD(){
+    if (v == ""){
+      v += "d";
+    } else {
+      v = "";
+    }
+    console.log(v);
+  });
+})
+
+let Rs = document.querySelectorAll(".R");
+
+Rs.forEach(r => {
+  r.addEventListener("click", function clickR(){
+    if (v == "d"){
+      v += "r";
+    } else {
+      v = "";
+    }
+    console.log(v);
+  });
+})
+
+
+let Os = document.querySelectorAll(".O");
+
+Os.forEach(o => {
+  o.addEventListener("click", function clickO(){
+    if (v == "dr"){
+      v += "o";
+    } else {
+      v = "";
+    }
+    console.log(v);
+  });
+})
+
+P.onclick = function(){
+  if (v == "dro"){
+    let start = Date.now();
+
+    let timer = setInterval(function() {
+    let timePassed = Date.now() - start;
+
+
+    document.getElementById("drop").style.top = timePassed / 5 + 'px';
+
+    onFinish();
+
+    if (timePassed > 4000){ clearInterval(timer)}
+
+    }, 20);
+  v = "";
+  console.log(v);
+  } else {
+    v = "";
+  }
+}
+
+function onFinish(){
+  let start = Date.now();
+
+  let timer = setInterval(function(){
+    let timePassed = Date.now() - start;
+    if (timePassed > 4000){
+      document.getElementById("drop").style.display = "none";
+    }
+  })
+
+}
+

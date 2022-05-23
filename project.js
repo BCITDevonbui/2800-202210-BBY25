@@ -106,7 +106,8 @@ app.get("/get-catalogue", function (req, res) {
     user: 'b16ad059f5434a',
     password: '2255f096',
     database: 'heroku_02ad04623fadaa9'
-  });ection.connect();
+  });
+  connection.connect();
 
   connection.query(
     "use comp2800; select * from bby_25_catalogue;",
