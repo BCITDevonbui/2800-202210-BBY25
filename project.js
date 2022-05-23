@@ -62,20 +62,11 @@ app.get("/donate", function (req, res) {
 app.post("/donate", function (req, res) {
   const mysql = require("mysql2");
   const connection = mysql.createConnection({
-    // host: "127.0.0.1",
-    // user: "root",
-    // password: "",
-    // multipleStatements: "true"
-    // cleardb -----------------------
-    // host: 'us-cdbr-east-05.cleardb.net',
-    // user: 'b16ad059f5434a',
-    // password: '2255f096',
-    // database: 'heroku_02ad04623fadaa9'
-    // jaws ----------------------
-    host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
-    user: 'wx1mc7pu6mewf76i',
-    password: 't95p9w64os2ia6gv',
-    database: 'h4ngdmrfus1wjzhr'
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "COMP2800",
+    multipleStatements: "true",
   });
     connection.connect();
   let amount = req.body.amount;
@@ -93,8 +84,7 @@ app.post("/donate", function (req, res) {
     }
     let postedDate = `${splitDate[3]}-${month}-${splitDate[2]} ${splitDate[4]}`;
     connection.query(
-//      `use COMP2800; INSERT INTO BBY_25_users_donation (userID, postdate, amount) VALUES (?, ?, ?)`,
-      `INSERT INTO BBY_25_users_donation (userID, postdate, amount) VALUES (?, ?, ?)`,
+      `use COMP2800; INSERT INTO BBY_25_users_donation (userID, postdate, amount) VALUES (?, ?, ?)`,
       [req.session.identity, postedDate, amount]
     );
     res.send({ status: "success", msg: "Record added." });
@@ -105,26 +95,15 @@ app.post("/donate", function (req, res) {
 app.get("/get-catalogue", function (req, res) {
   const mysql = require("mysql2");
   const connection = mysql.createConnection({
-    // host: "127.0.0.1",
-    // user: "root",
-    // password: "",
-    // multipleStatements: "true"
-    // cleardb -----------------------
-    // host: 'us-cdbr-east-05.cleardb.net',
-    // user: 'b16ad059f5434a',
-    // password: '2255f096',
-    // database: 'heroku_02ad04623fadaa9'
-    // jaws ----------------------
-    host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
-    user: 'wx1mc7pu6mewf76i',
-    password: 't95p9w64os2ia6gv',
-    database: 'h4ngdmrfus1wjzhr'
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    multipleStatements: "true",
   });
   connection.connect();
 
   connection.query(
-//    "use comp2800; select * from bby_25_catalogue;",
-    "select * from bby_25_catalogue;",
+    "use comp2800; select * from bby_25_catalogue;",
     function (error, results, fields) {
       if (error) {
         //catch error and save to database
@@ -140,21 +119,11 @@ app.get("/cart", async function (req, res) {
   let doc = fs.readFileSync("./app/html/cart.html", "utf8");
   let docDOM = new JSDOM(doc);
   const mysql = require("mysql2/promise");
-  const connection = mysql.createConnection({
-    // host: "127.0.0.1",
-    // user: "root",
-    // password: "",
-    // multipleStatements: "true"
-    // cleardb -----------------------
-    // host: 'us-cdbr-east-05.cleardb.net',
-    // user: 'b16ad059f5434a',
-    // password: '2255f096',
-    // database: 'heroku_02ad04623fadaa9'
-    // jaws ----------------------
-    host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
-    user: 'wx1mc7pu6mewf76i',
-    password: 't95p9w64os2ia6gv',
-    database: 'h4ngdmrfus1wjzhr'
+  const connection = await mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "COMP2800",
   });
   connection.connect();
   let cartItems = "";
@@ -212,20 +181,11 @@ function buildCard(result) {
 app.post("/create-cart", function (req, res) {
   const mysql = require("mysql2");
   const connection = mysql.createConnection({
-    // host: "127.0.0.1",
-    // user: "root",
-    // password: "",
-    // multipleStatements: "true"
-    // cleardb -----------------------
-    // host: 'us-cdbr-east-05.cleardb.net',
-    // user: 'b16ad059f5434a',
-    // password: '2255f096',
-    // database: 'heroku_02ad04623fadaa9'
-    // jaws ----------------------
-    host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
-    user: 'wx1mc7pu6mewf76i',
-    password: 't95p9w64os2ia6gv',
-    database: 'h4ngdmrfus1wjzhr'
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "COMP2800",
+    multipleStatements: "true",
   });
   connection.connect();
   let postDate = getDateTime();
@@ -250,21 +210,11 @@ function getDateTime() {
 
 async function getAllItems(callback) {
   const mysql = require("mysql2/promise");
-  const connection = mysql.createConnection({
-    // host: "127.0.0.1",
-    // user: "root",
-    // password: "",
-    // multipleStatements: "true"
-    // cleardb -----------------------
-    // host: 'us-cdbr-east-05.cleardb.net',
-    // user: 'b16ad059f5434a',
-    // password: '2255f096',
-    // database: 'heroku_02ad04623fadaa9'
-    // jaws ----------------------
-    host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
-    user: 'wx1mc7pu6mewf76i',
-    password: 't95p9w64os2ia6gv',
-    database: 'h4ngdmrfus1wjzhr'
+  const connection = await mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "COMP2800",
   });
   connection.connect();
   const [results] = await connection.query("SELECT * FROM BBY_25_catalogue");
@@ -405,20 +355,10 @@ app.post("/payment", function (req, res) {
   res.setHeader("Content-Type", "application/json");
   const mysql = require("mysql2");
   const connection = mysql.createConnection({
-    // host: "127.0.0.1",
-    // user: "root",
-    // password: "",
-    // multipleStatements: "true"
-    // cleardb -----------------------
-    // host: 'us-cdbr-east-05.cleardb.net',
-    // user: 'b16ad059f5434a',
-    // password: '2255f096',
-    // database: 'heroku_02ad04623fadaa9'
-    // jaws ----------------------
-    host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
-    user: 'wx1mc7pu6mewf76i',
-    password: 't95p9w64os2ia6gv',
-    database: 'h4ngdmrfus1wjzhr'
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    multipleStatements: "true",
   });
   connection.connect();
 
@@ -438,28 +378,17 @@ app.post("/register", function (req, res) {
   res.setHeader("Content-Type", "application/json");
   const mysql = require("mysql2");
   const connection = mysql.createConnection({
-    // host: "127.0.0.1",
-    // user: "root",
-    // password: "",
-    // multipleStatements: "true"
-    // cleardb -----------------------
-    // host: 'us-cdbr-east-05.cleardb.net',
-    // user: 'b16ad059f5434a',
-    // password: '2255f096',
-    // database: 'heroku_02ad04623fadaa9'
-    // jaws ----------------------
-    host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
-    user: 'wx1mc7pu6mewf76i',
-    password: 't95p9w64os2ia6gv',
-    database: 'h4ngdmrfus1wjzhr'
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    multipleStatements: "true",
   });
   connection.connect();
 
   let validNewUserInfo = req.body;
   //Adds new user to user table. Always non admin, since this is client facing sign up
   connection.query(
-//    `use COMP2800; INSERT INTO BBY_25_users (user_name, first_name, last_name, email, password, is_admin, profile_pic) values (?, ?, ?, ?, ?, ?, ?)`,
-    `INSERT INTO BBY_25_users (user_name, first_name, last_name, email, password, is_admin, profile_pic) values (?, ?, ?, ?, ?, ?, ?)`,
+    `use COMP2800; INSERT INTO BBY_25_users (user_name, first_name, last_name, email, password, is_admin, profile_pic) values (?, ?, ?, ?, ?, ?, ?)`,
     [
       validNewUserInfo.userName,
       validNewUserInfo.firstName,
@@ -496,26 +425,15 @@ app.post("/login", function (req, res) {
   res.setHeader("Content-Type", "application/json");
   const mysql = require("mysql2");
   const connection = mysql.createConnection({
-    // host: "127.0.0.1",
-    // user: "root",
-    // password: "",
-    // multipleStatements: "true"
-    // cleardb -----------------------
-    // host: 'us-cdbr-east-05.cleardb.net',
-    // user: 'b16ad059f5434a',
-    // password: '2255f096',
-    // database: 'heroku_02ad04623fadaa9'
-    // jaws ----------------------
-    host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
-    user: 'wx1mc7pu6mewf76i',
-    password: 't95p9w64os2ia6gv',
-    database: 'h4ngdmrfus1wjzhr'
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    multipleStatements: "true",
   });
 
   connection.connect();
   // Checks if user typed in matching email and password
-//  const loginInfo = `USE COMP2800; SELECT * FROM BBY_25_USERS WHERE email = '${req.body.email}' AND password = '${req.body.password}';`;
-  const loginInfo = `SELECT * FROM BBY_25_USERS WHERE email = '${req.body.email}' AND password = '${req.body.password}';`;
+  const loginInfo = `USE COMP2800; SELECT * FROM BBY_25_USERS WHERE email = '${req.body.email}' AND password = '${req.body.password}';`;
   connection.query(loginInfo, function (error, results, fields) {
     /* If there is an error, alert user of error
      *  If the length of results array is 0, then there was no matches in database
@@ -523,11 +441,11 @@ app.post("/login", function (req, res) {
      */
     if (error) {
       // change this to notify user of error
-    // } else if (results[1].length() == 0) {
-    //   res.send({
-    //     status: "fail",
-    //     msg: "Incorrect email or password",
-    //   });
+    } else if (results[1].length == 0) {
+      res.send({
+        status: "fail",
+        msg: "Incorrect email or password",
+      });
     } else {
       let validUserInfo = results[1][0];
       req.session.loggedIn = true;
@@ -553,21 +471,11 @@ app.post("/login", function (req, res) {
 //user cart page ***********************************************************************
 
 app.get("/get-packages", function (req, res) {
-  const connection = mysql.createConnection({
-    // host: "127.0.0.1",
-    // user: "root",
-    // password: "",
-    // multipleStatements: "true"
-    // cleardb -----------------------
-    // host: 'us-cdbr-east-05.cleardb.net',
-    // user: 'b16ad059f5434a',
-    // password: '2255f096',
-    // database: 'heroku_02ad04623fadaa9'
-    // jaws ----------------------
-    host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
-    user: 'wx1mc7pu6mewf76i',
-    password: 't95p9w64os2ia6gv',
-    database: 'h4ngdmrfus1wjzhr'
+  let connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "comp2800",
   });
   connection.connect();
   connection.query(
@@ -587,21 +495,11 @@ app.get("/get-packages", function (req, res) {
 });
 
 app.get("/get-donation", function (req, res) {
-  const connection = mysql.createConnection({
-    // host: "127.0.0.1",
-    // user: "root",
-    // password: "",
-    // multipleStatements: "true"
-    // cleardb -----------------------
-    // host: 'us-cdbr-east-05.cleardb.net',
-    // user: 'b16ad059f5434a',
-    // password: '2255f096',
-    // database: 'heroku_02ad04623fadaa9'
-    // jaws ----------------------
-    host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
-    user: 'wx1mc7pu6mewf76i',
-    password: 't95p9w64os2ia6gv',
-    database: 'h4ngdmrfus1wjzhr'
+  let connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "comp2800",
   });
   connection.connect();
   connection.query(
@@ -624,21 +522,11 @@ app.get("/get-donation", function (req, res) {
 app.post("/update-purchased", function (req, res) {
   res.setHeader("Content-Type", "application/json");
 
-  const connection = mysql.createConnection({
-    // host: "127.0.0.1",
-    // user: "root",
-    // password: "",
-    // multipleStatements: "true"
-    // cleardb -----------------------
-    // host: 'us-cdbr-east-05.cleardb.net',
-    // user: 'b16ad059f5434a',
-    // password: '2255f096',
-    // database: 'heroku_02ad04623fadaa9'
-    // jaws ----------------------
-    host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
-    user: 'wx1mc7pu6mewf76i',
-    password: 't95p9w64os2ia6gv',
-    database: 'h4ngdmrfus1wjzhr'
+  let connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "comp2800",
   });
   connection.connect();
 
@@ -663,21 +551,12 @@ app.post("/update-purchased", function (req, res) {
 app.get("/delete-cart", function (req, res) {
   res.setHeader("Content-Type", "application/json");
 
-  const connection = mysql.createConnection({
-    // host: "127.0.0.1",
-    // user: "root",
-    // password: "",
-    // multipleStatements: "true"
-    // cleardb -----------------------
-    // host: 'us-cdbr-east-05.cleardb.net',
-    // user: 'b16ad059f5434a',
-    // password: '2255f096',
-    // database: 'heroku_02ad04623fadaa9'
-    // jaws ----------------------
-    host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
-    user: 'wx1mc7pu6mewf76i',
-    password: 't95p9w64os2ia6gv',
-    database: 'h4ngdmrfus1wjzhr'
+  let connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "comp2800",
+    multipleStatements: true,
   });
   connection.connect();
 
@@ -706,21 +585,11 @@ app.get("/delete-cart", function (req, res) {
 
 //admin users edit-------------------------------------------------------------------------
 app.get("/get-allUsers", function (req, res) {
-  const connection = mysql.createConnection({
-    // host: "127.0.0.1",
-    // user: "root",
-    // password: "",
-    // multipleStatements: "true"
-    // cleardb -----------------------
-    // host: 'us-cdbr-east-05.cleardb.net',
-    // user: 'b16ad059f5434a',
-    // password: '2255f096',
-    // database: 'heroku_02ad04623fadaa9'
-    // jaws ----------------------
-    host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
-    user: 'wx1mc7pu6mewf76i',
-    password: 't95p9w64os2ia6gv',
-    database: 'h4ngdmrfus1wjzhr'
+  let connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "comp2800",
   });
   connection.connect();
   connection.query(
@@ -742,21 +611,11 @@ app.get("/get-allUsers", function (req, res) {
 app.post("/admin-update-email", function (req, res) {
   res.setHeader("Content-Type", "application/json");
 
-  const connection = mysql.createConnection({
-    // host: "127.0.0.1",
-    // user: "root",
-    // password: "",
-    // multipleStatements: "true"
-    // cleardb -----------------------
-    // host: 'us-cdbr-east-05.cleardb.net',
-    // user: 'b16ad059f5434a',
-    // password: '2255f096',
-    // database: 'heroku_02ad04623fadaa9'
-    // jaws ----------------------
-    host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
-    user: 'wx1mc7pu6mewf76i',
-    password: 't95p9w64os2ia6gv',
-    database: 'h4ngdmrfus1wjzhr'
+  let connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "comp2800",
   });
   connection.connect();
   connection.query(
@@ -775,21 +634,11 @@ app.post("/admin-update-email", function (req, res) {
 app.post("/admin-update-username", function (req, res) {
   res.setHeader("Content-Type", "application/json");
 
-  const connection = mysql.createConnection({
-    // host: "127.0.0.1",
-    // user: "root",
-    // password: "",
-    // multipleStatements: "true"
-    // cleardb -----------------------
-    // host: 'us-cdbr-east-05.cleardb.net',
-    // user: 'b16ad059f5434a',
-    // password: '2255f096',
-    // database: 'heroku_02ad04623fadaa9'
-    // jaws ----------------------
-    host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
-    user: 'wx1mc7pu6mewf76i',
-    password: 't95p9w64os2ia6gv',
-    database: 'h4ngdmrfus1wjzhr'
+  let connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "comp2800",
   });
   connection.connect();
 
@@ -814,21 +663,11 @@ app.post("/admin-update-username", function (req, res) {
 app.post("/admin-update-firstname", function (req, res) {
   res.setHeader("Content-Type", "application/json");
 
-  const connection = mysql.createConnection({
-    // host: "127.0.0.1",
-    // user: "root",
-    // password: "",
-    // multipleStatements: "true"
-    // cleardb -----------------------
-    // host: 'us-cdbr-east-05.cleardb.net',
-    // user: 'b16ad059f5434a',
-    // password: '2255f096',
-    // database: 'heroku_02ad04623fadaa9'
-    // jaws ----------------------
-    host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
-    user: 'wx1mc7pu6mewf76i',
-    password: 't95p9w64os2ia6gv',
-    database: 'h4ngdmrfus1wjzhr'
+  let connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "comp2800",
   });
   connection.connect();
 
@@ -853,21 +692,11 @@ app.post("/admin-update-firstname", function (req, res) {
 app.post("/admin-update-lastname", function (req, res) {
   res.setHeader("Content-Type", "application/json");
 
-  const connection = mysql.createConnection({
-    // host: "127.0.0.1",
-    // user: "root",
-    // password: "",
-    // multipleStatements: "true"
-    // cleardb -----------------------
-    // host: 'us-cdbr-east-05.cleardb.net',
-    // user: 'b16ad059f5434a',
-    // password: '2255f096',
-    // database: 'heroku_02ad04623fadaa9'
-    // jaws ----------------------
-    host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
-    user: 'wx1mc7pu6mewf76i',
-    password: 't95p9w64os2ia6gv',
-    database: 'h4ngdmrfus1wjzhr'
+  let connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "comp2800",
   });
   connection.connect();
 
@@ -892,21 +721,11 @@ app.post("/admin-update-lastname", function (req, res) {
 app.post("/admin-update-password", function (req, res) {
   res.setHeader("Content-Type", "application/json");
 
-  const connection = mysql.createConnection({
-    // host: "127.0.0.1",
-    // user: "root",
-    // password: "",
-    // multipleStatements: "true"
-    // cleardb -----------------------
-    // host: 'us-cdbr-east-05.cleardb.net',
-    // user: 'b16ad059f5434a',
-    // password: '2255f096',
-    // database: 'heroku_02ad04623fadaa9'
-    // jaws ----------------------
-    host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
-    user: 'wx1mc7pu6mewf76i',
-    password: 't95p9w64os2ia6gv',
-    database: 'h4ngdmrfus1wjzhr'
+  let connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "comp2800",
   });
   connection.connect();
 
@@ -931,21 +750,11 @@ app.post("/admin-update-password", function (req, res) {
 app.post("/admin-update-isAdmin", function (req, res) {
   res.setHeader("Content-Type", "application/json");
 
-  const connection = mysql.createConnection({
-    // host: "127.0.0.1",
-    // user: "root",
-    // password: "",
-    // multipleStatements: "true"
-    // cleardb -----------------------
-    // host: 'us-cdbr-east-05.cleardb.net',
-    // user: 'b16ad059f5434a',
-    // password: '2255f096',
-    // database: 'heroku_02ad04623fadaa9'
-    // jaws ----------------------
-    host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
-    user: 'wx1mc7pu6mewf76i',
-    password: 't95p9w64os2ia6gv',
-    database: 'h4ngdmrfus1wjzhr'
+  let connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "comp2800",
   });
   connection.connect();
 
@@ -973,21 +782,11 @@ app.post("/admin-update-isAdmin", function (req, res) {
 app.post("/add-user", function (req, res) {
   res.setHeader("Content-Type", "application/json");
 
-  const connection = mysql.createConnection({
-    // host: "127.0.0.1",
-    // user: "root",
-    // password: "",
-    // multipleStatements: "true"
-    // cleardb -----------------------
-    // host: 'us-cdbr-east-05.cleardb.net',
-    // user: 'b16ad059f5434a',
-    // password: '2255f096',
-    // database: 'heroku_02ad04623fadaa9'
-    // jaws ----------------------
-    host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
-    user: 'wx1mc7pu6mewf76i',
-    password: 't95p9w64os2ia6gv',
-    database: 'h4ngdmrfus1wjzhr'
+  let connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "comp2800",
   });
   connection.connect();
   // TO PREVENT SQL INJECTION, DO THIS:
@@ -1021,21 +820,12 @@ app.post("/add-user", function (req, res) {
 app.post("/delete-user", function (req, res) {
   res.setHeader("Content-Type", "application/json");
 
-  const connection = mysql.createConnection({
-    // host: "127.0.0.1",
-    // user: "root",
-    // password: "",
-    // multipleStatements: "true"
-    // cleardb -----------------------
-    // host: 'us-cdbr-east-05.cleardb.net',
-    // user: 'b16ad059f5434a',
-    // password: '2255f096',
-    // database: 'heroku_02ad04623fadaa9'
-    // jaws ----------------------
-    host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
-    user: 'wx1mc7pu6mewf76i',
-    password: 't95p9w64os2ia6gv',
-    database: 'h4ngdmrfus1wjzhr'
+  let connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "comp2800",
+    multipleStatements: true,
   });
   connection.connect();
 
@@ -1090,21 +880,11 @@ app.get("/account", function (req, res) {
 app.post("/update-firstName", async function (req, res) {
   res.setHeader("Content-Type", "application/json");
 
-  const connection = mysql.createConnection({
-    // host: "127.0.0.1",
-    // user: "root",
-    // password: "",
-    // multipleStatements: "true"
-    // cleardb -----------------------
-    // host: 'us-cdbr-east-05.cleardb.net',
-    // user: 'b16ad059f5434a',
-    // password: '2255f096',
-    // database: 'heroku_02ad04623fadaa9'
-    // jaws ----------------------
-    host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
-    user: 'wx1mc7pu6mewf76i',
-    password: 't95p9w64os2ia6gv',
-    database: 'h4ngdmrfus1wjzhr'
+  let connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "comp2800",
   });
   connection.connect();
   connection.query(
@@ -1132,21 +912,11 @@ app.post("/update-firstName", async function (req, res) {
 app.post("/update-lastName", async function (req, res) {
   res.setHeader("Content-Type", "application/json");
 
-  const connection = mysql.createConnection({
-    // host: "127.0.0.1",
-    // user: "root",
-    // password: "",
-    // multipleStatements: "true"
-    // cleardb -----------------------
-    // host: 'us-cdbr-east-05.cleardb.net',
-    // user: 'b16ad059f5434a',
-    // password: '2255f096',
-    // database: 'heroku_02ad04623fadaa9'
-    // jaws ----------------------
-    host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
-    user: 'wx1mc7pu6mewf76i',
-    password: 't95p9w64os2ia6gv',
-    database: 'h4ngdmrfus1wjzhr'
+  let connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "comp2800",
   });
   connection.connect();
 
@@ -1177,21 +947,11 @@ app.post("/update-lastName", async function (req, res) {
 app.post("/update-email", async function (req, res) {
   res.setHeader("Content-Type", "application/json");
 
-  const connection = mysql.createConnection({
-    // host: "127.0.0.1",
-    // user: "root",
-    // password: "",
-    // multipleStatements: "true"
-    // cleardb -----------------------
-    // host: 'us-cdbr-east-05.cleardb.net',
-    // user: 'b16ad059f5434a',
-    // password: '2255f096',
-    // database: 'heroku_02ad04623fadaa9'
-    // jaws ----------------------
-    host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
-    user: 'wx1mc7pu6mewf76i',
-    password: 't95p9w64os2ia6gv',
-    database: 'h4ngdmrfus1wjzhr'
+  let connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "comp2800",
   });
   connection.connect();
 
@@ -1222,26 +982,16 @@ app.post("/update-email", async function (req, res) {
 app.post("/update-lastName", async function (req, res) {
   res.setHeader("Content-Type", "application/json");
 
-  const connection = mysql.createConnection({
-    // host: "127.0.0.1",
-    // user: "root",
-    // password: "",
-    // multipleStatements: "true"
-    // cleardb -----------------------
-    // host: 'us-cdbr-east-05.cleardb.net',
-    // user: 'b16ad059f5434a',
-    // password: '2255f096',
-    // database: 'heroku_02ad04623fadaa9'
-    // jaws ----------------------
-    host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
-    user: 'wx1mc7pu6mewf76i',
-    password: 't95p9w64os2ia6gv',
-    database: 'h4ngdmrfus1wjzhr'
+  let connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "comp2800",
   });
   connection.connect();
 
   connection.query(
-    "UPDATE BBY_25_users SET last_name = ? WHERE identity = ?",
+    "UPDATE BBY_25_users SET last_name = ? WHERE ID = ?",
     [req.body.lastName, req.body.id],
     function (error, results, fields) {
       if (error) {
@@ -1267,21 +1017,11 @@ app.post("/update-email", async function (req, res) {});
 app.post("/update-password", function (req, res) {
   res.setHeader("Content-Type", "application/json");
 
-  const connection = mysql.createConnection({
-    // host: "127.0.0.1",
-    // user: "root",
-    // password: "",
-    // multipleStatements: "true"
-    // cleardb -----------------------
-    // host: 'us-cdbr-east-05.cleardb.net',
-    // user: 'b16ad059f5434a',
-    // password: '2255f096',
-    // database: 'heroku_02ad04623fadaa9'
-    // jaws ----------------------
-    host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
-    user: 'wx1mc7pu6mewf76i',
-    password: 't95p9w64os2ia6gv',
-    database: 'h4ngdmrfus1wjzhr'
+  let connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "comp2800",
   });
   connection.connect();
 
@@ -1312,21 +1052,11 @@ app.post("/update-password", function (req, res) {
 app.post("/update-profilePic", function (req, res) {
   res.setHeader("Content-Type", "application/json");
 
-  const connection = mysql.createConnection({
-    // host: "127.0.0.1",
-    // user: "root",
-    // password: "",
-    // multipleStatements: "true"
-    // cleardb -----------------------
-    // host: 'us-cdbr-east-05.cleardb.net',
-    // user: 'b16ad059f5434a',
-    // password: '2255f096',
-    // database: 'heroku_02ad04623fadaa9'
-    // jaws ----------------------
-    host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
-    user: 'wx1mc7pu6mewf76i',
-    password: 't95p9w64os2ia6gv',
-    database: 'h4ngdmrfus1wjzhr'
+  let connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "comp2800",
   });
   connection.connect();
   connection.query(
@@ -1349,8 +1079,6 @@ app.post("/update-profilePic", function (req, res) {
   );
   connection.end();
 });
-
-
 //////////////////////////////////////////////////////////////////////////////////////
 
 app.get("/logout", function (req, res) {
