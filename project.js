@@ -87,7 +87,8 @@ app.post("/donate", function (req, res) {
     }
     let postedDate = `${splitDate[3]}-${month}-${splitDate[2]} ${splitDate[4]}`;
     connection.query(
-      `use COMP2800; INSERT INTO BBY_25_users_donation (userID, postdate, amount) VALUES (?, ?, ?)`,
+//      `use COMP2800; INSERT INTO BBY_25_users_donation (userID, postdate, amount) VALUES (?, ?, ?)`,
+      `INSERT INTO BBY_25_users_donation (userID, postdate, amount) VALUES (?, ?, ?)`,
       [req.session.identity, postedDate, amount]
     );
     res.send({ status: "success", msg: "Record added." });
@@ -110,7 +111,8 @@ app.get("/get-catalogue", function (req, res) {
   connection.connect();
 
   connection.query(
-    "use comp2800; select * from bby_25_catalogue;",
+//    "use comp2800; select * from bby_25_catalogue;",
+    "select * from bby_25_catalogue;",
     function (error, results, fields) {
       if (error) {
         //catch error and save to database
@@ -414,7 +416,8 @@ app.post("/register", function (req, res) {
   let validNewUserInfo = req.body;
   //Adds new user to user table. Always non admin, since this is client facing sign up
   connection.query(
-    `use COMP2800; INSERT INTO BBY_25_users (user_name, first_name, last_name, email, password, is_admin, profile_pic) values (?, ?, ?, ?, ?, ?, ?)`,
+//    `use COMP2800; INSERT INTO BBY_25_users (user_name, first_name, last_name, email, password, is_admin, profile_pic) values (?, ?, ?, ?, ?, ?, ?)`,
+    `INSERT INTO BBY_25_users (user_name, first_name, last_name, email, password, is_admin, profile_pic) values (?, ?, ?, ?, ?, ?, ?)`,
     [
       validNewUserInfo.userName,
       validNewUserInfo.firstName,
@@ -463,7 +466,8 @@ app.post("/login", function (req, res) {
 
   connection.connect();
   // Checks if user typed in matching email and password
-  const loginInfo = `USE COMP2800; SELECT * FROM BBY_25_USERS WHERE email = '${req.body.email}' AND password = '${req.body.password}';`;
+//  const loginInfo = `USE COMP2800; SELECT * FROM BBY_25_USERS WHERE email = '${req.body.email}' AND password = '${req.body.password}';`;
+  const loginInfo = `SELECT * FROM BBY_25_USERS WHERE email = '${req.body.email}' AND password = '${req.body.password}';`;
   connection.query(loginInfo, function (error, results, fields) {
     /* If there is an error, alert user of error
      *  If the length of results array is 0, then there was no matches in database
