@@ -28,13 +28,13 @@ ready(function () {
      * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent
      */
     let params =
-      typeof data == "string"
-        ? data
-        : Object.keys(data)
-            .map(function (k) {
-              return encodeURIComponent(k) + "=" + encodeURIComponent(data[k]);
-            })
-            .join("&");
+      typeof data == "string" ?
+      data :
+      Object.keys(data)
+      .map(function (k) {
+        return encodeURIComponent(k) + "=" + encodeURIComponent(data[k]);
+      })
+      .join("&");
 
     const xhr = new XMLHttpRequest();
     xhr.onload = function () {
@@ -43,52 +43,6 @@ ready(function () {
       }
     };
 
-          // GET TO THE SERVER
-  document.querySelector("#drop").addEventListener("click", function (e) {
-    e.preventDefault;
-    window.location.replace("/");
-  });
-
-  // GET TO THE SERVER
-  document
-    .querySelector("#donateButton")
-    .addEventListener("click", function (e) {
-      e.preventDefault;
-      window.location.replace("/donate");
-    });
-
-  // GET TO THE SERVER
-  document.querySelector("#account").addEventListener("click", function (e) {
-    e.preventDefault;
-    window.location.replace("/account");
-  });
-
-  // GET TO THE SERVER
-  document
-    .querySelector("#packageButton")
-    .addEventListener("click", function (e) {
-      e.preventDefault;
-      window.location.assign("/package");
-    });
-
-  // GET TO THE SERVER
-  document
-    .querySelector("#notifButton")
-    .addEventListener("click", function (e) {
-      e.preventDefault;
-      window.location.assign("/history");
-    });
-
-  document.getElementById("about").addEventListener("click", function (e) {
-    e.preventDefault;
-    window.location.assign("/about");
-  });
-
-  document.getElementById("contact").addEventListener("click", function (e) {
-    e.preventDefault;
-    window.location.assign("/contactus");
-  });
-  
     xhr.open("POST", url);
     xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -106,14 +60,60 @@ function ready(callback) {
   }
 }
 
+// GET TO THE SERVER
+document.querySelector("#drop").addEventListener("click", function (e) {
+  e.preventDefault;
+  window.location.replace("/");
+});
+
+// GET TO THE SERVER
+document
+  .querySelector("#donateButton")
+  .addEventListener("click", function (e) {
+    e.preventDefault;
+    window.location.replace("/donate");
+  });
+
+// GET TO THE SERVER
+document.querySelector("#account").addEventListener("click", function (e) {
+  e.preventDefault;
+  window.location.replace("/account");
+});
+
+// GET TO THE SERVER
+document
+  .querySelector("#packageButton")
+  .addEventListener("click", function (e) {
+    e.preventDefault;
+    window.location.assign("/package");
+  });
+
+// GET TO THE SERVER
+document
+  .querySelector("#notifButton")
+  .addEventListener("click", function (e) {
+    e.preventDefault;
+    window.location.assign("/history");
+  });
+
+document.getElementById("about").addEventListener("click", function (e) {
+  e.preventDefault;
+  window.location.assign("/about");
+});
+
+document.getElementById("contact").addEventListener("click", function (e) {
+  e.preventDefault;
+  window.location.assign("/contactus");
+});
+
 //for easter egg to drop dropLogo
 let v = "";
 
 let Ds = document.querySelectorAll(".D");
 
 Ds.forEach(d => {
-  d.addEventListener("click", function clickD(){
-    if (v == ""){
+  d.addEventListener("click", function clickD() {
+    if (v == "") {
       v += "d";
     } else {
       v = "";
@@ -125,8 +125,8 @@ Ds.forEach(d => {
 let Rs = document.querySelectorAll(".R");
 
 Rs.forEach(r => {
-  r.addEventListener("click", function clickR(){
-    if (v == "d"){
+  r.addEventListener("click", function clickR() {
+    if (v == "d") {
       v += "r";
     } else {
       v = "";
@@ -139,8 +139,8 @@ Rs.forEach(r => {
 let Os = document.querySelectorAll(".O");
 
 Os.forEach(o => {
-  o.addEventListener("click", function clickO(){
-    if (v == "dr"){
+  o.addEventListener("click", function clickO() {
+    if (v == "dr") {
       v += "o";
     } else {
       v = "";
@@ -149,37 +149,38 @@ Os.forEach(o => {
   });
 })
 
-P.onclick = function(){
-  if (v == "dro"){
+P.onclick = function () {
+  if (v == "dro") {
     let start = Date.now();
 
-    let timer = setInterval(function() {
-    let timePassed = Date.now() - start;
+    let timer = setInterval(function () {
+      let timePassed = Date.now() - start;
 
 
-    document.getElementById("drop").style.top = timePassed / 5 + 'px';
+      document.getElementById("drop").style.top = timePassed / 5 + 'px';
 
-    onFinish();
+      onFinish();
 
-    if (timePassed > 4000){ clearInterval(timer)}
+      if (timePassed > 4000) {
+        clearInterval(timer)
+      }
 
     }, 20);
-  v = "";
-  console.log(v);
+    v = "";
+    console.log(v);
   } else {
     v = "";
   }
 }
 
-function onFinish(){
+function onFinish() {
   let start = Date.now();
 
-  let timer = setInterval(function(){
+  let timer = setInterval(function () {
     let timePassed = Date.now() - start;
-    if (timePassed > 4000){
+    if (timePassed > 4000) {
       document.getElementById("drop").style.display = "none";
     }
   })
 
 }
-
