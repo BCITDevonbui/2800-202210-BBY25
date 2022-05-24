@@ -511,7 +511,9 @@ app.post("/login", function (req, res) {
 
   connection.connect();
   // Checks if user typed in matching email and password
-  const loginInfo = `USE COMP2800; SELECT * FROM BBY_25_USERS WHERE email = '${req.body.email}' AND password = '${req.body.password}';`;
+  // const loginInfo = `SELECT * FROM BBY_25_USERS WHERE email = '${req.body.email}' AND password = '${req.body.password}';`;
+  const loginInfo = `SELECT * FROM bby_25_users where email ='${req.body.email}' and password = '${req.body.password}';`;
+  console.log(loginInfo);
   connection.query(loginInfo, function (error, results, fields) {
     /* If there is an error, alert user of error
      *  If the length of results array is 0, then there was no matches in database
@@ -519,13 +521,14 @@ app.post("/login", function (req, res) {
      */
     if (error) {
       // change this to notify user of error
-    } else if (results[1].length == 0) {
-      res.send({
-        status: "fail",
-        msg: "Incorrect email or password",
-      });
+    // } else if (results[1].length == 0) {
+    //   res.send({
+    //     status: "fail",
+    //     msg: "Incorrect email or password",
+    //   });
     } else {
-      let validUserInfo = results[1][0];
+      // let validUserInfo = results[1][0];
+      let validUserInfo = results[0];
       req.session.loggedIn = true;
       req.session.email = validUserInfo.email;
       req.session.name = validUserInfo.first_name;
