@@ -458,7 +458,7 @@ app.post("/register", function (req, res) {
   let validNewUserInfo = req.body;
   //Adds new user to user table. Always non admin, since this is client facing sign up
   connection.query(
-    `use COMP2800; INSERT INTO BBY_25_users (user_name, first_name, last_name, email, password, is_admin, profile_pic) values (?, ?, ?, ?, ?, ?, ?)`,
+    `INSERT INTO BBY_25_users (user_name, first_name, last_name, email, password, is_admin, profile_pic) values (?, ?, ?, ?, ?, ?, ?)`,
     [
       validNewUserInfo.userName,
       validNewUserInfo.firstName,
@@ -574,7 +574,7 @@ app.get("/get-packages", function (req, res) {
   });
   connection.connect();
   connection.query(
-    `SELECT * FROM BBY_25_USERS_PACKAGES WHERE userID = '${req.session.identity}';`,
+    `SELECT packageID, postdate, contents, purchased FROM BBY_25_USERS_PACKAGES WHERE userID = '${req.session.identity}';`,
     function (error, results, fields) {
       if (error) {
         // catch error and save to database

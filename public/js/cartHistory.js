@@ -7,7 +7,6 @@ function getCartHistory() {
         let data = JSON.parse(this.responseText);
         if (data.status == "success") {
           let str = `        <tr>
-<th class="id_header"><span>ID</span></th>
 <th class="userName_header"><span>Package ID</span></th>
 <th class="firstName_header"><span>Date</span></th>
 <th class="lastName_header"><span>Items in Package</span></th>
@@ -17,9 +16,7 @@ function getCartHistory() {
           for (let i = 0; i < data.rows.length; i++) {
             let row = data.rows[i];
             str +=
-              "<tr><td class='id'>" +
-              row.userID +
-              "</td><td class='userName'><span>" +
+              "<tr><td class='userName'><span>" +
               row.packageID +
               "</span></td><td class='firstName'><span>" +
               row.postdate.slice(0, 10) +
@@ -57,7 +54,6 @@ function getDonateHistory() {
         let data = JSON.parse(this.responseText);
         if (data.status == "success") {
           let str = `        <tr>
-<th class="id_header"><span>ID</span></th>
 <th class="userName_header"><span>Donate ID</span></th>
 <th class="firstName_header"><span>Date</span></th>
 <th class="lastName_header"><span>Amount</span></th>
@@ -67,9 +63,7 @@ function getDonateHistory() {
             let row = data.rows[i];
 
             str +=
-              "<tr><td class='id'>" +
-              row.userID +
-              "</td><td class='userName'><span>" +
+              "<tr><td class='userName'><span>" +
               row.donateID +
               "</span></td><td class='firstName'><span>" +
               row.postdate.slice(0, 10) +
