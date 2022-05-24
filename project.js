@@ -812,7 +812,7 @@ app.post("/admin-update-username", function (req, res) {
   connection.end();
 });
 
-// admin change first name!!!
+// admin change first name!!
 app.post("/admin-update-firstname", function (req, res) {
   res.setHeader("Content-Type", "application/json");
 
