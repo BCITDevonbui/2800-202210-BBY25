@@ -91,7 +91,8 @@ app.post("/donate", function (req, res) {
     } else {
       month = `${date.getMonth() + 1}`;
     }
-    let postedDate = `${splitDate[3]}-${month}-${splitDate[2]} ${splitDate[4]}`;
+    // let postedDate = `${splitDate[3]}-${month}-${splitDate[2]} ${splitDate[4]}`;
+    let postedDate = new Date().toISOString().slice(0, 19).replace('T', ' ');
     connection.query(
       `use COMP2800; INSERT INTO BBY_25_users_donation (userID, postdate, amount) VALUES (?, ?, ?)`,
       [req.session.identity, postedDate, req.body.amount],
