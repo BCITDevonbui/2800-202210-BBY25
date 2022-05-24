@@ -172,7 +172,7 @@ app.get("/get-catalogue", function (req, res) {
 app.get("/cart", async function (req, res) {
   let doc = fs.readFileSync("./app/html/cart.html", "utf8");
   let docDOM = new JSDOM(doc);
-  const mysql = require("mysql2/promise");
+  const mysql = require("mysql2");
   const connection = mysql.createConnection({
     // host: "127.0.0.1",
     // user: "root",
@@ -191,9 +191,12 @@ app.get("/cart", async function (req, res) {
   });
   connection.connect();
   let cartItems = "";
-  const [results] = connection.query(
+  // const [results] = connection.query(
+  //   `SELECT contents FROM BBY_25_users_packages WHERE userID = '${req.session.identity}' ORDER BY packageID desc limit 0,1;`
+  // );
+  console.log(connection.query(
     `SELECT contents FROM BBY_25_users_packages WHERE userID = '${req.session.identity}' ORDER BY packageID desc limit 0,1;`
-  );
+  ));
   // let contents = results[0]["contents"].split(",");
   let contents = results["contents"].split(",");
   let myPromise = new Promise(function (resolve) {
@@ -406,7 +409,10 @@ app.get("/payment", function (req, res) {
 app.get("/cartHistory", function (req, res) {
   if (req.session.loggedIn) {
     let doc = fs.readFileSync("./app/html/cartHistory.html", "utf8");
-    res.send(doc);
+    let docDOM = new JSDOM(doc);
+    docDOM.window.document.getElementById("userHistory").innerHTML = 
+    `${req.session.name}'s History`;
+    res.send(docDOM.serialize());
   } else {
     res.redirect("/");
   }
@@ -488,7 +494,7 @@ app.post("/register", function (req, res) {
     database: 'h4ngdmrfus1wjzhr'
   });
   connection.connect();
-  
+
 
   let validNewUserInfo = req.body;
   //Adds new user to user table. Always non admin, since this is client facing sign up
