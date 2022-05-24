@@ -94,7 +94,7 @@ app.post("/donate", function (req, res) {
     let postedDate = `${splitDate[3]}-${month}-${splitDate[2]} ${splitDate[4]}`;
     connection.query(
       `use COMP2800; INSERT INTO BBY_25_users_donation (userID, postdate, amount) VALUES (?, ?, ?)`,
-      [req.session.identity, postedDate, amount]
+      [req.session.identity, postedDate, req.body.amount]
     );
     res.send({ status: "success", msg: "Record added." });
     connection.end();
