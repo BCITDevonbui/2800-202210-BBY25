@@ -18,6 +18,8 @@ CREATE TABLE IF NOT EXISTS BBY_25_users_packages (
   postdate DATETIME,
   contents varchar(1000),
   purchased BOOLEAN,
+  isDelivered BOOLEAN,
+  img varchar(100),
   PRIMARY KEY(packageID),
   CONSTRAINT fk_user
   FOREIGN KEY (userID)

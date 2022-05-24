@@ -6,12 +6,6 @@ const fs = require("fs");
 const { connect } = require("http2");
 const { JSDOM } = require("jsdom");
 const mysql = require("mysql2");
-const pool = mysql.createPool({
-  host: "127.0.0.1",
-  user: "root",
-  password: "",
-  database: "COMP2800"
-});
 
 // static path mappings
 app.use("/js", express.static("./public/js"));
@@ -38,8 +32,6 @@ app.use(
     extended: true,
   })
 );
-
-
 
 app.get("/", function (req, res) {
   if (req.session.loggedIn) {
@@ -68,22 +60,50 @@ app.get("/donate", function (req, res) {
 });
 
 app.post("/donate", function (req, res) {
+  const mysql = require("mysql2");
+  const connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "COMP2800",
+    multipleStatements: "true",
+  });
+    connection.connect();
   let amount = req.body.amount;
   if (amount < 0 || amount > 9999999.99 || amount === "") {
     res.send({ status: "fail", msg: "Invalid amount entered!" });
   } else {
-    let postedDate = getDateTime();
-    pool.query(
-      `INSERT INTO BBY_25_users_donation (userID, postdate, amount) VALUES (?, ?, ?)`,
+    let date = new Date();
+    let splitDate = String(date).split(" ");
+
+    let month = 0;
+    if (date.getMonth() + 1 < 9) {
+      month = `0${date.getMonth() + 1}`;
+    } else {
+      month = `${date.getMonth() + 1}`;
+    }
+    let postedDate = `${splitDate[3]}-${month}-${splitDate[2]} ${splitDate[4]}`;
+    connection.query(
+      `use COMP2800; INSERT INTO BBY_25_users_donation (userID, postdate, amount) VALUES (?, ?, ?)`,
       [req.session.identity, postedDate, amount]
     );
     res.send({ status: "success", msg: "Record added." });
+    connection.end();
   }
 });
 
 app.get("/get-catalogue", function (req, res) {
-  pool.query(
-    "select * from bby_25_catalogue;",
+  const mysql = require("mysql2");
+  const connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    multipleStatements: "true",
+  });
+  connection.connect();
+
+  connection.query(
+    "use comp2800; select * from bby_25_catalogue;",
     function (error, results, fields) {
       if (error) {
         //catch error and save to database
@@ -92,32 +112,71 @@ app.get("/get-catalogue", function (req, res) {
       }
     }
   );
+  connection.end();
 });
 
-app.get("/cart", async function (req, res) {
-  let doc = fs.readFileSync("./app/html/cart.html", "utf8");
+app.get("/history", async (req, res) => {
+  let doc = fs.readFileSync("./app/html/notification.html", "utf8");
   let docDOM = new JSDOM(doc);
-  let cartItems = "";
-  const [results] = await pool.query(
-    `SELECT contents FROM BBY_25_users_packages WHERE userID = '${req.session.identity}' ORDER BY postdate desc LIMIT 1;`
-  );
-  let contents = results[0]["contents"].split(",");
-  let myPromise = new Promise(function (resolve) {
-    contents.forEach((content) => {
-      const answer = pool.query(
-        `SELECT * from BBY_25_catalogue WHERE itemID = "${content}";`
-      );
-      cartItems += buildCard(answer);
-    })
-    resolve(cartItems);
+  const mysql = await require("mysql2/promise");
+  const connection = await mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root", 
+    password: "",
+    database: "COMP2800"
   });
-  docDOM.window.document.getElementById("content").innerHTML = await myPromise;
+  connection.connect();
+  let packageList = "";
+  const [results] = await connection.query(`SELECT * FROM BBY_25_users_packages WHERE userID = '${req.session.identity}' ORDER BY postdate desc;`);
+  results.forEach((result) => {
+    packageList += buildNotifCards(result);
+  })
+  docDOM.window.document.getElementById("miniContainer").innerHTML = packageList;
   res.set("Server", "Wazubi Engine");
   res.set("X-Powered-By", "Wazubi");
   res.send(docDOM.serialize());
 });
 
-function buildCard(result) {
+function buildNotifCards(result) {
+  let card = fs.readFileSync("./app/html/packageCard.html");
+  let cardDOM = new JSDOM(card);
+  let html = "";
+  cardDOM.window.document.getElementById("packageID").innerHTML = "Package ID: " + result.packageID;
+  cardDOM.window.document.getElementById("postdate").innerHTML = result.postdate;
+  cardDOM.window.document.getElementById("packageStatus").innerHTML = result.isDelievered ? "Package has been delievered" : "Package is enroute";
+  html = cardDOM.serialize();
+  return html
+}
+
+app.get("/cart", async function (req, res) {
+  let doc = fs.readFileSync("./app/html/cart.html", "utf8");
+  let docDOM = new JSDOM(doc);
+  const mysql = require("mysql2/promise");
+  const connection = await mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "COMP2800",
+  });
+  connection.connect();
+  let cartItems = "";
+  const [results] = await connection.query(
+    `SELECT contents FROM BBY_25_users_packages WHERE userID = '${req.session.identity}' ORDER BY postdate desc LIMIT 1;`
+  );
+  let contents = results[0]["contents"].split(",").sort();
+    for (let i = 0; i < contents.length; i++) {
+      const answer = await connection.query(
+        `SELECT * from BBY_25_catalogue WHERE itemID = "${contents[i]}";`
+      );
+      cartItems += buildItemCartCard(answer[0][0]);
+    }
+  docDOM.window.document.getElementById("content").innerHTML = cartItems;
+  res.set("Server", "Wazubi Engine");
+  res.set("X-Powered-By", "Wazubi");
+  res.send(docDOM.serialize());
+});
+
+function buildItemCartCard(result) {
   //reads card.html template
   let card = fs.readFileSync("./app/html/cardDelete.html", "utf8");
   let html = "";
@@ -150,11 +209,21 @@ function buildCard(result) {
 }
 
 app.post("/create-cart", function (req, res) {
+  const mysql = require("mysql2");
+  const connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "COMP2800",
+    multipleStatements: "true",
+  });
+  connection.connect();
   let postDate = getDateTime();
-  pool.query(
-    `INSERT INTO BBY_25_users_packages (userID, postdate, contents, purchased) VALUES ("${req.session.identity}", "${postDate}", "${req.body.cart}", false);`
+  connection.query(
+    `INSERT INTO BBY_25_users_packages (userID, postdate, contents, purchased, package_status, img) VALUES ("${req.session.identity}", "${postDate}", "${req.body.cart}", false, "not delivered", "/img/noImage.png");`
   );
   res.send({ status: "success", msg: "Created new cart" });
+  connection.end();
 });
 
 function getDateTime() {
@@ -170,8 +239,15 @@ function getDateTime() {
 }
 
 async function getAllItems(callback) {
-  const results = await pool.query("SELECT * FROM BBY_25_catalogue;");
-  console.log(results);
+  const mysql = require("mysql2/promise");
+  const connection = await mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "COMP2800",
+  });
+  connection.connect();
+  const [results] = await connection.query("SELECT * FROM BBY_25_catalogue");
   callback(results);
 }
 
@@ -180,7 +256,7 @@ app.get("/package", function (req, res) {
   let docDOM = new JSDOM(doc);
   getAllItems((results) => {
     docDOM.window.document.getElementById("content").innerHTML =
-      buildCards(results);
+    buildInvetoryCards(results);
   }).then(() => {
     res.set("Server", "Wazubi Engine");
     res.set("X-Powered-By", "Wazubi");
@@ -188,7 +264,7 @@ app.get("/package", function (req, res) {
   });
 });
 
-function buildCards(results) {
+function buildInvetoryCards(results) {
   //reads card.html template
   let card = fs.readFileSync("./app/html/cardAdd.html", "utf8");
   let html = "";
@@ -276,18 +352,6 @@ app.get("/payment", function (req, res) {
 app.get("/cartHistory", function (req, res) {
   if (req.session.loggedIn) {
     let doc = fs.readFileSync("./app/html/cartHistory.html", "utf8");
-    let docDOM = new JSDOM(doc);
-    docDOM.window.document.getElementById("userHistory").innerHTML = 
-    `${req.session.name}'s History`
-    res.send(docDOM.serialize());
-  } else {
-    res.redirect("/");
-  }
-});
-
-app.get("/history", (req, res) => {
-  if(req.session.loggedIn) {
-    let doc = fs.readFileSync("./app/html/notification.html", "utf8");
     res.send(doc);
   } else {
     res.redirect("/");
@@ -319,6 +383,14 @@ app.get("/about", function (req, res) {
 
 app.post("/payment", function (req, res) {
   res.setHeader("Content-Type", "application/json");
+  const mysql = require("mysql2");
+  const connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    multipleStatements: "true",
+  });
+  connection.connect();
 
   let ccInfo = req.body;
   if (
@@ -334,11 +406,19 @@ app.post("/payment", function (req, res) {
 
 app.post("/register", function (req, res) {
   res.setHeader("Content-Type", "application/json");
+  const mysql = require("mysql2");
+  const connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    multipleStatements: "true",
+  });
+  connection.connect();
 
   let validNewUserInfo = req.body;
   //Adds new user to user table. Always non admin, since this is client facing sign up
-  pool.query(
-    `INSERT INTO BBY_25_users (user_name, first_name, last_name, email, password, is_admin, profile_pic) values (?, ?, ?, ?, ?, ?, ?)`,
+  connection.query(
+    `use COMP2800; INSERT INTO BBY_25_users (user_name, first_name, last_name, email, password, is_admin, profile_pic) values (?, ?, ?, ?, ?, ?, ?)`,
     [
       validNewUserInfo.userName,
       validNewUserInfo.firstName,
@@ -368,26 +448,36 @@ app.post("/register", function (req, res) {
       });
     }
   );
+  connection.end();
 });
 
 app.post("/login", function (req, res) {
   res.setHeader("Content-Type", "application/json");
+  const mysql = require("mysql2");
+  const connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    multipleStatements: "true",
+  });
+
+  connection.connect();
   // Checks if user typed in matching email and password
-  const loginInfo = `SELECT * FROM BBY_25_USERS WHERE email = '${req.body.email}' AND password = '${req.body.password}';`;
-  pool.query(loginInfo, (error, results) => {
+  const loginInfo = `USE COMP2800; SELECT * FROM BBY_25_USERS WHERE email = '${req.body.email}' AND password = '${req.body.password}';`;
+  connection.query(loginInfo, function (error, results, fields) {
     /* If there is an error, alert user of error
      *  If the length of results array is 0, then there was no matches in database
      *  If no error, then it is valid login and save info for session
      */
     if (error) {
       // change this to notify user of error
-    } else if (results[0].length == 0) {
+    } else if (results[1].length == 0) {
       res.send({
         status: "fail",
         msg: "Incorrect email or password",
       });
     } else {
-      let validUserInfo = results[0];
+      let validUserInfo = results[1][0];
       req.session.loggedIn = true;
       req.session.email = validUserInfo.email;
       req.session.name = validUserInfo.first_name;
@@ -405,12 +495,20 @@ app.post("/login", function (req, res) {
       });
     }
   });
+  connection.end();
 });
 
 //user cart page ***********************************************************************
 
 app.get("/get-packages", function (req, res) {
-  pool.query(
+  let connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "comp2800",
+  });
+  connection.connect();
+  connection.query(
     `SELECT * FROM BBY_25_USERS_PACKAGES WHERE userID = '${req.session.identity}';`,
     function (error, results, fields) {
       if (error) {
@@ -423,10 +521,18 @@ app.get("/get-packages", function (req, res) {
       }
     }
   );
+  connection.end();
 });
 
 app.get("/get-donation", function (req, res) {
-  pool.query(
+  let connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "comp2800",
+  });
+  connection.connect();
+  connection.query(
     `SELECT * FROM BBY_25_USERS_DONATION WHERE userID = '${req.session.identity}';`,
     function (error, results, fields) {
       if (error) {
@@ -439,12 +545,22 @@ app.get("/get-donation", function (req, res) {
       }
     }
   );
+  connection.end();
 });
 
 // change purchased!!!
 app.post("/update-purchased", function (req, res) {
   res.setHeader("Content-Type", "application/json");
-  pool.query(
+
+  let connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "comp2800",
+  });
+  connection.connect();
+
+  connection.query(
     `UPDATE BBY_25_users_packages SET purchased = ? WHERE userID = '${req.session.identity}' ORDER BY postdate desc LIMIT 1;`,
     [req.body.purchased],
     function (error, results, fields) {
@@ -458,13 +574,23 @@ app.post("/update-purchased", function (req, res) {
       });
     }
   );
+  connection.end();
 });
 
 // delete cart
 app.get("/delete-cart", function (req, res) {
   res.setHeader("Content-Type", "application/json");
 
-  pool.query(
+  let connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "comp2800",
+    multipleStatements: true,
+  });
+  connection.connect();
+
+  connection.query(
     "DELETE FROM bby_25_users_packages WHERE userID = ? order by postdate desc limit 1;",
     [req.session.identity],
     function (error, results, fields) {
@@ -481,13 +607,22 @@ app.get("/delete-cart", function (req, res) {
       }
     }
   );
+
+  connection.end();
 });
 
 //*****************************************************************************************
 
 //admin users edit-------------------------------------------------------------------------
 app.get("/get-allUsers", function (req, res) {
-  pool.query(
+  let connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "comp2800",
+  });
+  connection.connect();
+  connection.query(
     "select * from bby_25_users;",
     function (error, results, fields) {
       if (error) {
@@ -499,13 +634,21 @@ app.get("/get-allUsers", function (req, res) {
       });
     }
   );
+  connection.end();
 });
 
 // admin change emails!!!
 app.post("/admin-update-email", function (req, res) {
   res.setHeader("Content-Type", "application/json");
 
-  pool.query(
+  let connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "comp2800",
+  });
+  connection.connect();
+  connection.query(
     "UPDATE BBY_25_users SET email = ? WHERE identity = ?",
     [req.body.email, req.body.id],
     function (error, results, fields) {
@@ -514,13 +657,22 @@ app.post("/admin-update-email", function (req, res) {
       res.send({ status: "success", msg: "Recorded updated." });
     }
   );
+  connection.end();
 });
 
 // admin change username!!!
 app.post("/admin-update-username", function (req, res) {
   res.setHeader("Content-Type", "application/json");
 
-  pool.query(
+  let connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "comp2800",
+  });
+  connection.connect();
+
+  connection.query(
     "UPDATE BBY_25_users SET user_name = ? WHERE identity = ?",
     [req.body.userName, req.body.id],
     function (error, results, fields) {
@@ -534,13 +686,22 @@ app.post("/admin-update-username", function (req, res) {
       });
     }
   );
+  connection.end();
 });
 
 // admin change first name!!!
 app.post("/admin-update-firstname", function (req, res) {
   res.setHeader("Content-Type", "application/json");
 
-  pool.query(
+  let connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "comp2800",
+  });
+  connection.connect();
+
+  connection.query(
     "UPDATE BBY_25_users SET first_name = ? WHERE identity = ?",
     [req.body.firstName, req.body.id],
     function (error, results, fields) {
@@ -554,12 +715,22 @@ app.post("/admin-update-firstname", function (req, res) {
       });
     }
   );
+  connection.end();
 });
 
 // admin change last name!!!
 app.post("/admin-update-lastname", function (req, res) {
   res.setHeader("Content-Type", "application/json");
-  pool.query(
+
+  let connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "comp2800",
+  });
+  connection.connect();
+
+  connection.query(
     "UPDATE BBY_25_users SET last_name = ? WHERE identity = ?",
     [req.body.lastName, req.body.id],
     function (error, results, fields) {
@@ -573,12 +744,22 @@ app.post("/admin-update-lastname", function (req, res) {
       });
     }
   );
+  connection.end();
 });
 
 // admin change password!!!
 app.post("/admin-update-password", function (req, res) {
   res.setHeader("Content-Type", "application/json");
-  pool.query(
+
+  let connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "comp2800",
+  });
+  connection.connect();
+
+  connection.query(
     "UPDATE BBY_25_users SET password = ? WHERE identity = ?",
     [req.body.password, req.body.id],
     function (error, results, fields) {
@@ -592,17 +773,26 @@ app.post("/admin-update-password", function (req, res) {
       });
     }
   );
+  connection.end();
 });
 
 // admin change isAdmin!!!
 app.post("/admin-update-isAdmin", function (req, res) {
   res.setHeader("Content-Type", "application/json");
 
+  let connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "comp2800",
+  });
+  connection.connect();
+
   // if (req.body.isAdmin != 1 || req.body.isAdmin != 0){
   //     req.body.isAdmin = 0;
   // }
 
-  pool.query(
+  connection.query(
     "UPDATE BBY_25_users SET is_admin = ? WHERE identity = ?",
     [req.body.isAdmin, req.body.id],
     function (error, results, fields) {
@@ -616,13 +806,22 @@ app.post("/admin-update-isAdmin", function (req, res) {
       });
     }
   );
+  connection.end();
 });
 
 app.post("/add-user", function (req, res) {
   res.setHeader("Content-Type", "application/json");
+
+  let connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "comp2800",
+  });
+  connection.connect();
   // TO PREVENT SQL INJECTION, DO THIS:
   // (FROM https://www.npmjs.com/package/mysql#escaping-query-values)
-  pool.query(
+  connection.query(
     `INSERT INTO BBY_25_users (user_name, first_name, last_name, email, password, is_admin, profile_pic) values (?, ?, ?, ?, ?, ?, ?)`,
     [
       req.body.userName,
@@ -644,15 +843,24 @@ app.post("/add-user", function (req, res) {
       });
     }
   );
+  connection.end();
 });
 
 // POST: we are changing stuff on the server!!!
 app.post("/delete-user", function (req, res) {
   res.setHeader("Content-Type", "application/json");
 
+  let connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "comp2800",
+    multipleStatements: true,
+  });
+  connection.connect();
 
   if (req.body.idNumber != req.session.identity) {
-    pool.query(
+    connection.query(
       "DELETE FROM bby_25_users WHERE identity = ?",
       [req.body.idNumber],
       function (error, results, fields) {
@@ -671,6 +879,7 @@ app.post("/delete-user", function (req, res) {
       msg: "Not a valid input.",
     });
   }
+  connection.end();
 });
 
 //-----------------------------------------------------------------------------------------
@@ -701,7 +910,14 @@ app.get("/account", function (req, res) {
 app.post("/update-firstName", async function (req, res) {
   res.setHeader("Content-Type", "application/json");
 
-  pool.query(
+  let connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "comp2800",
+  });
+  connection.connect();
+  connection.query(
     "UPDATE BBY_25_users SET first_name = ? WHERE identity = ?",
     [req.body.name, req.body.id],
     function (error, results, fields) {
@@ -719,14 +935,22 @@ app.post("/update-firstName", async function (req, res) {
       });
     }
   );
+  connection.end();
 });
 
 // updating last name!!!
 app.post("/update-lastName", async function (req, res) {
   res.setHeader("Content-Type", "application/json");
 
+  let connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "comp2800",
+  });
+  connection.connect();
 
-  pool.query(
+  connection.query(
     "UPDATE BBY_25_users SET last_name = ? WHERE identity = ?",
     [req.body.lastName, req.body.id],
     function (error, results, fields) {
@@ -746,13 +970,22 @@ app.post("/update-lastName", async function (req, res) {
       });
     }
   );
+  connection.end();
 });
 
 // updating email!!!
 app.post("/update-email", async function (req, res) {
   res.setHeader("Content-Type", "application/json");
 
-  pool.query(
+  let connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "comp2800",
+  });
+  connection.connect();
+
+  connection.query(
     "UPDATE BBY_25_users SET email = ? WHERE identity = ?",
     [req.body.email, req.body.id],
     function (error, results, fields) {
@@ -772,14 +1005,22 @@ app.post("/update-email", async function (req, res) {
       });
     }
   );
+  connection.end();
 });
 
 // updating last name!!!
 app.post("/update-lastName", async function (req, res) {
   res.setHeader("Content-Type", "application/json");
 
+  let connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "comp2800",
+  });
+  connection.connect();
 
-  pool.query(
+  connection.query(
     "UPDATE BBY_25_users SET last_name = ? WHERE ID = ?",
     [req.body.lastName, req.body.id],
     function (error, results, fields) {
@@ -796,6 +1037,7 @@ app.post("/update-lastName", async function (req, res) {
       });
     }
   );
+  connection.end();
 });
 
 // updating email!!!
@@ -804,7 +1046,16 @@ app.post("/update-email", async function (req, res) {});
 // update password!!!
 app.post("/update-password", function (req, res) {
   res.setHeader("Content-Type", "application/json");
-  pool.query(
+
+  let connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "comp2800",
+  });
+  connection.connect();
+
+  connection.query(
     "UPDATE BBY_25_users SET password = ? WHERE identity = ?",
     [req.body.password, req.body.id],
     function (error, results, fields) {
@@ -824,12 +1075,21 @@ app.post("/update-password", function (req, res) {
       });
     }
   );
+  connection.end();
 });
 
 // updating profile pic!!!
 app.post("/update-profilePic", function (req, res) {
   res.setHeader("Content-Type", "application/json");
-  pool.query(
+
+  let connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "comp2800",
+  });
+  connection.connect();
+  connection.query(
     "UPDATE BBY_25_users SET profile_pic = ? WHERE identity = ?",
     [req.body.profilePic, req.body.id],
     function (error, results, fields) {
@@ -847,6 +1107,7 @@ app.post("/update-profilePic", function (req, res) {
       });
     }
   );
+  connection.end();
 });
 
 //////////////////////////////////////////////////////////////////////////////////////

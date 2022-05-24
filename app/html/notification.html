@@ -1,57 +1,48 @@
 <!DOCTYPE html>
-<html lang="en">
+ <html>
+   <head>
+     <title>Notification</title>
+     <meta charset="utf-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <!-- Generate favicons using: https://favicon.io/ -->
+     <link href="/img/drop.png" rel="icon" type="image/x-icon" />
+     <link rel="stylesheet" href="css/notification.css">
+     <link rel="stylesheet" href="css/style.css">
+     <link href="https://fonts.googleapis.com/css2?family=Heebo&family=Merriweather&family=Mulish&display=swap" rel="stylesheet">
+   </head>
+   <body>
 
-<head>
-  <title>Notification</title>
-  <meta charset="utf-8" />
-  <link rel="stylesheet" href="/css/cartHistory.css">
-  <link rel="stylesheet" href="/css/style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Heebo&family=Merriweather&family=Mulish&display=swap"
-    rel="stylesheet">
-</head>
+    <div id="container">
 
-<body>
-  <div id="container">
-    <nav>
-      <img id="dropLogo" class="icon" alt="drop-icon" src="/img/drop.png">
-    </nav>
+      <nav>
+        <img class="icon" id="drop" alt="drop-icon" src="/img/drop.png">
+      </nav>
 
-    <div id="navbar">
-      <a id="account">Account</a>
-    </div>
+      <div id="navbar">
+        <a id="about">Account</a>
+      </div>
 
-    <aside>
-      <form class="formlogout" action="/logout" method="get">
-        <input type="submit" value="Logout" />
+      <aside>
+        <form class="formlogout" action="/logout" method="get">
+          <input type="submit" value="Logout"/>
       </form>
-    </aside>
+      </aside>
 
-    <h1 id="userHistory" class="centertext">History</h1>
-    
+      <h1 class="centertext">Notification</h1>
 
-    <div id="miniContainer">
-        <h3 class="centertext">Package Cart History</h3>
-        <table class="centertext" id="packages"></table>
+      <div id="miniContainer">
+      </div>
 
-        <br>
-
-        <h3 class="centertext">Donation History</h3>
-        <table class="centertext" id="donation"></table>
     </div>
 
+      <footer>
+          <br>
+          <a id="about">About</a>
+          <a id="faq">FAQ</a>
+          <a id="help">Help</a>
+      </footer>
 
-
-    <footer>
-      <br>
-      <a id="about">About</a>
-      <a id="faq">FAQ</a>
-      <a id="help">Help</a>
-      <a id="contact">Contact Us</a>
-    </footer>
-
-  </div>
-
-  <script src="js/notification.js"></script>
-</body>
-
-</html>
+    </div>
+    <script src="js/notification.js"></script>
+ </body>
+ </html> 
