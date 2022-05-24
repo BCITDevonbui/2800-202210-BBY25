@@ -123,7 +123,7 @@ app.get("/get-catalogue", function (req, res) {
   connection.connect();
 
   connection.query(
-    "use comp2800; select * from bby_25_catalogue;",
+    "select * from bby_25_catalogue;",
     function (error, results, fields) {
       if (error) {
         //catch error and save to database
@@ -134,6 +134,40 @@ app.get("/get-catalogue", function (req, res) {
   );
   connection.end();
 });
+
+// app.get("/cart", function (req, res) {
+//   const mysql = require("mysql2");
+//   const connection = mysql.createConnection({
+//     // host: "127.0.0.1",
+//     // user: "root",
+//     // password: "",
+//     // multipleStatements: "true"
+//     // cleardb -----------------------
+//     // host: 'us-cdbr-east-05.cleardb.net',
+//     // user: 'b16ad059f5434a',
+//     // password: '2255f096',
+//     // database: 'heroku_02ad04623fadaa9'
+//     // jaws ----------------------
+//     host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
+//     user: 'wx1mc7pu6mewf76i',
+//     password: 't95p9w64os2ia6gv',
+//     database: 'h4ngdmrfus1wjzhr'
+//   });
+//   connection.connect();
+
+//   connection.query(
+//     `SELECT contents FROM BBY_25_users_packages WHERE userID = '${req.session.identity}' ORDER BY packageID desc limit 0,1;`,
+//     function (error, results, fields) {
+//       if (error) {
+//         //catch error and save to database
+//       } else {
+//         res.send({ status: "success", rows: results[0]});
+//         console.log(results[0]);
+//       }
+//     }
+//   );
+//   connection.end();
+// });
 
 app.get("/cart", async function (req, res) {
   let doc = fs.readFileSync("./app/html/cart.html", "utf8");
@@ -157,8 +191,8 @@ app.get("/cart", async function (req, res) {
   });
   connection.connect();
   let cartItems = "";
-  const [results] = await connection.query(
-    `SELECT contents FROM BBY_25_users_packages WHERE userID = '${req.session.identity}' ORDER BY postdate desc LIMIT 1;`
+  const [results] = connection.query(
+    `SELECT contents FROM BBY_25_users_packages WHERE userID = '${req.session.identity}' ORDER BY packageID desc limit 0,1;`
   );
   // let contents = results[0]["contents"].split(",");
   let contents = results["contents"].split(",");
@@ -171,7 +205,7 @@ app.get("/cart", async function (req, res) {
     }
     resolve(cartItems);
   });
-  docDOM.window.document.getElementById("content").innerHTML = await myPromise;
+  docDOM.window.document.getElementById("content").innerHTML = myPromise;
   res.set("Server", "Wazubi Engine");
   res.set("X-Powered-By", "Wazubi");
   res.send(docDOM.serialize());
@@ -454,6 +488,7 @@ app.post("/register", function (req, res) {
     database: 'h4ngdmrfus1wjzhr'
   });
   connection.connect();
+  
 
   let validNewUserInfo = req.body;
   //Adds new user to user table. Always non admin, since this is client facing sign up
