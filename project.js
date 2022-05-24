@@ -91,8 +91,8 @@ app.post("/donate", function (req, res) {
     } else {
       month = `${date.getMonth() + 1}`;
     }
-    // let postedDate = `${splitDate[3]}-${month}-${splitDate[2]} ${splitDate[4]}`;
-    let postedDate = new Date().toISOString().slice(0, 19).replace('T', ' ');
+    let postedDate = `${splitDate[3]}-${month}-${splitDate[2]} ${splitDate[4]}`;
+    // let postedDate = new Date().toISOString().slice(0, 19).replace('T', ' ');
     connection.query(
       `INSERT INTO BBY_25_users_donation (userID, postdate, amount) VALUES (?, ?, ?)`,
       [req.session.identity, postedDate, req.body.amount],
@@ -155,7 +155,7 @@ app.get("/cart", async function (req, res) {
     password: 't95p9w64os2ia6gv',
     database: 'h4ngdmrfus1wjzhr'
   });
-  connection.connect();
+  // connection.connect();
   let cartItems = "";
   const [results] = await connection.query(
     `SELECT contents FROM BBY_25_users_packages WHERE userID = '${req.session.identity}' ORDER BY postdate desc LIMIT 1;`
