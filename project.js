@@ -155,7 +155,7 @@ app.get("/cart", async function (req, res) {
     password: 't95p9w64os2ia6gv',
     database: 'h4ngdmrfus1wjzhr'
   });
-  // connection.connect();
+  connection.connect();
   let cartItems = "";
   const [results] = await connection.query(
     `SELECT contents FROM BBY_25_users_packages WHERE userID = '${req.session.identity}' ORDER BY postdate desc LIMIT 1;`
