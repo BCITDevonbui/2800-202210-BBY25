@@ -130,17 +130,14 @@ app.get("/cart", async function (req, res) {
   const [results] = await connection.query(
     `SELECT contents FROM BBY_25_users_packages WHERE userID = '${req.session.identity}' ORDER BY postdate desc LIMIT 1;`
   );
-  let contents = results[0]["contents"].split(",");
-  let myPromise = new Promise(function (resolve) {
+  let contents = results[0]["contents"].split(",").sort();
     for (let i = 0; i < contents.length; i++) {
-      const answer = connection.query(
+      const answer = await connection.query(
         `SELECT * from BBY_25_catalogue WHERE itemID = "${contents[i]}";`
       );
-      cartItems += buildCard(answer);
+      cartItems += buildCard(answer[0][0]);
     }
-    resolve(cartItems);
-  });
-  docDOM.window.document.getElementById("content").innerHTML = await myPromise;
+  docDOM.window.document.getElementById("content").innerHTML = cartItems;
   res.set("Server", "Wazubi Engine");
   res.set("X-Powered-By", "Wazubi");
   res.send(docDOM.serialize());
