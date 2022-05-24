@@ -159,7 +159,8 @@ app.get("/cart", async function (req, res) {
   const [results] = await connection.query(
     `SELECT contents FROM BBY_25_users_packages WHERE userID = '${req.session.identity}' ORDER BY postdate desc LIMIT 1;`
   );
-  let contents = results[0]["contents"].split(",");
+  // let contents = results[0]["contents"].split(",");
+  let contents = results["contents"].split(",");
   let myPromise = new Promise(function (resolve) {
     for (let i = 0; i < contents.length; i++) {
       const answer = connection.query(
@@ -527,7 +528,9 @@ app.post("/login", function (req, res) {
     //     msg: "Incorrect email or password",
     //   });
     } else {
+      // for localhost
       // let validUserInfo = results[1][0];
+      // for heroku
       let validUserInfo = results[0];
       req.session.loggedIn = true;
       req.session.email = validUserInfo.email;
