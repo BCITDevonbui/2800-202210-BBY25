@@ -136,13 +136,13 @@ function buildItemCartCard(result) {
   cardDOM.window.document
     .getElementById("price")
     .setAttribute("id", `priceOfItem${result.itemID}`);
-  cardDOM.window.document.getElementById(`priceOfItem${result.itemID}`).innerHTML = `$${result.price}`;
+  cardDOM.window.document.getElementById(`priceOfItem${result.itemID}`).innerHTML = `Single Price: $${result.price}`;
   cardDOM.window.document.getElementById("quantity").setAttribute("id", `quantityOf${result.itemID}`);
   cardDOM.window.document.getElementById(`quantityOf${result.itemID}`).innerHTML = 
-  result.itemQuantity;
+  `Quantity: ${result.itemQuantity}`;
   cardDOM.window.document.getElementById("itemTotal").setAttribute("id", `itemTotalOf${result.itemID}`);
   let itemTotal = parseFloat(result.price) * parseFloat(result.itemQuantity);
-  cardDOM.window.document.getElementById(`itemTotalOf${result.itemID}`).innerHTML = `$${itemTotal}`;
+  cardDOM.window.document.getElementById(`itemTotalOf${result.itemID}`).innerHTML = `Item Total: $${itemTotal}`;
   cardDOM.window.document
     .getElementById("most_wanted")
     .setAttribute("id", `mostWanted${result.itemID}`);

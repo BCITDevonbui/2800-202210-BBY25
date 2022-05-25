@@ -74,9 +74,9 @@ nav {
 #totalAmount {
   grid-column: 4;
   grid-row: 2;
-  justify-self: end;
+  /* justify-self: start; */
   align-self: center;
-  margin-right: 100px;
+  margin-right: 200px;
 
 }
 
