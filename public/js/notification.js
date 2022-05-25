@@ -48,12 +48,10 @@ ready(function () {
     xhr.send(params);
   }
 
-  function createCard(name, )
-
   // GET TO THE SERVER
   document.querySelector("#dropLogo").addEventListener("click", function (e) {
     e.preventDefault;
-    window.location.replace("/");
+    window.location.assign("/");
   });
 
   document.getElementById("about").addEventListener("click", function (e) {
@@ -65,6 +63,10 @@ ready(function () {
     e.preventDefault;
     window.location.assign("/contactus");
   });
+
+  document.getElementById("account").addEventListener("click", () => {
+    window.location.assign("/account");
+  })
 });
 
 function ready(callback) {

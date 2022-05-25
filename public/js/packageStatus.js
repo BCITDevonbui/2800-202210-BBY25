@@ -1,6 +1,6 @@
 "use strict";
 
-document.getElementById("home").addEventListener("click", function (e) {
+document.getElementById("dropLogo").addEventListener("click", function (e) {
     e.preventDefault;
     window.location.assign("/");
   });

@@ -146,6 +146,7 @@ a:hover {
     display: grid;
     grid-template-columns: 33% 33% 33%;
     width: 100%;
+    overflow-y: auto;
 }
 
 /* ----------------------- The mobile view css starts here! ------------------------------- */
