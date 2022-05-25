@@ -208,8 +208,21 @@ app.get("/get-catalogue", function (req, res) {
 // for admin update package status ------------------------------------------------------------
 app.get("/history", async (req, res) => {
   let doc = fs.readFileSync("./app/html/notification.html", "utf8");
-  let docDOM = new JSDOM(doc);
   const mysql = await require("mysql2/promise");
+  const connection = await mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "COMP2800",
+  });
+  connection.connect();
+  const sqlQuery = `INSERT INTO BBY_25_PACKAGES_ITEMS (packageID, itemID, itemQuantity) VALUES ('${req.session.packageID}', '${req.body.itemID}', '${req.body.quantity}');`;
+  await connection.query(sqlQuery).then(res.send({ status: "success", msg: "Added new item" }))
+
+});
+
+app.post("/add-item", async (req, res) => {
+  const mysql = require("mysql2/promise");
   const connection = await mysql.createConnection({
     host: "127.0.0.1",
     user: "root",
@@ -283,15 +296,22 @@ app.get("/cart", async function (req, res) {
     connection.connect();
     let cartItems = "";
     const [results] = await connection.query(
-      `SELECT contents FROM BBY_25_users_packages WHERE userID = '${req.session.identity}' ORDER BY postdate desc LIMIT 1;`
+      `SELECT i.itemID, c.name, i.itemQuantity, c.price from BBY_25_packages_items i inner join bby_25_catalogue c on c.itemID = i.itemID WHERE i.packageID = ${req.session.packageID}`
     );
-    let contents = results[0]["contents"].split(",").sort();
-    for (let i = 0; i < contents.length; i++) {
-      const answer = await connection.query(
-        `SELECT * from BBY_25_catalogue WHERE itemID = "${contents[i]}";`
-      );
-      cartItems += buildItemCartCard(answer[0][0]);
-    }
+    console.log(results[0]);
+    let cartTotal = 0;
+    results.forEach((result) => {
+      cartTotal += parseFloat(result.price) * parseFloat(result.itemQuantity);
+      cartItems += buildItemCartCard(result);
+    })
+    // let contents = results[0]["contents"].split(",").sort();
+    // for (let i = 0; i < contents.length; i++) {
+    //   const answer = await connection.query(
+    //     `SELECT * from BBY_25_catalogue WHERE itemID = "${contents[i]}";`
+    //   );
+    //   cartItems += buildItemCartCard(answer[0][0]);
+    // }
+    docDOM.window.document.getElementById("total").innerHTML = `Cart Total : $${Number(cartTotal).toFixed(2)}`;
     docDOM.window.document.getElementById("content").innerHTML = cartItems;
     res.set("Server", "Wazubi Engine");
     res.set("X-Powered-By", "Wazubi");
@@ -319,9 +339,13 @@ function buildItemCartCard(result) {
   cardDOM.window.document
     .getElementById("price")
     .setAttribute("id", `priceOfItem${result.itemID}`);
-  cardDOM.window.document.getElementById(
-    `priceOfItem${result.itemID}`
-  ).innerHTML = `$${result.price}`;
+  cardDOM.window.document.getElementById(`priceOfItem${result.itemID}`).innerHTML = `Single Price: $${result.price}`;
+  cardDOM.window.document.getElementById("quantity").setAttribute("id", `quantityOf${result.itemID}`);
+  cardDOM.window.document.getElementById(`quantityOf${result.itemID}`).innerHTML = 
+  `Quantity: ${result.itemQuantity}`;
+  cardDOM.window.document.getElementById("itemTotal").setAttribute("id", `itemTotalOf${result.itemID}`);
+  let itemTotal = parseFloat(result.price) * parseFloat(result.itemQuantity);
+  cardDOM.window.document.getElementById(`itemTotalOf${result.itemID}`).innerHTML = `Item Total: $${itemTotal}`;
   cardDOM.window.document
     .getElementById("most_wanted")
     .setAttribute("id", `mostWanted${result.itemID}`);
@@ -333,9 +357,9 @@ function buildItemCartCard(result) {
   return html;
 }
 
-app.post("/create-cart", function (req, res) {
-  const mysql = require("mysql2");
-  const connection = mysql.createConnection({
+app.post("/create-cart", async function (req, res) {
+  const mysql = require("mysql2/promise");
+  const connection = await mysql.createConnection({
     host: "127.0.0.1",
     user: "root",
     password: "",
@@ -344,9 +368,11 @@ app.post("/create-cart", function (req, res) {
   });
   connection.connect();
   let postDate = getDateTime();
-  connection.query(
-    `INSERT INTO BBY_25_users_packages (userID, postdate, contents, purchased, isDelivered, img) VALUES ("${req.session.identity}", "${postDate}", "${req.body.cart}", 0, 0, "/img/noImage.png");`
+  await connection.query(
+    `INSERT INTO BBY_25_users_packages (userID, postdate, purchased, isDelivered, img) VALUES ("${req.session.identity}", "${postDate}", 0, 0, "/img/noImage.png");`
   );
+  const [result] = await connection.query(`select packageID from bby_25_users_packages order by postdate desc limit 1`);
+  req.session.packageID = result[0].packageID;
   res.send({ status: "success", msg: "Created new cart" });
   connection.end();
 });
@@ -394,32 +420,22 @@ function buildInvetoryCards(results) {
   let card = fs.readFileSync("./app/html/cardAdd.html", "utf8");
   let html = "";
   //loops through the database and prints
-  results.forEach((result) => {
-    let cardDOM = new JSDOM(card);
-    //injecting variables into card DOM
-    cardDOM.window.document
-      .getElementById("cards")
-      .setAttribute("id", `${result.itemID}`);
-    cardDOM.window.document
-      .getElementById("name")
-      .setAttribute("id", `nameOfItem${result.itemID}`);
-    cardDOM.window.document.getElementById(
-      `nameOfItem${result.itemID}`
-    ).innerHTML = result.name;
-    cardDOM.window.document
-      .getElementById("price")
-      .setAttribute("id", `priceOfItem${result.itemID}`);
-    cardDOM.window.document.getElementById(
-      `priceOfItem${result.itemID}`
-    ).innerHTML = `$${result.price}`;
-    cardDOM.window.document
-      .getElementById("most_wanted")
-      .setAttribute("id", `mostWanted${result.itemID}`);
-    cardDOM.window.document.getElementById(
-      `mostWanted${result.itemID}`
-    ).innerHTML = result.most_wanted ? "High Demand" : "";
-    //converts card DOM into html
-    html += cardDOM.serialize();
+    results.forEach((result) => {
+      let cardDOM = new JSDOM(card);
+      //injecting variables into card DOM
+      cardDOM.window.document.getElementById("cards").setAttribute("id", `${result.itemID}`);
+      cardDOM.window.document.getElementById("name").setAttribute("id", `nameOfItem${result.itemID}`);
+      cardDOM.window.document.getElementById(`nameOfItem${result.itemID}`).innerHTML
+      = result.name;
+      cardDOM.window.document.getElementById("price").setAttribute("id", `priceOfItem${result.itemID}`);
+      cardDOM.window.document.getElementById(`priceOfItem${result.itemID}`).innerHTML
+      = `$${result.price}`;
+      cardDOM.window.document.getElementById("quantity").setAttribute("id", `quantityOf${result.itemID}`);
+      cardDOM.window.document.getElementById("most_wanted").setAttribute("id", `mostWanted${result.itemID}`);
+      cardDOM.window.document.getElementById(`mostWanted${result.itemID}`).innerHTML
+      = (result.most_wanted ? "High Demand" : "");
+      //converts card DOM into html
+      html += cardDOM.serialize();
   });
   return html;
 }
