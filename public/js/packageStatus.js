@@ -83,7 +83,6 @@ ready(function () {
   <th class="userID_header"><span>User ID</span></th>
   <th class="date_header"><span>Date</span></th>
   <th class="isDelivered_header"><span>is Delivered</span></th>
-  <th class="contents_header"><span>Contents</span></th>
   <th class="img_header"><span>Image</span></th>
   </tr>`;
   
@@ -101,8 +100,6 @@ ready(function () {
                 row.postdate.slice(12, 19) +
                 "</span></td><td class='isDelivered'><span>" +
                 row.isDelivered +
-                "</span></td><td class='contents'><span>" +
-                row.contents +
                 "</span></td><td class='image'><span>$" +
                 row.img +
                 "</span>" +

@@ -25,7 +25,6 @@ function getCartHistory() {
           let str = `        <tr>
 <th class="userName_header"><span>Package ID</span></th>
 <th class="firstName_header"><span>Date</span></th>
-<th class="lastName_header"><span>Items in Package</span></th>
 <th class="email_header"><span>Purchased</span></th>
 </tr>`;
 
@@ -35,12 +34,9 @@ function getCartHistory() {
               "<tr></td><td class='userName'><span>" +
               row.packageID +
               "</span></td><td class='firstName'><span>" +
-            row.postdate + 
-              // row.postdate.slice(0, 10) +
-              // " " +
-              // row.postdate.slice(12, 19) +
-              "</span></td><td class='lastName'><span>" +
-              row.contents +
+              row.postdate.slice(0, 10) +
+              " " +
+              row.postdate.slice(12, 19) +
               "</span>" +
               "</td><td class='email'><span>" +
               (row.purchased ? "Yes" : "No") +
