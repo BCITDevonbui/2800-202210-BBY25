@@ -15,13 +15,13 @@ function ajaxPOST(url, callback, data) {
    * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent
    */
   let params =
-    typeof data == "string"
-      ? data
-      : Object.keys(data)
-          .map(function (k) {
-            return encodeURIComponent(k) + "=" + encodeURIComponent(data[k]);
-          })
-          .join("&");
+    typeof data == "string" ?
+    data :
+    Object.keys(data)
+    .map(function (k) {
+      return encodeURIComponent(k) + "=" + encodeURIComponent(data[k]);
+    })
+    .join("&");
 
   const xhr = new XMLHttpRequest();
   xhr.onload = function () {
@@ -129,8 +129,7 @@ function getUsers() {
       } else {
         // not a 200, could be anything (404, 500, etc.)
       }
-    } else {
-    }
+    } else {}
   };
   xhr.open("GET", "/get-allUsers");
   xhr.send();
@@ -193,8 +192,7 @@ function editEmail(e) {
           } else {
             // not a 200, could be anything (404, 500, etc.)
           }
-        } else {
-        }
+        } else {}
       };
       xhr.open("POST", "/admin-update-email");
       xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
@@ -244,8 +242,7 @@ function editUserName(e) {
           } else {
             // not a 200, could be anything (404, 500, etc.)
           }
-        } else {
-        }
+        } else {}
       };
       xhr.open("POST", "/admin-update-username");
       xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
@@ -295,8 +292,7 @@ function editFirstName(e) {
           } else {
             // not a 200, could be anything (404, 500, etc.)
           }
-        } else {
-        }
+        } else {}
       };
       xhr.open("POST", "/admin-update-firstname");
       xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
@@ -346,8 +342,7 @@ function editLastName(e) {
           } else {
             // not a 200, could be anything (404, 500, etc.)
           }
-        } else {
-        }
+        } else {}
       };
       xhr.open("POST", "/admin-update-lastname");
       xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
@@ -397,8 +392,7 @@ function editPassword(e) {
           } else {
             // not a 200, could be anything (404, 500, etc.)
           }
-        } else {
-        }
+        } else {}
       };
       xhr.open("POST", "/admin-update-password");
       xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
@@ -467,8 +461,7 @@ function editIsAdmin(e) {
           } else {
             // not a 200, could be anything (404, 500, etc.)
           }
-        } else {
-        }
+        } else {}
       };
       xhr.open("POST", "/admin-update-isAdmin");
       xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
@@ -488,6 +481,7 @@ let emailVal = document.getElementById("add-email").value;
 document
   .getElementById("add-email")
   .addEventListener("change", checkIfValidEmail);
+
 function checkIfValidEmail() {
   if (emailVal.includes("@")) {
     document.getElementById("add-email").style.color = "black";
@@ -554,27 +548,26 @@ document.getElementById("submit").addEventListener("click", function (e) {
       } else {
         // not a 200, could be anything (404, 500, etc.)
       }
-    } else {
-    }
+    } else {}
   };
   xhr.open("POST", "/add-user");
   xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
   xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
   xhr.send(
     "userName=" +
-      formData.userName +
-      "&firstName=" +
-      formData.firstName +
-      "&lastName=" +
-      formData.lastName +
-      "&email=" +
-      formData.email +
-      "&password=" +
-      formData.password +
-      "&isAdmin=" +
-      formData.isAdmin +
-      "&profilePic=" +
-      formData.profilePic
+    formData.userName +
+    "&firstName=" +
+    formData.firstName +
+    "&lastName=" +
+    formData.lastName +
+    "&email=" +
+    formData.email +
+    "&password=" +
+    formData.password +
+    "&isAdmin=" +
+    formData.isAdmin +
+    "&profilePic=" +
+    formData.profilePic
   );
 });
 
@@ -611,10 +604,15 @@ document.getElementById("delete").addEventListener("click", function (e) {
   );
 });
 
+
 document.getElementById("about").addEventListener("click", () => {
   window.location.assign("/about");
 });
 
 document.getElementById("contact").addEventListener("click", () => {
   window.location.assign("/contactus");
+});
+
+document.getElementById("packageStatus").addEventListener("click", () => {
+  window.location.assign("/updatePackageStatus");
 });
