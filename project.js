@@ -73,7 +73,7 @@ app.get("/get-packageStatus", function (req, res) {
   });
   connection.connect();
   connection.query(
-    "SELECT * FROM BBY_25_users_packages WHERE purchased = 1;",
+    "SELECT * FROM BBY_25_users_packages WHERE purchased = 1 AND isDelivered = 0;",
     function (error, results, fields) {
       if (error) {
         // catch error and save to database
@@ -231,31 +231,36 @@ app.get("/history", async (req, res) => {
 });
 
 // for admin update package status ------------------------------------------------------------
-// function buildNotifCards(result) {
-//   let card = fs.readFileSync("./app/html/packageCard.html");
-//   let cardDOM = new JSDOM(card);
-//   let html = "";  
-//   cardDOM.window.document
-//   .getElementById("cards")
-//   .setAttribute("id", `${result.packageID}`);
-//   cardDOM.window.document
-//   .getElementById("packageID")
-//   .setAttribute("id", `ID${result.packageID}`);
-//   cardDOM.window.document
-//   .getElementById("postdate")
-//   .setAttribute("id", `postDateOf${result.packageID}`);
-//   cardDOM.window.document
-//   .getElementById("packageStatus")
-//   .setAttribute("id", `packageStatusOf${result.packageID}`);
-//   cardDOM.window.document.getElementById(`ID${result.packageID}`).innerHTML =
-//     "Package ID: " + result.packageID;
-//   cardDOM.window.document.getElementById(`postDateOf${result.packageID}`).innerHTML =
-//     result.postdate;
-//   cardDOM.window.document.getElementById(`packageStatusOf${result.packageID}`).innerHTML =
-//     result.isDelievered ? "Package has been delievered" : "Package is enroute";
-//   html = cardDOM.serialize();
-//   return html;
-// }
+function buildNotifCards(result) {
+  let card = fs.readFileSync("./app/html/packageCard.html");
+  let cardDOM = new JSDOM(card);
+  let html = "";  
+  cardDOM.window.document
+  .getElementById("cards")
+  .setAttribute("id", `${result.packageID}`);
+  cardDOM.window.document
+  .getElementById("packageID")
+  .setAttribute("id", `ID${result.packageID}`);
+  cardDOM.window.document
+  .getElementById("postdate")
+  .setAttribute("id", `postDateOf${result.packageID}`);
+  cardDOM.window.document
+  .getElementById("packageStatus")
+  .setAttribute("id", `packageStatusOf${result.packageID}`);
+  cardDOM.window.document
+  .getElementById("img")
+  .setAttribute("id", `imgOf${result.packageID}`);
+  cardDOM.window.document.getElementById(`ID${result.packageID}`).innerHTML =
+    "Package ID: " + result.packageID;
+  cardDOM.window.document.getElementById(`postDateOf${result.packageID}`).innerHTML =
+    result.postdate;
+  cardDOM.window.document.getElementById(`packageStatusOf${result.packageID}`).innerHTML =
+    result.isDelivered ? "Package has been delievered" : "Package is enroute";
+
+  cardDOM.window.document.getElementById(`imgOf${result.packageID}`).src = `${result.img}`;
+  html = cardDOM.serialize();
+  return html;
+}
 
 app.get("/cart", async function (req, res) {
   if (req.session.loggedIn) {
