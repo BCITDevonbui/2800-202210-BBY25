@@ -83,6 +83,6 @@ INSERT INTO BBY_25_catalogue (name, quantity, price, most_wanted) VALUES ("Cell 
 inner join
 SELECT i.itemID as itemInPackage, c.itemID as itemInCatalogue, i.packageID, c.name, i.itemQuantity, c.price from BBY_25_packages_items i inner join bby_25_catalogue c on c.itemID = i.itemID WHERE i.packageID = 2;
 SELECT i.itemID, c.name, i.itemQuantity, c.price from BBY_25_packages_items i inner join bby_25_catalogue c on c.itemID = i.itemID WHERE i.packageID = 2;
-
+select i.itemID, i.packageID from bby_25_packages_items i inner join BBY_25_users_packages p on p.packageID = i.packageID order by i.packageID desc; 
 
 save packageID into a req.session

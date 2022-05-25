@@ -53,28 +53,13 @@ ready(function () {
 
 
   const cardList = document.querySelectorAll(".add");
-  
+  let clicked
   for (let i = 0; i < cardList.length; i++) {
     cardList[i].addEventListener("click", () => {
       let itemID = i + 1;
       let quantityValue = document.getElementById(`quantityOf${itemID}`).value;
       let queryString = {"itemID": itemID, "quantity": quantityValue};
-      ajaxPOST("/add-item", function (data) {
-        if (data) {
-          let dataParsed = JSON.parse(data);
-          if (dataParsed.status == "fail") {
-            document.getElementById("errorMsg").innerHTML = dataParsed.msg;
-            setTimeout(() => {
-              document.getElementById("errorMsg").innerHTML = "";
-            },1500);
-          } else {
-            document.getElementById("serverMsg").innerHTML = dataParsed.msg;
-            setTimeout(() => {
-              document.getElementById("serverMsg").innerHTML = "";
-            },1500);
-          }
-        }
-      }, queryString)
+      ajaxPOST("/add-item", () => {}, queryString);
 
       document.getElementById("quantity").innerHTML = cartItemQuantity;
     });
@@ -102,11 +87,12 @@ ready(function () {
     e.preventDefault;
     window.location.assign("/contactus");
   });
-  
+
   button.forEach(add => {
     add.addEventListener("click", function clickButton(){
       add.style.backgroundColor = '#d4b9f7';
       add.value = 'Added to cart ✓';
+      add.setAttribute("disabled", "disabled");
     });
   })
 
@@ -122,7 +108,3 @@ function ready(callback) {
     document.addEventListener("DOMContentLoaded", callback);
   }
 }
-<<<<<<< HEAD
-=======
-
->>>>>>> princeton_dychinco_cart

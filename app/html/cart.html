@@ -1,68 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <title>Drop Cart</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/cart.css" />
 
-<head>
-  <title>Drop Cart</title>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="/css/cart.css" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Heebo&family=Merriweather&family=Mulish&display=swap"
-    rel="stylesheet" />
-</head>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Heebo&family=Merriweather&family=Mulish&display=swap"
+      rel="stylesheet"
+    />
+  </head>
 
-<body>
+  <body>
+    <div id="container">
+      <nav>
+        <img class="icon" id="dropLogo" alt="drop-icon" src="/img/drop.png" />
+      </nav>
 
-  <div id="container">
-    <nav>
-      <img class="icon" id="dropLogo" alt="drop-icon" src="/img/drop.png">
-    </nav>
+      <div id="cart">
+        <img id="cartIcon" class="icon" alt="cart" src="/img/cart.png" />
+      </div>
 
-    <div id="cart">
-      <img id="cartIcon" class="icon" alt="cart" src="/img/cart.png">
-    </div>
+      <div id="navbar">
+        <a id="account">Account</a>
+      </div>
 
-    <div id="navbar">
-      <a id="account">Account</a>
-    </div>
+      <aside>
+        <form class="formlogout" action="/logout" method="get">
+          <input type="submit" value="Logout" />
+        </form>
+      </aside>
 
-    <aside>
-      <form class="formlogout" action="/logout" method="get">
-        <input type="submit" value="Logout" />
-      </form>
-    </aside>
-
-    <h1 class="centertext">My Cart</h1>
-
+      <h1 class="centertext">My Cart</h1>
+      <div id="content" class="container"></div>
       <div id="totalAmount">
         <p id="total"></p>
       </div>
 
-
       <div id="payment">
-        <input type="button" value="Proceed to Payment" id="proceedPayment" class="add"/>
+        <input
+          type="button"
+          value="Proceed to Payment"
+          id="proceedPayment"
+          class="add"
+        />
       </div>
 
-    </div>
-
-
+      <div id="delete">
+        <input
+          type="button"
+          value="Delete Cart"
+          id="deleteCart"
+          class="delete"
+        />
       </div>
 
-    <div id="delete">
-      <input type="button" value="Delete Cart" id="deleteCart" class="delete" />
+      <footer>
+        <br />
+        <a id="about">About</a>
+        <a id="faq">FAQ</a>
+        <a id="help">Help</a>
+        <a id="contact">Contact Us</a>
+      </footer>
     </div>
 
-
-    <footer>
-      <br>
-      <a id="about">About</a>
-      <a id="faq">FAQ</a>
-      <a id="help">Help</a>
-      <a id="contact">Contact Us</a>
-    </footer>
-
-  </div>
-
-  <script src="js/cart.js"></script>
-</body>
-
+    <script src="js/cart.js"></script>
+  </body>
 </html>

@@ -1,3 +1,19 @@
+// GET TO THE SERVER
+document.querySelector("#dropLogo").addEventListener("click", function (e) {
+  e.preventDefault;
+  window.location.assign("/");
+});
+
+document.getElementById("account").addEventListener("click", function (e) {
+  e.preventDefault;
+  window.location.assign("/account");
+});
+
+document.getElementById("contact").addEventListener("click", function (e) {
+  e.preventDefault;
+  window.location.assign("/contactus");
+});
+
 function getCartHistory() {
   const xhr = new XMLHttpRequest();
   xhr.onload = function () {
@@ -19,9 +35,10 @@ function getCartHistory() {
               "<tr></td><td class='userName'><span>" +
               row.packageID +
               "</span></td><td class='firstName'><span>" +
-              row.postdate.slice(0, 10) +
-              " " +
-              row.postdate.slice(12, 19) +
+            row.postdate + 
+              // row.postdate.slice(0, 10) +
+              // " " +
+              // row.postdate.slice(12, 19) +
               "</span></td><td class='lastName'><span>" +
               row.contents +
               "</span>" +
@@ -91,19 +108,3 @@ function getDonateHistory() {
   xhr.send();
 }
 getDonateHistory();
-
-// GET TO THE SERVER
-document.querySelector("#dropLogo").addEventListener("click", function (e) {
-  e.preventDefault;
-  window.location.assign("/");
-});
-
-document.getElementById("account").addEventListener("click", function (e) {
-  e.preventDefault;
-  window.location.assign("/account");
-});
-
-document.getElementById("contact").addEventListener("click", function (e) {
-  e.preventDefault;
-  window.location.assign("/contactus");
-});

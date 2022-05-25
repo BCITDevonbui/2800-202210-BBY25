@@ -186,6 +186,7 @@ button:hover {
     align-items: center;
     justify-items: center;
     border-radius: 25px;
+    overflow-y: auto;
 
 }
 
