@@ -1,8 +1,5 @@
 "use strict";
-
 ready(function () {
-  let cartItem = [];
-  let cartItemQuantity = 0;
   function ajaxGET(url, callback) {
     const xhr = new XMLHttpRequest();
     xhr.onload = function () {
@@ -51,31 +48,10 @@ ready(function () {
     xhr.send(params);
   }
 
-
-  const cardList = document.querySelectorAll(".add");
-  let clicked
-  for (let i = 0; i < cardList.length; i++) {
-    cardList[i].addEventListener("click", () => {
-      let itemID = i + 1;
-      let quantityValue = document.getElementById(`quantityOf${itemID}`).value;
-      let queryString = {"itemID": itemID, "quantity": quantityValue};
-      ajaxPOST("/add-item", () => {}, queryString);
-
-      document.getElementById("quantity").innerHTML = cartItemQuantity;
-    });
-  }
-  let button = document.querySelectorAll(".add");
-
-
   // GET TO THE SERVER
   document.querySelector("#dropLogo").addEventListener("click", function (e) {
     e.preventDefault;
     window.location.assign("/");
-  });
-
-  document.getElementById("account").addEventListener("click", function (e) {
-    e.preventDefault;
-    window.location.assign("/account");
   });
 
   document.getElementById("about").addEventListener("click", function (e) {
@@ -88,16 +64,8 @@ ready(function () {
     window.location.assign("/contactus");
   });
 
-  button.forEach(add => {
-    add.addEventListener("click", function clickButton(){
-      add.style.backgroundColor = '#d4b9f7';
-      add.value = 'Added to cart ✓';
-      add.setAttribute("disabled", "disabled");
-    });
-  })
-
-  document.getElementById("cart").addEventListener("click", () => {
-    window.location.assign("/cart");
+  document.getElementById("account").addEventListener("click", () => {
+    window.location.assign("/account");
   })
 });
 

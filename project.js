@@ -59,6 +59,96 @@ app.get("/donate", function (req, res) {
   }
 });
 
+app.get("/updatePackageStatus", function (req, res) {
+  let doc = fs.readFileSync("./app/html/packageStatus.html", "utf8");
+  res.send(doc);
+});
+
+app.get("/get-packageStatus", function (req, res) {
+  let connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "comp2800",
+  });
+  connection.connect();
+  connection.query(
+    "SELECT * FROM BBY_25_users_packages WHERE purchased = 1 AND isDelivered = 0;",
+    function (error, results, fields) {
+      if (error) {
+        // catch error and save to database
+      }
+      res.send({
+        status: "success",
+        rows: results,
+      });
+    }
+  );
+  connection.end();
+});
+
+// updating last name!!!
+app.post("/update-packages", async function (req, res) {
+  res.setHeader("Content-Type", "application/json");
+
+  let connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "comp2800",
+  });
+  connection.connect();
+
+  connection.query(
+    "UPDATE BBY_25_users_packages SET isDelivered = ?, img = ? WHERE packageID = ?",
+    [req.body.isDelivered, req.body.img, req.body.packageID],
+    function (error, results, fields) {
+      if (error) {
+        // catch error and save to database
+      }
+
+      res.send({
+        status: "success",
+        msg: "Recorded updated.",
+      });
+
+      req.session.save(function (err) {
+        // session saved. for analytics we could record this in db
+      });
+    }
+  );
+  connection.end();
+});
+
+// app.get("/updatePackageStatus", async function (req, res) {
+//   if (req.session.loggedIn && req.session.userType) {
+//     let doc = fs.readFileSync("./app/html/packageStatus.html", "utf8");
+//     let docDOM = new JSDOM(doc);
+//     const mysql = await require("mysql2/promise");
+//     const connection = await mysql.createConnection({
+//       host: "127.0.0.1",
+//       user: "root",
+//       password: "",
+//       database: "COMP2800",
+//     });
+//     connection.connect();
+//     let packageList = "";
+//     const [results] = await connection.query(
+//       `SELECT * FROM BBY_25_users_packages WHERE purchased = 1 AND img = '/img/noImage.png' AND isDelivered = 0 ORDER BY postdate desc;`
+//     );
+//     results.forEach((result) => {
+//       packageList += buildNotifCards(result);
+//     });
+//     docDOM.window.document.getElementById("miniContainer").innerHTML =
+//       packageList;
+//     res.set("Server", "Wazubi Engine");
+//     res.set("X-Powered-By", "Wazubi");
+//     res.send(docDOM.serialize());
+//   } else {
+//     res.redirect("/");
+//   }
+// });
+
 app.post("/donate", function (req, res) {
   const mysql = require("mysql2");
   const connection = mysql.createConnection({
@@ -68,7 +158,7 @@ app.post("/donate", function (req, res) {
     database: "COMP2800",
     multipleStatements: "true",
   });
-    connection.connect();
+  connection.connect();
   let amount = req.body.amount;
   if (amount < 0 || amount > 9999999.99 || amount === "") {
     res.send({ status: "fail", msg: "Invalid amount entered!" });
@@ -115,9 +205,34 @@ app.get("/get-catalogue", function (req, res) {
   connection.end();
 });
 
-app.get("/cart", async function (req, res) {
-  let doc = fs.readFileSync("./app/html/cart.html", "utf8");
+// for admin update package status ------------------------------------------------------------
+app.get("/history", async (req, res) => {
+  let doc = fs.readFileSync("./app/html/notification.html", "utf8");
   let docDOM = new JSDOM(doc);
+  const mysql = await require("mysql2/promise");
+  const connection = await mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "COMP2800",
+  });
+  connection.connect();
+  let packageList = "";
+  const [results] = await connection.query(
+    `SELECT * FROM BBY_25_users_packages WHERE userID = '${req.session.identity}' AND purchased = 1 ORDER BY postdate desc;`
+  );
+  results.forEach((result) => {
+    packageList += buildNotifCards(result);
+  });
+  docDOM.window.document.getElementById("miniContainer").innerHTML =
+    packageList;
+  res.set("Server", "Wazubi Engine");
+  res.set("X-Powered-By", "Wazubi");
+  res.send(docDOM.serialize());
+  
+});
+
+app.post("/add-item", async (req, res) => {
   const mysql = require("mysql2/promise");
   const connection = await mysql.createConnection({
     host: "127.0.0.1",
@@ -126,24 +241,89 @@ app.get("/cart", async function (req, res) {
     database: "COMP2800",
   });
   connection.connect();
-  let cartItems = "";
-  const [results] = await connection.query(
-    `SELECT contents FROM BBY_25_users_packages WHERE userID = '${req.session.identity}' ORDER BY postdate desc LIMIT 1;`
-  );
-  let contents = results[0]["contents"].split(",").sort();
-    for (let i = 0; i < contents.length; i++) {
-      const answer = await connection.query(
-        `SELECT * from BBY_25_catalogue WHERE itemID = "${contents[i]}";`
-      );
-      cartItems += buildCard(answer[0][0]);
-    }
-  docDOM.window.document.getElementById("content").innerHTML = cartItems;
-  res.set("Server", "Wazubi Engine");
-  res.set("X-Powered-By", "Wazubi");
-  res.send(docDOM.serialize());
+  const sqlQuery = `INSERT INTO BBY_25_PACKAGES_ITEMS (packageID, itemID, itemQuantity) VALUES ('${req.session.packageID}', '${req.body.itemID}', '${req.body.quantity}');`;
+  await connection.query(sqlQuery).then(res.send({ status: "success", msg: "Added new item" }))
+
 });
 
-function buildCard(result) {
+function buildNotifCards(result) {
+  let card = fs.readFileSync("./app/html/packageCard.html");
+  let cardDOM = new JSDOM(card);
+  let html = "";  
+  cardDOM.window.document
+  .getElementById("cards")
+  .setAttribute("id", `${result.packageID}`);
+  cardDOM.window.document
+  .getElementById("packageID")
+  .setAttribute("id", `ID${result.packageID}`);
+  cardDOM.window.document
+  .getElementById("postdate")
+  .setAttribute("id", `postDateOf${result.packageID}`);
+  cardDOM.window.document
+  .getElementById("packageStatus")
+  .setAttribute("id", `packageStatusOf${result.packageID}`);
+  cardDOM.window.document
+  .getElementById("img")
+  .setAttribute("id", `imgOf${result.packageID}`);
+  cardDOM.window.document.getElementById(`ID${result.packageID}`).innerHTML =
+    "Package ID: " + result.packageID;
+  cardDOM.window.document.getElementById(`postDateOf${result.packageID}`).innerHTML =
+    result.postdate;
+  cardDOM.window.document.getElementById(`packageStatusOf${result.packageID}`).innerHTML =
+    result.isDelivered ? "Package has been delievered" : "Package is enroute";
+    if (result.isDelivered){
+      cardDOM.window.document.getElementById(`packageStatusOf${result.packageID}`).style.color = "#008642";
+      cardDOM.window.document.getElementById(`packageStatusOf${result.packageID}`).style.textShadow =
+      "0 0 7px #93f693, 0 0 10px #93f693, 0 0 21px #93f693, 0 0 42px #93f693, 0 0 82px #93f693, 0 0 92px #93f693, 0 0 102px #93f693, 0 0 151px #93f693";
+    } else {
+      cardDOM.window.document.getElementById(`packageStatusOf${result.packageID}`).style.color = "#fb0066";
+    }
+
+  cardDOM.window.document.getElementById(`imgOf${result.packageID}`).src = `${result.img}`;
+  html = cardDOM.serialize();
+  return html;
+}
+
+app.get("/cart", async function (req, res) {
+  if (req.session.loggedIn) {
+    let doc = fs.readFileSync("./app/html/cart.html", "utf8");
+    let docDOM = new JSDOM(doc);
+    const mysql = require("mysql2/promise");
+    const connection = await mysql.createConnection({
+      host: "127.0.0.1",
+      user: "root",
+      password: "",
+      database: "COMP2800",
+    });
+    connection.connect();
+    let cartItems = "";
+    const [results] = await connection.query(
+      `SELECT i.itemID, c.name, i.itemQuantity, c.price from BBY_25_packages_items i inner join bby_25_catalogue c on c.itemID = i.itemID WHERE i.packageID = ${req.session.packageID}`
+    );
+    let cartTotal = 0;
+    results.forEach((result) => {
+      console.log(result);
+      cartTotal += parseFloat(result.price) * parseFloat(result.itemQuantity);
+      cartItems += buildItemCartCard(result);
+    })
+    // let contents = results[0]["contents"].split(",").sort();
+    // for (let i = 0; i < contents.length; i++) {
+    //   const answer = await connection.query(
+    //     `SELECT * from BBY_25_catalogue WHERE itemID = "${contents[i]}";`
+    //   );
+    //   cartItems += buildItemCartCard(answer[0][0]);
+    // }
+    docDOM.window.document.getElementById("total").innerHTML = `Cart Total : $${Number(cartTotal).toFixed(2)}`;
+    docDOM.window.document.getElementById("content").innerHTML = cartItems;
+    res.set("Server", "Wazubi Engine");
+    res.set("X-Powered-By", "Wazubi");
+    res.send(docDOM.serialize());
+  } else {
+    res.redirect("/");
+  }
+});
+
+function buildItemCartCard(result) {
   //reads card.html template
   let card = fs.readFileSync("./app/html/cardDelete.html", "utf8");
   let html = "";
@@ -161,9 +341,13 @@ function buildCard(result) {
   cardDOM.window.document
     .getElementById("price")
     .setAttribute("id", `priceOfItem${result.itemID}`);
-  cardDOM.window.document.getElementById(
-    `priceOfItem${result.itemID}`
-  ).innerHTML = `$${result.price}`;
+  cardDOM.window.document.getElementById(`priceOfItem${result.itemID}`).innerHTML = `Single Price: $${result.price}`;
+  cardDOM.window.document.getElementById("quantity").setAttribute("id", `quantityOf${result.itemID}`);
+  cardDOM.window.document.getElementById(`quantityOf${result.itemID}`).innerHTML = 
+  `Quantity: ${result.itemQuantity}`;
+  cardDOM.window.document.getElementById("itemTotal").setAttribute("id", `itemTotalOf${result.itemID}`);
+  let itemTotal = Number(parseFloat(result.price) * parseFloat(result.itemQuantity)).toFixed(2);
+  cardDOM.window.document.getElementById(`itemTotalOf${result.itemID}`).innerHTML = `Item Total: $${itemTotal}`;
   cardDOM.window.document
     .getElementById("most_wanted")
     .setAttribute("id", `mostWanted${result.itemID}`);
@@ -172,12 +356,13 @@ function buildCard(result) {
   ).innerHTML = result.most_wanted ? "High Demand" : "";
   //converts card DOM into html
   html = cardDOM.serialize();
+  console.log(html);
   return html;
 }
 
-app.post("/create-cart", function (req, res) {
-  const mysql = require("mysql2");
-  const connection = mysql.createConnection({
+app.post("/create-cart", async function (req, res) {
+  const mysql = require("mysql2/promise");
+  const connection = await mysql.createConnection({
     host: "127.0.0.1",
     user: "root",
     password: "",
@@ -186,9 +371,11 @@ app.post("/create-cart", function (req, res) {
   });
   connection.connect();
   let postDate = getDateTime();
-  connection.query(
-    `INSERT INTO BBY_25_users_packages (userID, postdate, contents, purchased) VALUES ("${req.session.identity}", "${postDate}", "${req.body.cart}", false);`
+  await connection.query(
+    `INSERT INTO BBY_25_users_packages (userID, postdate, purchased, isDelivered, img) VALUES ("${req.session.identity}", "${postDate}", 0, 0, "/img/noImage.png");`
   );
+  const [result] = await connection.query(`select packageID from bby_25_users_packages order by postdate desc limit 1`);
+  req.session.packageID = result[0].packageID;
   res.send({ status: "success", msg: "Created new cart" });
   connection.end();
 });
@@ -223,7 +410,7 @@ app.get("/package", function (req, res) {
   let docDOM = new JSDOM(doc);
   getAllItems((results) => {
     docDOM.window.document.getElementById("content").innerHTML =
-      buildCards(results);
+      buildInvetoryCards(results);
   }).then(() => {
     res.set("Server", "Wazubi Engine");
     res.set("X-Powered-By", "Wazubi");
@@ -231,37 +418,27 @@ app.get("/package", function (req, res) {
   });
 });
 
-function buildCards(results) {
+function buildInvetoryCards(results) {
   //reads card.html template
   let card = fs.readFileSync("./app/html/cardAdd.html", "utf8");
   let html = "";
   //loops through the database and prints
-  results.forEach((result) => {
-    let cardDOM = new JSDOM(card);
-    //injecting variables into card DOM
-    cardDOM.window.document
-      .getElementById("cards")
-      .setAttribute("id", `${result.itemID}`);
-    cardDOM.window.document
-      .getElementById("name")
-      .setAttribute("id", `nameOfItem${result.itemID}`);
-    cardDOM.window.document.getElementById(
-      `nameOfItem${result.itemID}`
-    ).innerHTML = result.name;
-    cardDOM.window.document
-      .getElementById("price")
-      .setAttribute("id", `priceOfItem${result.itemID}`);
-    cardDOM.window.document.getElementById(
-      `priceOfItem${result.itemID}`
-    ).innerHTML = `$${result.price}`;
-    cardDOM.window.document
-      .getElementById("most_wanted")
-      .setAttribute("id", `mostWanted${result.itemID}`);
-    cardDOM.window.document.getElementById(
-      `mostWanted${result.itemID}`
-    ).innerHTML = result.most_wanted ? "High Demand" : "";
-    //converts card DOM into html
-    html += cardDOM.serialize();
+    results.forEach((result) => {
+      let cardDOM = new JSDOM(card);
+      //injecting variables into card DOM
+      cardDOM.window.document.getElementById("cards").setAttribute("id", `${result.itemID}`);
+      cardDOM.window.document.getElementById("name").setAttribute("id", `nameOfItem${result.itemID}`);
+      cardDOM.window.document.getElementById(`nameOfItem${result.itemID}`).innerHTML
+      = result.name;
+      cardDOM.window.document.getElementById("price").setAttribute("id", `priceOfItem${result.itemID}`);
+      cardDOM.window.document.getElementById(`priceOfItem${result.itemID}`).innerHTML
+      = `$${result.price}`;
+      cardDOM.window.document.getElementById("quantity").setAttribute("id", `quantityOf${result.itemID}`);
+      cardDOM.window.document.getElementById("most_wanted").setAttribute("id", `mostWanted${result.itemID}`);
+      cardDOM.window.document.getElementById(`mostWanted${result.itemID}`).innerHTML
+      = (result.most_wanted ? "High Demand" : "");
+      //converts card DOM into html
+      html += cardDOM.serialize();
   });
   return html;
 }

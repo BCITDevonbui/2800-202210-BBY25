@@ -107,6 +107,7 @@ ready(function () {
       notPushed = false;
       document.getElementById("deleteCart").style.visibility = "hidden";
       document.getElementById("proceedPayment").style.visibility = "hidden";
+      document.getElementById("totalAmount").style.visibility = "hidden";
     }
   });
 

@@ -2,11 +2,11 @@
 <html lang="en">
 
 <head>
-  <title>Drop Contact us</title>
+  <title>Thank You landing page</title>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link href="/img/drop.png" rel="icon" type="image/x-icon" />
-  <link href="/css/contactus.css" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/thankyou.css" />
   <link href="https://fonts.googleapis.com/css2?family=Heebo&family=Merriweather&family=Mulish&display=swap"
     rel="stylesheet" />
 </head>
@@ -20,21 +20,27 @@
       </form>
     </aside>
   </div>
-
   <div id="content">
+
     <div id="formPanel">
-      <form id="loginForm">
-        <img src="/img/2800_drop.png" id="drop" alt="drop Logo" />
-        <h1 id="formTitle">Contact Us!</h1>
-        <p>Swing by for a drink, or leave us a message:</p>
-        <input id="firstName" type="text" required="required" placeholder="First Name" />
-        <input id="lastName" type="text" required="required" placeholder="Last Name" />
-        <input id="email" type="email" required="required" placeholder="Email" />
-        <textarea id="subject" name="subject" placeholder="What would you like to say?"
-          style="height: 120px"></textarea>
-        <input type="button" value="Submit" id="submit" />
+
+      <form id="ThankYouForm">
+
+        <img src="/img/2800_drop.png" alt="drop Logo" />
+
+        <h1 id="formTitle">Thank you for your donation!</h1>
+
+        <input type="button" value="Donate again" class="button donationButton" id="donateRedirect" />
+
+        <br><br>
+
+        <input type="button" value="Create another package" class="button donationButton" id="packageRedirect" />
+
+
       </form>
+
     </div>
+
     <div class="bottomnav">
       <a id="about">About</a>
       <a id="faq">FAQ</a>
@@ -42,8 +48,7 @@
       <a id="contact">Contact</a>
     </div>
   </div>
-
-  <script src="/js/contactus.js"></script>
+  <script src="/js/thanks.js"></script>
 </body>
 
 </html>

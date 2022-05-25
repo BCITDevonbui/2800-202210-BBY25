@@ -67,14 +67,22 @@ ready(function () {
     e.preventDefault;
     window.location.replace("/account");
   });
+  document.querySelector("#packageButton").addEventListener("click", () => {
+    ajaxPOST("/create-cart", function(data) {
+      if(data) {
+        let dataParsed = JSON.parse(data);
+        if (dataParsed.status == "fail") {
+          document.getElementById("errorMsg").innerHTML = dataParsed.msg;
+          setTimeout(() => {
+            document.getElementById("errorMsg").innerHTML = "";
+          },1500);
+        } else {
+          window.location.assign("/package")
+        }
+      }
+    },"");
 
-  // GET TO THE SERVER
-  document
-    .querySelector("#packageButton")
-    .addEventListener("click", function (e) {
-      e.preventDefault;
-      window.location.assign("/package");
-    });
+  })
 
   // GET TO THE SERVER
   document
