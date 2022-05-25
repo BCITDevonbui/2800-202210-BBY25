@@ -50,64 +50,47 @@ ready(function () {
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.send(params);
   }
-  const cardList = document.querySelectorAll(".add");
-  for (let i = 0; i < cardList.length; i++) {
-    cardList[i].addEventListener("click", function(e) {
-      e.preventDefault;
-      let itemID = i + 1;
-      if(cartItem.includes(itemID)) {
-        document.getElementById("errorMsg").innerHTML = `item${itemID} is already in your cart`;
-      } else {
-        cartItem.push(itemID);
-        cartItemQuantity++;
-      }
-      // alert(`the itemID is: ${itemID}. the quantity selected is ${quantity}`);
-      // create map instead of array for cartItem
-      // let map = new Map()
-      // if(cartItem[`item${itemID}`] != null || cartItem[`item${itemID}`] != undefined) {
-      //   cartItem[`item${itemID}`] = quantity;
-      // } else {
-      //   let oldQuantity = cartItem[`item${itemID}`];
-      //   cartItem[`item${itemID}`] = oldQuantity + quantity;
-      // }
-      
-      // if(cartItem.has(itemID)) {
-      //   let updatedQuantity = cartItem.get(itemID);
-      //   cartItem.set(`${itemID}`, updatedQuantity + quantity);
-      // } else {
-      //   cartItem.set(`${itemID}`, quantity);
-      // }
 
+
+  const cardList = document.querySelectorAll(".add");
+  
+  for (let i = 0; i < cardList.length; i++) {
+    cardList[i].addEventListener("click", () => {
+      let itemID = i + 1;
+      let quantityValue = document.getElementById(`quantityOf${itemID}`).value;
+      let queryString = {"itemID": itemID, "quantity": quantityValue};
+      ajaxPOST("/add-item", function (data) {
+        if (data) {
+          let dataParsed = JSON.parse(data);
+          if (dataParsed.status == "fail") {
+            document.getElementById("errorMsg").innerHTML = dataParsed.msg;
+            setTimeout(() => {
+              document.getElementById("errorMsg").innerHTML = "";
+            },1500);
+          } else {
+            document.getElementById("serverMsg").innerHTML = dataParsed.msg;
+            setTimeout(() => {
+              document.getElementById("serverMsg").innerHTML = "";
+            },1500);
+          }
+        }
+      }, queryString)
 
       document.getElementById("quantity").innerHTML = cartItemQuantity;
     });
   }
+  let button = document.querySelectorAll(".add");
 
-  document.getElementById("cart").addEventListener("click", function(e) {
-    e.preventDefault;
-    // let jsonData = {};
-    // cartItem.forEach((value, key) => {
-    //   jsonData[key] = value;
-    // })
-    // let array = Array.from(cartItem, ([id,value]) => ({id, value}));
-    let queryString = {"cart": cartItem};
-
-    // let parsedJSON = JSON.stringify(cartItem);
-    // console.log(array);
-    console.log(cartItem);
-    ajaxPOST("/create-cart", function (data) {
-      if (data) {
-        let dataParsed = JSON.parse(data);
-        if (dataParsed.status == "fail") {
-          document.getElementsById("errorMsg").innerHTML = dataParsed.msg;
-        } else {
-          window.location.assign("/cart");
-        }
-      }
-    }, queryString);
-
+  button.forEach(add => {
+    add.addEventListener("click", function clickButton(){
+      add.style.backgroundColor = '#d4b9f7';
+      add.value = 'Added to cart ✓';
+    });
   })
 
+  document.getElementById("cart").addEventListener("click", () => {
+    window.location.assign("/cart");
+  })
 });
 
 function ready(callback) {
@@ -118,11 +101,3 @@ function ready(callback) {
   }
 }
 
-let button = document.querySelectorAll(".add");
-
-button.forEach(add => {
-  add.addEventListener("click", function clickButton(){
-    add.style.backgroundColor = '#d4b9f7';
-    add.value = 'Added to cart ✓';
-  });
-})
