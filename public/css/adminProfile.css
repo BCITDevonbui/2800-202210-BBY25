@@ -29,6 +29,15 @@ aside {
   margin-right: 30px;
 }
 
+#navbar {
+  grid-row: 1;
+  grid-column: 2;
+  text-align: center;
+  justify-self: end;
+  align-self: center;
+  margin-right: 125px;
+}
+
 nav {
   grid-row: 1;
   grid-column: 1 / span 2;
@@ -253,6 +262,15 @@ button {
     justify-self: end;
     align-self: center;
     margin-right: 30px;
+  }
+
+  #navbar {
+    grid-row: 1;
+    grid-column: 1;
+    text-align: center;
+    justify-self: end;
+    align-self: center;
+    margin-right: 110px;
   }
 
   nav {

@@ -59,6 +59,15 @@ app.get("/donate", function (req, res) {
   }
 });
 
+app.get("/updatePackageStatus", function (req, res) {
+  if (req.session.loggedIn) {
+    let doc = fs.readFileSync("./app/html/packageStatus.html", "utf8");
+    res.send(doc);
+  } else {
+    res.redirect("/");
+  }
+});
+
 app.post("/donate", function (req, res) {
   const mysql = require("mysql2");
   const connection = mysql.createConnection({
