@@ -132,7 +132,7 @@ document.getElementById("submit").addEventListener("click", function (e) {
 
   // document.getElementById("formList").addEventListener("submit", validate);
 
-  const input = document.querySelector("input")
+  const input = document.querySelector("#imageUpload")
     input.onchange = (e) => {
     const [file] = e.target.files;
     let parent = e.target.parentNode;
