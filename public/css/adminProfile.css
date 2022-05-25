@@ -311,6 +311,7 @@ button {
     justify-self: stretch;
     align-items: center;
     justify-items: center;
+    overflow-y: auto;
   }
 
   button {
