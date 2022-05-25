@@ -61,23 +61,23 @@ INSERT INTO BBY_25_users (user_name, first_name, last_name, email, password, is_
 
 INSERT INTO BBY_25_users (user_name, first_name, last_name, email, password, is_admin, profile_pic) VALUES ("idatayan", "Izabelle", "Datayan", "idatayan@bcit.ca", "test2", true, "/img/luffy.png");
 
-INSERT INTO BBY_25_catalogue (name, quantity, price, most_wanted) VALUES ("Toothbrush", 1.99, true);
+INSERT INTO BBY_25_catalogue (name, price, most_wanted) VALUES ("Toothbrush", 1.99, true);
 
-INSERT INTO BBY_25_catalogue (name, quantity, price, most_wanted) VALUES ("Boots", 19.99, true);
+INSERT INTO BBY_25_catalogue (name, price, most_wanted) VALUES ("Boots", 19.99, true);
 
-INSERT INTO BBY_25_catalogue (name, quantity, price, most_wanted) VALUES ("Sleeping Bag", 24.99, true);
+INSERT INTO BBY_25_catalogue (name, price, most_wanted) VALUES ("Sleeping Bag", 24.99, true);
 
-INSERT INTO BBY_25_catalogue (name, quantity, price, most_wanted) VALUES ("Baby Food", 9.99, true);
+INSERT INTO BBY_25_catalogue (name, price, most_wanted) VALUES ("Baby Food", 9.99, true);
 
-INSERT INTO BBY_25_catalogue (name, quantity, price, most_wanted) VALUES ("Non-Perishable Food", 29.99, true);
+INSERT INTO BBY_25_catalogue (name, price, most_wanted) VALUES ("Non-Perishable Food", 29.99, true);
 
-INSERT INTO BBY_25_catalogue (name, quantity, price, most_wanted) VALUES ("First-aid Kit", 14.99, false);
+INSERT INTO BBY_25_catalogue (name, price, most_wanted) VALUES ("First-aid Kit", 14.99, false);
 
-INSERT INTO BBY_25_catalogue (name, quantity, price, most_wanted) VALUES ("Books", 4.99, false);
+INSERT INTO BBY_25_catalogue (name, price, most_wanted) VALUES ("Books", 4.99, false);
 
-INSERT INTO BBY_25_catalogue (name, quantity, price, most_wanted) VALUES ("Socks", 2.99, false);
+INSERT INTO BBY_25_catalogue (name, price, most_wanted) VALUES ("Socks", 2.99, false);
 
-INSERT INTO BBY_25_catalogue (name, quantity, price, most_wanted) VALUES ("Cell Phone", 199.99, false);
+INSERT INTO BBY_25_catalogue (name, price, most_wanted) VALUES ("Cell Phone", 199.99, false);
 
 
 inner join

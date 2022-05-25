@@ -1,16 +1,3 @@
-document.getElementById("packageStatus").addEventListener("click", () => {
-  window.location.assign("/updatePackageStatus");
-});
-
-document.getElementById("about").addEventListener("click", () => {
-  window.location.assign("/about");
-});
-
-document.getElementById("contact").addEventListener("click", () => {
-  window.location.assign("/contactus");
-});
-
-
 function ajaxPOST(url, callback, data) {
   /*
    * - Keys method of the object class returns an array of all of the keys for an object
@@ -622,4 +609,12 @@ document.getElementById("delete").addEventListener("click", function (e) {
     },
     formData
   );
+});
+
+document.getElementById("about").addEventListener("click", () => {
+  window.location.assign("/about");
+});
+
+document.getElementById("contact").addEventListener("click", () => {
+  window.location.assign("/contactus");
 });
