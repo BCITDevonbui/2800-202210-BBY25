@@ -21,6 +21,18 @@
   src: url("./fonts/Mulish-Regular.ttf");
 }
 
+#dropLogo{
+  cursor: pointer;
+}
+
+#account{
+  cursor: pointer;
+}
+
+#about{
+  cursor: pointer;
+}
+
 aside {
   grid-row: 1;
   grid-column: 4;
@@ -74,6 +86,7 @@ h2 {
   height: auto;
   width: 300px;
   margin-top: 30px;
+  padding: 3%;
 }
 
 input[type='submit'] {
@@ -142,6 +155,89 @@ a:hover{
   display: grid;
   grid-template-columns: 33% 33% 33%;
   width: 100%;
+  overflow-y: auto;
+}
+
+/* ----------------------- The smaller view css starts here! ------------------------------- */
+
+@media only screen and (max-width: 1400px) {
+  #container {
+    grid-template-columns: 100%;
+    grid-template-rows: 10% 15% 75% 10%;
+    justify-items: center;
+  }
+
+  aside {
+    grid-row: 1;
+    grid-column: 1;
+    justify-self: end;
+    align-self: center;
+    margin-right: 15px;
+  }
+
+  #navbar {
+    grid-row: 1;
+    grid-column: 1;
+    text-align: center;
+    justify-self: end;
+    align-self: center;
+    margin-right: 110px;
+  }
+
+  #cart {
+    grid-row: 1;
+    grid-column: 1;
+    justify-self: end;
+    align-self: center;
+    margin-right: 210px;
+    cursor: pointer;
+  }
+
+  nav {
+    grid-row: 1;
+    grid-column: 1;
+    justify-self: stretch;
+  }
+
+  h1 {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  footer {
+    grid-column: 1;
+    grid-row: 4;
+    justify-self: stretch;
+  }
+
+  #miniContainer {
+      grid-column: 1;
+      grid-row: 3;
+      justify-self: stretch;
+      align-items: center;
+      justify-items: center;
+      display: grid;
+      grid-template-columns: 49% 49%;
+      width: 98%;
+      opacity: 0.9;
+  }
+
+
+  .card {
+      margin-bottom: 45px;
+      grid-template-columns: 33% 33% 33%;
+      background-color: #75b7d8;
+      border-radius: 10px;
+      box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.25);
+      transition: all 0.2s;
+      height: auto;
+      width: 300px;
+      margin-top: 30px;
+      padding: 3%;
+  }
+
+
+
 }
 
 /* ----------------------- The mobile view css starts here! ------------------------------- */
@@ -193,7 +289,21 @@ a:hover{
       justify-self: stretch;
       align-items: center;
       justify-items: center;
+      grid-template-columns: 100%;
   }
+
+  .card {
+    margin-bottom: 45px;
+    grid-template-columns: 33% 33% 33%;
+    background-color: #75b7d8;
+    border-radius: 10px;
+    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.25);
+    transition: all 0.2s;
+    height: auto;
+    width: 300px;
+    margin-top: 30px;
+    padding: 3%;
+}
 
 
 }

@@ -205,6 +205,7 @@ app.get("/get-catalogue", function (req, res) {
   connection.end();
 });
 
+// for admin update package status ------------------------------------------------------------
 app.get("/history", async (req, res) => {
   let doc = fs.readFileSync("./app/html/notification.html", "utf8");
   let docDOM = new JSDOM(doc);
@@ -230,7 +231,6 @@ app.get("/history", async (req, res) => {
   res.send(docDOM.serialize());
 });
 
-// for admin update package status ------------------------------------------------------------
 function buildNotifCards(result) {
   let card = fs.readFileSync("./app/html/packageCard.html");
   let cardDOM = new JSDOM(card);
@@ -256,6 +256,13 @@ function buildNotifCards(result) {
     result.postdate;
   cardDOM.window.document.getElementById(`packageStatusOf${result.packageID}`).innerHTML =
     result.isDelivered ? "Package has been delievered" : "Package is enroute";
+    if (result.isDelivered){
+      cardDOM.window.document.getElementById(`packageStatusOf${result.packageID}`).style.color = "#008642";
+      cardDOM.window.document.getElementById(`packageStatusOf${result.packageID}`).style.textShadow =
+      "0 0 7px #93f693, 0 0 10px #93f693, 0 0 21px #93f693, 0 0 42px #93f693, 0 0 82px #93f693, 0 0 92px #93f693, 0 0 102px #93f693, 0 0 151px #93f693";
+    } else {
+      cardDOM.window.document.getElementById(`packageStatusOf${result.packageID}`).style.color = "#fb0066";
+    }
 
   cardDOM.window.document.getElementById(`imgOf${result.packageID}`).src = `${result.img}`;
   html = cardDOM.serialize();

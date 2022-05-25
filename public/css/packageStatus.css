@@ -88,18 +88,6 @@ h2 {
     font-size: 25px;
 }
 
-.card {
-    margin-bottom: 45px;
-    grid-template-columns: 33% 33% 33%;
-    background-color: #75b7d8;
-    border-radius: 10px;
-    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.25);
-    transition: all 0.2s;
-    height: auto;
-    width: 300px;
-    margin-top: 30px;
-}
-
 input[type='submit'] {
     font-size: 16px;
     background-color: #fb0066;

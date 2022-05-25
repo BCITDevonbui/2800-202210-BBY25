@@ -137,9 +137,6 @@ ready(function () {
   }
 
   document.getElementById("submit").addEventListener("click", () => {
-  
-    // document.getElementById("formList").addEventListener("submit", validate);
-
     
     let dataToSend = {
       packageID: document.getElementById("packageIdInput").value,
