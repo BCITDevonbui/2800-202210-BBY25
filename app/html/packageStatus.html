@@ -31,6 +31,26 @@
       <h1 class="centertext">Update Package Status</h1>
 
       <div id="miniContainer">
+        <h2>Undelivered Packages</h2>
+        <table class="centertext" id="packageTable"></table>
+
+        <p class="centertext" id="message"></p>
+        <p class="centertext" id="status"></p>
+
+        <br><br>
+
+        <h2 class="centertext">Update Package</h2>
+
+        <br>
+        <input class="centertext" type="radio" id="isDelivered" name="is Delivered" value="1" />
+        <label class="centertext">is Delivered</label>
+        <br><br>
+        <input class="centertext" type="text" placeholder="Package ID" id="packageIdInput">
+        <br>
+        <input class="centertext" type='file'>
+        <br><br><br>
+        <input class="centertext" type="button" id="submit" value="Submit" />
+
       </div>
 
     </div>

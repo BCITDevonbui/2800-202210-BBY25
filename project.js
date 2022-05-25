@@ -59,34 +59,95 @@ app.get("/donate", function (req, res) {
   }
 });
 
-app.get("/updatePackageStatus", async function (req, res) {
-  if (req.session.loggedIn && req.session.userType) {
-    let doc = fs.readFileSync("./app/html/packageStatus.html", "utf8");
-    let docDOM = new JSDOM(doc);
-    const mysql = await require("mysql2/promise");
-    const connection = await mysql.createConnection({
-      host: "127.0.0.1",
-      user: "root",
-      password: "",
-      database: "COMP2800",
-    });
-    connection.connect();
-    let packageList = "";
-    const [results] = await connection.query(
-      `SELECT * FROM BBY_25_users_packages WHERE purchased = 1 AND img = '/img/noImage.png' AND isDelivered = 0 ORDER BY postdate desc;`
-    );
-    results.forEach((result) => {
-      packageList += buildNotifCards(result);
-    });
-    docDOM.window.document.getElementById("miniContainer").innerHTML =
-      packageList;
-    res.set("Server", "Wazubi Engine");
-    res.set("X-Powered-By", "Wazubi");
-    res.send(docDOM.serialize());
-  } else {
-    res.redirect("/");
-  }
+app.get("/updatePackageStatus", function (req, res) {
+  let doc = fs.readFileSync("./app/html/packageStatus.html", "utf8");
+  res.send(doc);
 });
+
+app.get("/get-packageStatus", function (req, res) {
+  let connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "comp2800",
+  });
+  connection.connect();
+  connection.query(
+    "SELECT * FROM BBY_25_users_packages WHERE purchased = 1;",
+    function (error, results, fields) {
+      if (error) {
+        // catch error and save to database
+      }
+      res.send({
+        status: "success",
+        rows: results,
+      });
+    }
+  );
+  connection.end();
+});
+
+// updating last name!!!
+app.post("/update-packages", async function (req, res) {
+  res.setHeader("Content-Type", "application/json");
+
+  let connection = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "",
+    database: "comp2800",
+  });
+  connection.connect();
+
+  connection.query(
+    "UPDATE BBY_25_users_packages SET isDelivered = ?, img = ? WHERE packageID = ?",
+    [req.body.isDelivered, req.body.img, req.body.packageID],
+    function (error, results, fields) {
+      if (error) {
+        // catch error and save to database
+      }
+
+      res.send({
+        status: "success",
+        msg: "Recorded updated.",
+      });
+
+      req.session.save(function (err) {
+        // session saved. for analytics we could record this in db
+      });
+    }
+  );
+  connection.end();
+});
+
+// app.get("/updatePackageStatus", async function (req, res) {
+//   if (req.session.loggedIn && req.session.userType) {
+//     let doc = fs.readFileSync("./app/html/packageStatus.html", "utf8");
+//     let docDOM = new JSDOM(doc);
+//     const mysql = await require("mysql2/promise");
+//     const connection = await mysql.createConnection({
+//       host: "127.0.0.1",
+//       user: "root",
+//       password: "",
+//       database: "COMP2800",
+//     });
+//     connection.connect();
+//     let packageList = "";
+//     const [results] = await connection.query(
+//       `SELECT * FROM BBY_25_users_packages WHERE purchased = 1 AND img = '/img/noImage.png' AND isDelivered = 0 ORDER BY postdate desc;`
+//     );
+//     results.forEach((result) => {
+//       packageList += buildNotifCards(result);
+//     });
+//     docDOM.window.document.getElementById("miniContainer").innerHTML =
+//       packageList;
+//     res.set("Server", "Wazubi Engine");
+//     res.set("X-Powered-By", "Wazubi");
+//     res.send(docDOM.serialize());
+//   } else {
+//     res.redirect("/");
+//   }
+// });
 
 app.post("/donate", function (req, res) {
   const mysql = require("mysql2");
@@ -169,31 +230,32 @@ app.get("/history", async (req, res) => {
   res.send(docDOM.serialize());
 });
 
-function buildNotifCards(result) {
-  let card = fs.readFileSync("./app/html/packageCard.html");
-  let cardDOM = new JSDOM(card);
-  let html = "";  
-  cardDOM.window.document
-  .getElementById("cards")
-  .setAttribute("id", `${result.packageID}`);
-  cardDOM.window.document
-  .getElementById("packageID")
-  .setAttribute("id", `ID${result.packageID}`);
-  cardDOM.window.document
-  .getElementById("postdate")
-  .setAttribute("id", `postDateOf${result.packageID}`);
-  cardDOM.window.document
-  .getElementById("packageStatus")
-  .setAttribute("id", `packageStatusOf${result.packageID}`);
-  cardDOM.window.document.getElementById(`ID${result.packageID}`).innerHTML =
-    "Package ID: " + result.packageID;
-  cardDOM.window.document.getElementById(`postDateOf${result.packageID}`).innerHTML =
-    result.postdate;
-  cardDOM.window.document.getElementById(`packageStatusOf${result.packageID}`).innerHTML =
-    result.isDelievered ? "Package has been delievered" : "Package is enroute";
-  html = cardDOM.serialize();
-  return html;
-}
+// for admin update package status ------------------------------------------------------------
+// function buildNotifCards(result) {
+//   let card = fs.readFileSync("./app/html/packageCard.html");
+//   let cardDOM = new JSDOM(card);
+//   let html = "";  
+//   cardDOM.window.document
+//   .getElementById("cards")
+//   .setAttribute("id", `${result.packageID}`);
+//   cardDOM.window.document
+//   .getElementById("packageID")
+//   .setAttribute("id", `ID${result.packageID}`);
+//   cardDOM.window.document
+//   .getElementById("postdate")
+//   .setAttribute("id", `postDateOf${result.packageID}`);
+//   cardDOM.window.document
+//   .getElementById("packageStatus")
+//   .setAttribute("id", `packageStatusOf${result.packageID}`);
+//   cardDOM.window.document.getElementById(`ID${result.packageID}`).innerHTML =
+//     "Package ID: " + result.packageID;
+//   cardDOM.window.document.getElementById(`postDateOf${result.packageID}`).innerHTML =
+//     result.postdate;
+//   cardDOM.window.document.getElementById(`packageStatusOf${result.packageID}`).innerHTML =
+//     result.isDelievered ? "Package has been delievered" : "Package is enroute";
+//   html = cardDOM.serialize();
+//   return html;
+// }
 
 app.get("/cart", async function (req, res) {
   if (req.session.loggedIn) {

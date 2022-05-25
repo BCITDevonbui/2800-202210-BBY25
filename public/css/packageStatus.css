@@ -21,6 +21,20 @@
     src: url("./fonts/Mulish-Regular.ttf");
 }
 
+table {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+th {
+    font-family: 'Merriweather', serif;
+    padding: 2px;
+}
+
+td {
+    font-family: 'Mulish', sans-serif;
+}
+
 #drop {
     cursor: pointer;
 }
@@ -31,6 +45,12 @@ aside {
     justify-self: end;
     align-self: center;
     margin-right: 30px;
+}
+
+.centertext {
+    text-align: center;
+    margin: 0 auto;
+    padding: 0;
 }
 
 #navbar {
@@ -96,11 +116,49 @@ input[type='submit']:hover {
     border: 3px solid #d60000;
 }
 
+input[type="text"] {
+    width: 80%;
+    padding: 12px 20px;
+    display: block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    text-align: left;
+    margin-left: 10%;
+    margin-bottom: 10px;
+  }
+
+  input[type="radio"] {
+    display: inline-block;
+  }
+
+  input[type=button] {
+    background-color: #a862ea;
+    border-radius: 25px;
+    border-style: none;
+    color: #FFFFFF;
+    cursor: pointer;
+    font-size: 16px;
+    height: 30px;
+    padding: 0 15px;
+    min-width: 150px;
+    max-width: 150px;
+    text-align: center;
+    font-family: 'Heebo', sans-serif;
+    margin-left: 20px;
+    margin-bottom: 3%;
+}
+
+input[type=button]:hover{
+    opacity: 0.8;
+}
+
 h1 {
     grid-column: 1 / span 4;
     grid-row: 2;
     font-family: 'Merriweather', serif;
     font-size: 32px;
+    align-self: center;
 }
 
 p {
@@ -136,6 +194,7 @@ a:hover {
     margin-right: 10px;
     margin-top: 10px;
     margin-bottom: 10px;
+    padding-top: 15px;
     background-color: #a3e1ff;
     grid-column: 2 / span 2;
     grid-row: 3 / span 2;
@@ -143,10 +202,8 @@ a:hover {
     align-items: center;
     justify-items: center;
     border-radius: 25px;
-    display: grid;
-    grid-template-columns: 33% 33% 33%;
-    width: 100%;
     overflow-y: auto;
+    text-align: center;
 }
 
 /* ----------------------- The mobile view css starts here! ------------------------------- */

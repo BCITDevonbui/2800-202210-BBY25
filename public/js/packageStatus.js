@@ -70,6 +70,107 @@ ready(function () {
 
 });
 
+function getPackages() {
+  const xhr = new XMLHttpRequest();
+  xhr.onload = function () {
+    if (this.readyState == XMLHttpRequest.DONE) {
+      // 200 means everthing worked
+      if (xhr.status === 200) {
+        let data = JSON.parse(this.responseText);
+        if (data.status == "success") {
+          let str = `        <tr>
+<th class="packageID_header"><span>Package ID</span></th>
+<th class="userID_header"><span>User ID</span></th>
+<th class="date_header"><span>Date</span></th>
+<th class="isDelivered_header"><span>is Delievered</span></th>
+<th class="contents_header"><span>Contents</span></th>
+<th class="img_header"><span>Image</span></th>
+</tr>`;
+
+          for (let i = 0; i < data.rows.length; i++) {
+            let row = data.rows[i];
+
+            str +=
+              "<tr></td><td class='packageID'><span>" +
+              row.packageID +
+              "</span></td><td class='userID'><span>" +
+              row.userID +
+              "</span></td><td class='firstName'><span>" +
+              row.postdate.slice(0, 10) +
+              " " +
+              row.postdate.slice(12, 19) +
+              "</span></td><td class='isDelivered'><span>" +
+              row.isDelivered +
+              "</span></td><td class='contents'><span>" +
+              row.contents +
+              "</span></td><td class='image'><span>$" +
+              row.img +
+              "</span>" +
+              "</td></tr>";
+          }
+
+          document.getElementById("packageTable").innerHTML = str;
+        } else {
+
+        }
+      } else {
+        // not a 200, could be anything (404, 500, etc.)
+
+      }
+    } else {
+
+    }
+  };
+  xhr.open("GET", "/get-packageStatus");
+  xhr.send();
+}
+getPackages();
+
+// To update package database ------------------------------------------------------
+document.getElementById("submit").addEventListener("click", function (e) {
+  e.preventDefault();
+
+  // document.getElementById("formList").addEventListener("submit", validate);
+
+  const input = document.querySelector("input")
+    input.onchange = (e) => {
+    const [file] = e.target.files;
+    let parent = e.target.parentNode;
+    //add /img/ to file name for pathing
+    let v = "/img/" + file.name;
+    
+
+  let dataToSend = {
+    packageID: document.getElementById("packageIdInput").value,
+    isDelievered: document.getElementById("isDelivered").value,
+    img: v
+  };
+
+  document.getElementById("packageIdInput").value = "";
+  document.getElementById("message").innerHTML = "";
+  console.log(dataToSend);
+    }
+  ajaxPOST(
+    "/update-packages",
+    function (data) {
+      if (data) {
+        let dataParsed = JSON.parse(data);
+        if (dataParsed.status == "fail") {
+          document.getElementById("status").innerHTML = dataParsed.msg;
+          setTimeout(function () {
+            document.getElementById("status").innerHTML = "";
+          }, 1500);
+        } else {
+          document.getElementById("status").innerHTML = dataParsed.msg;
+          getPackages();
+        }
+      }
+    },
+    dataToSend
+  );
+});
+
+// -------------------------------------------------------------------------------------
 function ready(callback) {
   if (document.readyState != "loading") {
     callback();
