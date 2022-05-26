@@ -1,6 +1,7 @@
 "use strict";
 const express = require("express");
 const session = require("express-session");
+var multer  = require('multer');
 const app = express();
 const fs = require("fs");
 const {
@@ -18,6 +19,7 @@ app.use("/img", express.static("./public/img"));
 app.use("/fonts", express.static("./public/fonts"));
 app.use("/html", express.static("./public/html"));
 app.use("/media", express.static("./public/media"));
+app.use(express.static(__dirname + '/public'));
 
 const is_heroku = process.env.IS_HEROKU || false;
 
@@ -62,6 +64,34 @@ app.use(
     extended: true,
   })
 );
+
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './public/img')
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname)
+  }
+})
+var upload = multer({ storage: storage })
+
+let userImage = "";
+
+app.post('/profile-upload-single', upload.single('profile-file'), function (req, res, next) {
+  // req.file is the `profile-file` file
+  // req.body will hold the text fields, if there were any
+  console.log(JSON.stringify(req.file));
+  console.log(JSON.stringify(req.file.path));
+  var response = '<a href="/">Home</a><br>'
+  response += "Files uploaded successfully.<br>"
+  response += `<img src="/img/${req.file.originalname}" /><br>`
+
+  userImage += req.file.originalname;
+  console.log(userImage);
+  let doc = fs.readFileSync("./app/html/packageStatus.html", "utf8");
+  return res.send(doc);
+});
+
 
 app.get("/", function (req, res) {
   if (req.session.loggedIn) {
@@ -125,8 +155,16 @@ app.get("/get-packageStatus", function (req, res) {
   );
 });
 
-app.post("/update-packages", async function (req, res) {
+app.post("/update-packages", function (req, res) {
   res.setHeader("Content-Type", "application/json");
+
+
+    // req.file is the `profile-file` file
+  // req.body will hold the text fields, if there were any
+  console.log(JSON.stringify(req.file));
+  console.log(JSON.stringify(req.file.path));
+
+  req.body.img = "./img" + req.file.originalname;
 
   const connection = mysql.createConnection({
     // host: "127.0.0.1",
@@ -936,23 +974,23 @@ app.get("/delete-cart", function (req, res) {
 
 //admin users edit-------------------------------------------------------------------------
 app.get("/get-allUsers", function (req, res) {
-  // const connection = mysql.createConnection({
-  //   // host: "127.0.0.1",
-  //   // user: "root",
-  //   // password: "",
-  //   // multipleStatements: "true"
-  //   // cleardb -----------------------
-  //   // host: 'us-cdbr-east-05.cleardb.net',
-  //   // user: 'b16ad059f5434a',
-  //   // password: '2255f096',
-  //   // database: 'heroku_02ad04623fadaa9'
-  //   // jaws ----------------------
-  //   host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
-  //   user: 'wx1mc7pu6mewf76i',
-  //   password: 't95p9w64os2ia6gv',
-  //   database: 'h4ngdmrfus1wjzhr'
-  // });
-  // connection.connect();
+  const connection = mysql.createConnection({
+    // host: "127.0.0.1",
+    // user: "root",
+    // password: "",
+    // multipleStatements: "true"
+    // cleardb -----------------------
+    // host: 'us-cdbr-east-05.cleardb.net',
+    // user: 'b16ad059f5434a',
+    // password: '2255f096',
+    // database: 'heroku_02ad04623fadaa9'
+    // jaws ----------------------
+    host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
+    user: 'wx1mc7pu6mewf76i',
+    password: 't95p9w64os2ia6gv',
+    database: 'h4ngdmrfus1wjzhr'
+  });
+  connection.connect();
   connection.query(
     "select * from bby_25_users;",
     function (error, results, fields) {
@@ -965,7 +1003,7 @@ app.get("/get-allUsers", function (req, res) {
       });
     }
   );
-  // connection.end();
+  connection.end();
 });
 
 // admin change emails!!!

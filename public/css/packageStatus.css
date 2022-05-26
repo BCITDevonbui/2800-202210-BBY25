@@ -153,9 +153,9 @@ input[type="radio"] {
     margin-bottom: 3%;
 }
 
-#fileInput {
+/* #fileInput {
     visibility: hidden;
-}
+} */
 
 #customText {
     font-family: 'Mulish', sans-serif;
