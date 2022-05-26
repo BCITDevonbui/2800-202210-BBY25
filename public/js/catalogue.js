@@ -54,7 +54,6 @@ ready(function () {
 
 
   const cardList = document.querySelectorAll(".add");
-  let clicked
   for (let i = 0; i < cardList.length; i++) {
     cardList[i].addEventListener("click", () => {
       let itemID = i + 1;
@@ -64,8 +63,6 @@ ready(function () {
         "quantity": quantityValue
       };
       ajaxPOST("/add-item", () => {}, queryString);
-
-      document.getElementById("quantity").innerHTML = cartItemQuantity;
     });
   }
   let button = document.querySelectorAll(".add");
