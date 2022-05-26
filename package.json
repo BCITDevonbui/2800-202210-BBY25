@@ -1,4 +1,9 @@
 {
+  "name": "agile-earth-44618",
+  "version": "1.0.0",
+  "engines": {
+    "node": "16.13.2"
+  },
   "dependencies": {
     "express": "^4.18.1",
     "express-session": "^1.17.2",
@@ -7,4 +12,5 @@
     "mysql": "^2.18.1",
     "mysql2": "^2.3.3"
   }
+
 }
