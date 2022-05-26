@@ -95,13 +95,22 @@ app.get("/updatePackageStatus", function (req, res) {
 });
 
 app.get("/get-packageStatus", function (req, res) {
-  // let connection = mysql.createConnection({
-  //   host: "127.0.0.1",
-  //   user: "root",
-  //   password: "",
-  //   database: "comp2800",
-  // });
-  // connection.connect();
+  const connection = mysql.createPool({
+    // host: "127.0.0.1",
+    // user: "root",
+    // password: "",
+    // multipleStatements: "true"
+    // cleardb -----------------------
+    // host: 'us-cdbr-east-05.cleardb.net',
+    // user: 'b16ad059f5434a',
+    // password: '2255f096',
+    // database: 'heroku_02ad04623fadaa9'
+    // jaws ----------------------
+    host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
+    user: 'wx1mc7pu6mewf76i',
+    password: 't95p9w64os2ia6gv',
+    database: 'h4ngdmrfus1wjzhr'
+  });
   connection.query(
     "SELECT * FROM BBY_25_users_packages WHERE purchased = 1 AND isDelivered = 0;",
     function (error, results, fields) {
@@ -114,19 +123,28 @@ app.get("/get-packageStatus", function (req, res) {
       });
     }
   );
-  // connection.end();
 });
 
 app.post("/update-packages", async function (req, res) {
   res.setHeader("Content-Type", "application/json");
 
-  // let connection = mysql.createConnection({
-  //   host: "127.0.0.1",
-  //   user: "root",
-  //   password: "",
-  //   database: "comp2800",
-  // });
-  // connection.connect();
+  const connection = mysql.createConnection({
+    // host: "127.0.0.1",
+    // user: "root",
+    // password: "",
+    // multipleStatements: "true"
+    // cleardb -----------------------
+    // host: 'us-cdbr-east-05.cleardb.net',
+    // user: 'b16ad059f5434a',
+    // password: '2255f096',
+    // database: 'heroku_02ad04623fadaa9'
+    // jaws ----------------------
+    host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
+    user: 'wx1mc7pu6mewf76i',
+    password: 't95p9w64os2ia6gv',
+    database: 'h4ngdmrfus1wjzhr'
+  });
+  connection.connect();
 
   connection.query(
     "UPDATE BBY_25_users_packages SET isDelivered = ?, img = ? WHERE packageID = ?",
@@ -146,7 +164,7 @@ app.post("/update-packages", async function (req, res) {
       });
     }
   );
-  // connection.end();
+  connection.end();
 });
 
 app.post("/donate", function (req, res) {
@@ -167,7 +185,6 @@ app.post("/donate", function (req, res) {
     password: 't95p9w64os2ia6gv',
     database: 'h4ngdmrfus1wjzhr'
   });
-  connection.connect();
   let amount = req.body.amount;
   if (amount < 0 || amount > 9999999.99 || amount === "") {
     res.send({
@@ -175,26 +192,16 @@ app.post("/donate", function (req, res) {
       msg: "Invalid amount entered!"
     });
   } else {
-    let date = new Date();
-    let splitDate = String(date).split(" ");
-
-    let month = 0;
-    if (date.getMonth() + 1 < 9) {
-      month = `0${date.getMonth() + 1}`;
-    } else {
-      month = `${date.getMonth() + 1}`;
-    }
-    let postedDate = `${splitDate[3]}-${month}-${splitDate[2]} ${splitDate[4]}`;
+    let postedDate = getDateTime();
     // let postedDate = new Date().toISOString().slice(0, 19).replace('T', ' ');
     connection.query(
-      `INSERT INTO BBY_25_users_donation (userID, postdate, amount) VALUES (?, ?, ?)`,
+      `INSERT INTO bby_25_users_donation (userID, postdate, amount) VALUES (?, ?, ?)`,
       [req.session.identity, postedDate, req.body.amount],
     );
     res.send({
       status: "success",
       msg: "Record added."
     });
-    connection.end();
   }
 });
 
@@ -238,14 +245,25 @@ app.get("/get-catalogue", function (req, res) {
 app.get("/history", async (req, res) => {
   let doc = fs.readFileSync("./app/html/notification.html", "utf8");
   let docDOM = new JSDOM(doc);
-  const mysql = await require("mysql2/promise");
+  const mysql = require("mysql2/promise");
   const connection = await mysql.createConnection({
-    host: "127.0.0.1",
-    user: "root",
-    password: "",
-    database: "COMP2800",
+    // host: "127.0.0.1",
+    // user: "root",
+    // password: "",
+    // multipleStatements: "true"
+    // cleardb -----------------------
+    // host: 'us-cdbr-east-05.cleardb.net',
+    // user: 'b16ad059f5434a',
+    // password: '2255f096',
+    // database: 'heroku_02ad04623fadaa9'
+    // jaws ----------------------
+    host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
+    user: 'wx1mc7pu6mewf76i',
+    password: 't95p9w64os2ia6gv',
+    database: 'h4ngdmrfus1wjzhr',
+    multipleStatements: "true"
   });
-  connection.connect();
+  await connection.connect();
   let packageList = "";
   const [results] = await connection.query(
     `SELECT * FROM BBY_25_users_packages WHERE userID = '${req.session.identity}' AND purchased = 1 ORDER BY postdate desc;`
@@ -783,7 +801,7 @@ app.get("/get-packages", function (req, res) {
   });
   connection.connect();
   connection.query(
-    `SELECT packageID, postdate, contents, purchased FROM BBY_25_USERS_PACKAGES WHERE userID = '${req.session.identity}';`,
+    `SELECT packageID, postdate, purchased FROM BBY_25_USERS_PACKAGES WHERE userID = '${req.session.identity}';`,
     function (error, results, fields) {
       if (error) {
         // catch error and save to database
@@ -875,23 +893,23 @@ app.post("/update-purchased", function (req, res) {
 app.get("/delete-cart", function (req, res) {
   res.setHeader("Content-Type", "application/json");
 
-  // const connection = mysql.createConnection({
-  //   // host: "127.0.0.1",
-  //   // user: "root",
-  //   // password: "",
-  //   // multipleStatements: "true"
-  //   // cleardb -----------------------
-  //   // host: 'us-cdbr-east-05.cleardb.net',
-  //   // user: 'b16ad059f5434a',
-  //   // password: '2255f096',
-  //   // database: 'heroku_02ad04623fadaa9'
-  //   // jaws ----------------------
-  //   host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
-  //   user: 'wx1mc7pu6mewf76i',
-  //   password: 't95p9w64os2ia6gv',
-  //   database: 'h4ngdmrfus1wjzhr'
-  // });
-  // connection.connect();
+  const connection = mysql.createPool({
+    // host: "127.0.0.1",
+    // user: "root",
+    // password: "",
+    // multipleStatements: "true"
+    // cleardb -----------------------
+    // host: 'us-cdbr-east-05.cleardb.net',
+    // user: 'b16ad059f5434a',
+    // password: '2255f096',
+    // database: 'heroku_02ad04623fadaa9'
+    // jaws ----------------------
+    host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
+    user: 'wx1mc7pu6mewf76i',
+    password: 't95p9w64os2ia6gv',
+    database: 'h4ngdmrfus1wjzhr'
+  });
+  connection.connect();
 
   connection.query(
     "DELETE FROM bby_25_users_packages WHERE userID = ? order by postdate desc limit 1;",
@@ -911,7 +929,7 @@ app.get("/delete-cart", function (req, res) {
     }
   );
 
-  // connection.end();
+  connection.end();
 });
 
 //*****************************************************************************************

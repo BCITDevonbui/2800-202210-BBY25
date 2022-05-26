@@ -131,7 +131,7 @@ P.onclick = function () {
       let timePassed = Date.now() - start;
 
 
-      document.getElementById("drop").style.top = timePassed / 5 + 'px';
+      document.getElementById("dropLogo").style.top = timePassed / 5 + 'px';
 
       onFinish();
 
@@ -153,7 +153,7 @@ function onFinish() {
   let timer = setInterval(function () {
     let timePassed = Date.now() - start;
     if (timePassed > 4000) {
-      document.getElementById("drop").style.display = "none";
+      document.getElementById("dropLogo").style.display = "none";
     }
   })
 }

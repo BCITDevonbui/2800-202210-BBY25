@@ -101,9 +101,9 @@ ready(function () {
     add.addEventListener("click", function clickButton() {
       add.style.backgroundColor = '#d4b9f7';
       add.value = 'Added to cart ✓';
-      add.setAttribute("disabled", "disabled");
-    });
-  })
+      add.disabled = true;
+  });
+});
 
   document.getElementById("cart").addEventListener("click", () => {
     window.location.assign("/cart");
