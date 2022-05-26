@@ -70,7 +70,7 @@ ready(function () {
               document.getElementById("errorMsg").innerHTML = "";
             }, 1500);
           } else {
-            window.location.replace("/payment");
+            window.location.assign("/donatePayment");
           }
         }
       },

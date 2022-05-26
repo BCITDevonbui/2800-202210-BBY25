@@ -153,9 +153,13 @@ input[type="radio"] {
     margin-bottom: 3%;
 }
 
-/* #fileInput {
+#fileInput {
     visibility: hidden;
-} */
+}
+
+#uploadPhoto {
+    visibility: hidden;
+}
 
 #customText {
     font-family: 'Mulish', sans-serif;

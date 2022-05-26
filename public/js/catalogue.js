@@ -64,8 +64,6 @@ ready(function () {
         "quantity": quantityValue
       };
       ajaxPOST("/add-item", () => {}, queryString);
-
-      document.getElementById("quantity").innerHTML = cartItemQuantity;
     });
   }
   let button = document.querySelectorAll(".add");

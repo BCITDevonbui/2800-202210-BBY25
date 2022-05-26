@@ -1,5 +1,4 @@
 "use strict";
-
 ready(function () {
   function ajaxGET(url, callback) {
     const xhr = new XMLHttpRequest();
@@ -49,70 +48,67 @@ ready(function () {
     xhr.send(params);
   }
 
-
   // GET TO THE SERVER
-  document.querySelector("#dropLogo").addEventListener("click", function (e) {
+  function updatePurchased() {
+    // now send
+    const xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+      if (this.readyState == XMLHttpRequest.DONE) {
+        // 200 means everthing worked
+        if (xhr.status === 200) {} else {
+          // not a 200, could be anything (404, 500, etc.)
+        }
+      } else {}
+    };
+    xhr.open("POST", "/update-purchased");
+    xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.send("purchased=" + dataToSend.purchased);
+  }
+
+  // POST TO THE SERVER
+  document.querySelector("#submit").addEventListener("click", () => {
+    let number = document.getElementById("number").value;
+    let expiry = document.getElementById("expiry").value;
+    let cvv = document.getElementById("cvv").value;
+    let queryString = `number=${number}&expiry=${expiry}&cvv=${cvv}`;
+
+    ajaxPOST(
+      "/payment",
+      function (data) {
+        if (data) {
+          let dataParsed = JSON.parse(data);
+          if (dataParsed.status == "fail") {
+            document.getElementById("errorMsg").innerHTML = dataParsed.msg;
+            setTimeout(function () {
+              document.getElementById("errorMsg").innerHTML = "";
+            }, 1500);
+          } else {
+            window.location.replace("/thanks");
+          }
+        }
+      },
+      queryString
+    );
+  });
+
+  document.getElementById("home").addEventListener("click", function (e) {
     e.preventDefault;
     window.location.replace("/");
   });
-
-  // GET TO THE SERVER
-  document
-    .querySelector("#proceedPayment")
-    .addEventListener("click", () => {
-      window.location.assign("/packagePayment");
-      
-    });
-
-  document.getElementById("account").addEventListener("click", function (e) {
+  document.getElementById("about").addEventListener("click", function (e) {
     e.preventDefault;
-    window.location.replace("/account");
+    window.location.replace("/about");
   });
-
-  let notPushed = true;
-
-  document.getElementById("deleteCart").addEventListener("click", function (e) {
+  document.getElementById("faq").addEventListener("click", function (e) {
     e.preventDefault;
-    if (notPushed) {
-      ajaxGET("/delete-cart", (data) => {
-        if (data) {
-          let dataParsed = JSON.parse(data);
-          if (dataParsed.status == "fail") {}
-        }
-      });
-      const deleted = document.querySelector('.container');
-      deleted.style.gridTemplateColumns = "100%";
-      deleted.style.gridTemplateRows = "100%";
-      document.querySelector('.container').innerHTML = "";
-      const text = document.createElement("p");
-      let message = document.createTextNode("Cart has been deleted");
-      text.appendChild(message);
-      text.setAttribute("id", "message");
-      text.setAttribute("class", "centertext")
-      text.style.justifySelf = "stretch";
-      text.style.gridColumn = "1";
-      text.style.gridRow = "1";
-      text.style.alignSelf = "center";
-      text.style.fontSize = "20px";
-      deleted.insertAdjacentElement("beforeend", text);
-      notPushed = false;
-      document.getElementById("deleteCart").style.visibility = "hidden";
-      document.getElementById("proceedPayment").style.visibility = "hidden";
-      document.getElementById("totalAmount").style.visibility = "hidden";
-    }
+    window.location.replace("/faq");
+  });
+  document.getElementById("contact").addEventListener("click", function (e) {
+    e.preventDefault;
+    window.location.replace("/contactUs");
   });
 
-  document.getElementById("about").addEventListener("click", () => {
-    window.location.assign("/about");
-  });
-
-  document.getElementById("contact").addEventListener("click", () => {
-    window.location.assign("/contactus");
-  });
-
-  document.getElementById("faq").addEventListener("click", () => {
-    window.location.assign("/faq");
-  });
 });
 
 function ready(callback) {
