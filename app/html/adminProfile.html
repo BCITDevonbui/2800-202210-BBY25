@@ -5,6 +5,7 @@
   <title>Admin Dashboard</title>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="/img/drop.png" rel="icon" type="image/x-icon" />
   <link rel="stylesheet" href="css/adminProfile.css" />
   <link href="https://fonts.googleapis.com/css2?family=Heebo&family=Merriweather&family=Mulish&display=swap"
     rel="stylesheet" />
@@ -15,6 +16,10 @@
     <nav>
       <img id="dropLogo" class="icon" alt="drop-icon" src="img/drop.png">
     </nav>
+
+    <div id="navbar">
+      <a id="packageStatus">Update Package Status</a>
+    </div>
 
     <aside>
       <form class="formlogout" action="/logout" method="get">
@@ -32,7 +37,7 @@
       <br>
       <a id="about">About</a>
       <a id="faq">FAQ</a>
-      <a id="help">Help</a>
+      <a id="contact">Contact Us</a>
     </footer>
 
     <div id="miniContainer">
@@ -59,6 +64,7 @@
         <input type="text" placeholder="ID" id="idToDelete">
         <input type="button" id="delete" name="delete" value="Delete" />
       </form>
+      <br>
     </div>
 
 

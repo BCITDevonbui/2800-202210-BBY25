@@ -1,3 +1,30 @@
+// GET TO THE SERVER
+document.querySelector("#dropLogo").addEventListener("click", function (e) {
+  e.preventDefault;
+  window.location.assign("/");
+});
+
+document.getElementById("account").addEventListener("click", function (e) {
+  e.preventDefault;
+  window.location.assign("/account");
+});
+
+document.getElementById("about").addEventListener("click", function (e) {
+  e.preventDefault;
+  window.location.assign("/about");
+});
+
+document.getElementById("contact").addEventListener("click", function (e) {
+  e.preventDefault;
+  window.location.assign("/contactus");
+});
+
+document.getElementById("faq").addEventListener("click", function (e) {
+  e.preventDefault;
+  window.location.assign("/faq");
+});
+
+
 function getCartHistory() {
   const xhr = new XMLHttpRequest();
   xhr.onload = function () {
@@ -7,34 +34,27 @@ function getCartHistory() {
         let data = JSON.parse(this.responseText);
         if (data.status == "success") {
           let str = `        <tr>
-<th class="id_header"><span>ID</span></th>
 <th class="userName_header"><span>Package ID</span></th>
 <th class="firstName_header"><span>Date</span></th>
-<th class="lastName_header"><span>Items in Package</span></th>
 <th class="email_header"><span>Purchased</span></th>
 </tr>`;
 
           for (let i = 0; i < data.rows.length; i++) {
             let row = data.rows[i];
             str +=
-              "<tr><td class='id'>" +
-              row.userID +
-              "</td><td class='userName'><span>" +
+              "<tr></td><td class='userName'><span>" +
               row.packageID +
               "</span></td><td class='firstName'><span>" +
               row.postdate.slice(0, 10) +
               " " +
               row.postdate.slice(12, 19) +
-              "</span></td><td class='lastName'><span>" +
-              row.contents +
               "</span>" +
               "</td><td class='email'><span>" +
               (row.purchased ? "Yes" : "No") +
               "</span></tr>";
           }
           document.getElementById("packages").innerHTML = str;
-        } else {
-        }
+        } else {}
       } else {
         // not a 200, could be anything (404, 500, etc.)
 
@@ -57,7 +77,6 @@ function getDonateHistory() {
         let data = JSON.parse(this.responseText);
         if (data.status == "success") {
           let str = `        <tr>
-<th class="id_header"><span>ID</span></th>
 <th class="userName_header"><span>Donate ID</span></th>
 <th class="firstName_header"><span>Date</span></th>
 <th class="lastName_header"><span>Amount</span></th>
@@ -67,9 +86,7 @@ function getDonateHistory() {
             let row = data.rows[i];
 
             str +=
-              "<tr><td class='id'>" +
-              row.userID +
-              "</td><td class='userName'><span>" +
+              "<tr></td><td class='userName'><span>" +
               row.donateID +
               "</span></td><td class='firstName'><span>" +
               row.postdate.slice(0, 10) +
@@ -97,19 +114,3 @@ function getDonateHistory() {
   xhr.send();
 }
 getDonateHistory();
-
-// GET TO THE SERVER
-document.querySelector("#dropLogo").addEventListener("click", function (e) {
-  e.preventDefault;
-  window.location.assign("/");
-});
-
-document.getElementById("account").addEventListener("click", function (e) {
-  e.preventDefault;
-  window.location.assign("/account");
-});
-
-document.getElementById("contact").addEventListener("click", function (e) {
-  e.preventDefault;
-  window.location.assign("/contactus");
-});

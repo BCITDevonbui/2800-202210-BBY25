@@ -21,12 +21,37 @@
   src: url("./fonts/Mulish-Regular.ttf");
 }
 
+#about {
+  cursor: pointer;
+}
+
+#faq {
+  cursor: pointer;
+}
+
+#contact {
+  cursor: pointer;
+}
+
+#packageStatus {
+  cursor: pointer;
+}
+
 aside {
   grid-row: 1;
   grid-column: 2;
   justify-self: end;
   align-self: center;
   margin-right: 30px;
+}
+
+#navbar {
+  grid-row: 1;
+  grid-column: 2;
+  text-align: center;
+  justify-self: end;
+  align-self: center;
+  margin-right: 125px;
 }
 
 nav {
@@ -149,6 +174,7 @@ a:hover {
   align-items: center;
   justify-items: center;
   border-radius: 25px;
+  overflow-y: auto;
 }
 
 table {
@@ -253,6 +279,15 @@ button {
     justify-self: end;
     align-self: center;
     margin-right: 30px;
+  }
+
+  #navbar {
+    grid-row: 1;
+    grid-column: 1;
+    text-align: center;
+    justify-self: end;
+    align-self: center;
+    margin-right: 110px;
   }
 
   nav {

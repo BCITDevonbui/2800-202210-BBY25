@@ -1,5 +1,4 @@
 "use strict";
-
 ready(function () {
   function ajaxGET(url, callback) {
     const xhr = new XMLHttpRequest();
@@ -49,78 +48,30 @@ ready(function () {
     xhr.send(params);
   }
 
-  let button = document.querySelectorAll(".add");
-
-  button.forEach((add) => {
-    add.addEventListener("click", function clickButton() {
-      add.style.backgroundColor = "#fb0066";
-      add.value = "Removed from cart";
-    });
-  });
-
   // GET TO THE SERVER
   document.querySelector("#dropLogo").addEventListener("click", function (e) {
     e.preventDefault;
-    window.location.replace("/");
+    window.location.assign("/");
   });
 
-  // GET TO THE SERVER
-  document
-    .querySelector("#proceedPayment")
-    .addEventListener("click", function (e) {
-      e.preventDefault;
-      window.location.replace("/payment");
-    });
-
-  document.getElementById("account").addEventListener("click", function (e) {
+  document.getElementById("about").addEventListener("click", function (e) {
     e.preventDefault;
-    window.location.replace("/account");
-  });
-
-  let notPushed = true;
-
-  document.getElementById("deleteCart").addEventListener("click", function (e) {
-    e.preventDefault;
-    if (notPushed) {
-      ajaxGET("/delete-cart", (data) => {
-        if (data) {
-          let dataParsed = JSON.parse(data);
-          if (dataParsed.status == "fail") {}
-        }
-      });
-      const deleted = document.querySelector('.container');
-      deleted.style.gridTemplateColumns = "100%";
-      deleted.style.gridTemplateRows = "100%";
-      document.querySelector('.container').innerHTML = "";
-      const text = document.createElement("p");
-      let message = document.createTextNode("Cart has been deleted");
-      text.appendChild(message);
-      text.setAttribute("id", "message");
-      text.setAttribute("class", "centertext")
-      text.style.justifySelf = "stretch";
-      text.style.gridColumn = "1";
-      text.style.gridRow = "1";
-      text.style.alignSelf = "center";
-      text.style.fontSize = "20px";
-      deleted.insertAdjacentElement("beforeend", text);
-      notPushed = false;
-      document.getElementById("deleteCart").style.visibility = "hidden";
-      document.getElementById("proceedPayment").style.visibility = "hidden";
-      document.getElementById("totalAmount").style.visibility = "hidden";
-    }
-  });
-
-  document.getElementById("about").addEventListener("click", () => {
     window.location.assign("/about");
   });
 
-  document.getElementById("contact").addEventListener("click", () => {
+  document.getElementById("contact").addEventListener("click", function (e) {
+    e.preventDefault;
     window.location.assign("/contactus");
   });
 
-  document.getElementById("faq").addEventListener("click", () => {
+  document.getElementById("faq").addEventListener("click", function (e) {
+    e.preventDefault;
     window.location.assign("/faq");
   });
+
+  document.getElementById("account").addEventListener("click", () => {
+    window.location.assign("/account");
+  })
 });
 
 function ready(callback) {
