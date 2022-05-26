@@ -4,6 +4,18 @@ p {
 
 }
 
+#about {
+  cursor: pointer;
+}
+
+#faq {
+  cursor: pointer;
+}
+
+#contact {
+  cursor: pointer;
+}
+
 #home {
   margin-top: 12px;
   cursor: pointer;
@@ -174,7 +186,7 @@ div {
   width: 100%;
   height: 50vh;
   grid-template-columns: 15% 35% 35% 15%;
-  grid-template-rows: 10% 10% 40% 40% 10%;
+  grid-template-rows: 10% 10% 40% 40% 15%;
 }
 
 #DonationRedirect,
@@ -238,14 +250,16 @@ input[type="submit"]:hover {
     grid-column: 2 / span 2;
     grid-row: 2 / span 2;
   }
+
+  footer {
+    background-color: #3482c1;
+    grid-column: 1 / span 4;
+    grid-row: 4;
+    text-align: center;
+  }
 }
 
-footer {
-  background-color: #3482c1;
-  grid-column: 1 / span 6;
-  grid-row: 5;
-  text-align: center;
-}
+
 
 /* ----------------------- The mobile view css starts here! ------------------------------- */
 
@@ -288,11 +302,10 @@ footer {
     position: fixed;
     bottom: 0;
     width: 100%;
+    text-align: center;
   }
 
   .bottomnav a {
-    float: left;
-    display: block;
     color: #f2f2f2;
     text-align: center;
     padding: 14px 16px;
@@ -302,9 +315,11 @@ footer {
 
   footer {
     background-color: #3482c1;
-    grid-column: 1 / span 2;
+    grid-column: 1 / span 4;
     grid-row: 4;
     text-align: center;
+    align-items: center;
+    justify-items: center;
   }
 
   a {
@@ -337,7 +352,7 @@ footer {
 @media only screen and (max-width: 450px) {
   #container {
     grid-template-columns: 100%;
-    grid-template-rows: 10% 25% 7% 7% 40.5% 10%;
+    grid-template-rows: 10% 25% 7% 7% 40% 10%;
     justify-items: center;
   }
 }

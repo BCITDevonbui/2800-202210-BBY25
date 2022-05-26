@@ -14,6 +14,18 @@
   cursor: pointer;
 }
 
+#about {
+  cursor: pointer;
+}
+
+#faq {
+  cursor: pointer;
+}
+
+#contact {
+  cursor: pointer;
+}
+
 @font-face {
   font-family: 'customHeebo';
   src: url("fonts/Heebo-Regular.ttf");
@@ -166,6 +178,13 @@ a:hover {
   grid-row: 1;
 }
 
+#donateDescrip {
+  grid-column: 1;
+  grid-row: 1;
+  align-self: end;
+  justify-self: center;
+}
+
 #packageButton {
   grid-column: 1;
   grid-row: 2;
@@ -184,6 +203,13 @@ a:hover {
 #notifButton {
   grid-column: 1;
   grid-row: 3;
+}
+
+#notifDescrip {
+  grid-column: 1;
+  grid-row: 3;
+  align-self: end;
+  justify-self: center;
 }
 
 button {
@@ -285,6 +311,15 @@ button:hover {
     grid-row: 1;
   }
 
+  #donateDescrip {
+    grid-column: 1;
+    grid-row: 1;
+    align-self: end;
+    justify-self: center;
+    font-size: 15px;
+    margin-bottom: 30px;
+  }
+
   #packageButton {
     grid-column: 2;
     grid-row: 1;
@@ -303,6 +338,15 @@ button:hover {
   #notifButton {
     grid-column: 3;
     grid-row: 1;
+  }
+
+  #notifDescrip {
+    grid-column: 3;
+    grid-row: 1;
+    align-self: end;
+    justify-self: center;
+    font-size: 15px;
+    margin-bottom: 30px;
   }
 
   button {

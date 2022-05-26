@@ -21,6 +21,22 @@
     src: url("./fonts/Mulish-Regular.ttf");
 }
 
+#about {
+    cursor: pointer;
+}
+
+#faq {
+    cursor: pointer;
+}
+
+#contact {
+    cursor: pointer;
+}
+
+#account {
+    cursor: pointer;
+}
+
 #dropLogo {
     cursor: pointer;
 }
@@ -186,6 +202,7 @@ button:hover {
     align-items: center;
     justify-items: center;
     border-radius: 25px;
+    overflow-y: auto;
 
 }
 

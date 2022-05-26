@@ -3,8 +3,12 @@ const express = require("express");
 const session = require("express-session");
 const app = express();
 const fs = require("fs");
-const { connect } = require("http2");
-const { JSDOM } = require("jsdom");
+const {
+  connect
+} = require("http2");
+const {
+  JSDOM
+} = require("jsdom");
 const mysql = require("mysql2");
 
 // static path mappings
@@ -163,10 +167,13 @@ app.post("/donate", function (req, res) {
     password: 't95p9w64os2ia6gv',
     database: 'h4ngdmrfus1wjzhr'
   });
-    connection.connect();
+  connection.connect();
   let amount = req.body.amount;
   if (amount < 0 || amount > 9999999.99 || amount === "") {
-    res.send({ status: "fail", msg: "Invalid amount entered!" });
+    res.send({
+      status: "fail",
+      msg: "Invalid amount entered!"
+    });
   } else {
     let date = new Date();
     let splitDate = String(date).split(" ");
@@ -183,7 +190,10 @@ app.post("/donate", function (req, res) {
       `INSERT INTO BBY_25_users_donation (userID, postdate, amount) VALUES (?, ?, ?)`,
       [req.session.identity, postedDate, req.body.amount],
     );
-    res.send({ status: "success", msg: "Record added." });
+    res.send({
+      status: "success",
+      msg: "Record added."
+    });
     connection.end();
   }
 });
@@ -214,46 +224,15 @@ app.get("/get-catalogue", function (req, res) {
       if (error) {
         //catch error and save to database
       } else {
-        res.send({ status: "success", rows: results[1] });
+        res.send({
+          status: "success",
+          rows: results[1]
+        });
       }
     }
   );
   connection.end();
 });
-
-// app.get("/cart", function (req, res) {
-//   const mysql = require("mysql2");
-//   const connection = mysql.createConnection({
-//     // host: "127.0.0.1",
-//     // user: "root",
-//     // password: "",
-//     // multipleStatements: "true"
-//     // cleardb -----------------------
-//     // host: 'us-cdbr-east-05.cleardb.net',
-//     // user: 'b16ad059f5434a',
-//     // password: '2255f096',
-//     // database: 'heroku_02ad04623fadaa9'
-//     // jaws ----------------------
-//     host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
-//     user: 'wx1mc7pu6mewf76i',
-//     password: 't95p9w64os2ia6gv',
-//     database: 'h4ngdmrfus1wjzhr'
-//   });
-//   connection.connect();
-
-//   connection.query(
-//     `SELECT contents FROM BBY_25_users_packages WHERE userID = '${req.session.identity}' ORDER BY packageID desc limit 0,1;`,
-//     function (error, results, fields) {
-//       if (error) {
-//         //catch error and save to database
-//       } else {
-//         res.send({ status: "success", rows: results[0]});
-//         console.log(results[0]);
-//       }
-//     }
-//   );
-//   connection.end();
-// });
 
 // for admin update package status ------------------------------------------------------------
 app.get("/history", async (req, res) => {
@@ -279,7 +258,6 @@ app.get("/history", async (req, res) => {
   res.set("Server", "Wazubi Engine");
   res.set("X-Powered-By", "Wazubi");
   res.send(docDOM.serialize());
-  
 });
 
 app.post("/add-item", async (req, res) => {
@@ -310,35 +288,35 @@ app.post("/add-item", async (req, res) => {
 function buildNotifCards(result) {
   let card = fs.readFileSync("./app/html/packageCard.html");
   let cardDOM = new JSDOM(card);
-  let html = "";  
+  let html = "";
   cardDOM.window.document
-  .getElementById("cards")
-  .setAttribute("id", `${result.packageID}`);
+    .getElementById("cards")
+    .setAttribute("id", `${result.packageID}`);
   cardDOM.window.document
-  .getElementById("packageID")
-  .setAttribute("id", `ID${result.packageID}`);
+    .getElementById("packageID")
+    .setAttribute("id", `ID${result.packageID}`);
   cardDOM.window.document
-  .getElementById("postdate")
-  .setAttribute("id", `postDateOf${result.packageID}`);
+    .getElementById("postdate")
+    .setAttribute("id", `postDateOf${result.packageID}`);
   cardDOM.window.document
-  .getElementById("packageStatus")
-  .setAttribute("id", `packageStatusOf${result.packageID}`);
+    .getElementById("packageStatus")
+    .setAttribute("id", `packageStatusOf${result.packageID}`);
   cardDOM.window.document
-  .getElementById("img")
-  .setAttribute("id", `imgOf${result.packageID}`);
+    .getElementById("img")
+    .setAttribute("id", `imgOf${result.packageID}`);
   cardDOM.window.document.getElementById(`ID${result.packageID}`).innerHTML =
     "Package ID: " + result.packageID;
   cardDOM.window.document.getElementById(`postDateOf${result.packageID}`).innerHTML =
     result.postdate;
   cardDOM.window.document.getElementById(`packageStatusOf${result.packageID}`).innerHTML =
     result.isDelivered ? "Package has been delievered" : "Package is enroute";
-    if (result.isDelivered){
-      cardDOM.window.document.getElementById(`packageStatusOf${result.packageID}`).style.color = "#008642";
-      cardDOM.window.document.getElementById(`packageStatusOf${result.packageID}`).style.textShadow =
+  if (result.isDelivered) {
+    cardDOM.window.document.getElementById(`packageStatusOf${result.packageID}`).style.color = "#008642";
+    cardDOM.window.document.getElementById(`packageStatusOf${result.packageID}`).style.textShadow =
       "0 0 7px #93f693, 0 0 10px #93f693, 0 0 21px #93f693, 0 0 42px #93f693, 0 0 82px #93f693, 0 0 92px #93f693, 0 0 102px #93f693, 0 0 151px #93f693";
-    } else {
-      cardDOM.window.document.getElementById(`packageStatusOf${result.packageID}`).style.color = "#fb0066";
-    }
+  } else {
+    cardDOM.window.document.getElementById(`packageStatusOf${result.packageID}`).style.color = "#fb0066";
+  }
 
   cardDOM.window.document.getElementById(`imgOf${result.packageID}`).src = `${result.img}`;
   html = cardDOM.serialize();
@@ -373,7 +351,6 @@ app.get("/cart", async function (req, res) {
     );
     let cartTotal = 0;
     results.forEach((result) => {
-      console.log(result);
       cartTotal += parseFloat(result.price) * parseFloat(result.itemQuantity);
       cartItems += buildItemCartCard(result);
     })
@@ -414,8 +391,8 @@ function buildItemCartCard(result) {
     .setAttribute("id", `priceOfItem${result.itemID}`);
   cardDOM.window.document.getElementById(`priceOfItem${result.itemID}`).innerHTML = `Single Price: $${result.price}`;
   cardDOM.window.document.getElementById("quantity").setAttribute("id", `quantityOf${result.itemID}`);
-  cardDOM.window.document.getElementById(`quantityOf${result.itemID}`).innerHTML = 
-  `Quantity: ${result.itemQuantity}`;
+  cardDOM.window.document.getElementById(`quantityOf${result.itemID}`).innerHTML =
+    `Quantity: ${result.itemQuantity}`;
   cardDOM.window.document.getElementById("itemTotal").setAttribute("id", `itemTotalOf${result.itemID}`);
   let itemTotal = Number(parseFloat(result.price) * parseFloat(result.itemQuantity)).toFixed(2);
   cardDOM.window.document.getElementById(`itemTotalOf${result.itemID}`).innerHTML = `Item Total: $${itemTotal}`;
@@ -652,9 +629,15 @@ app.post("/payment", function (req, res) {
     ccInfo.expiry.length < 4 ||
     ccInfo.expiry.length > 4
   ) {
-    res.send({ status: "fail", msg: "Invalid credit card details." });
+    res.send({
+      status: "fail",
+      msg: "Invalid credit card details."
+    });
   } else {
-    res.send({ status: "success", msg: "Payment Approved" });
+    res.send({
+      status: "success",
+      msg: "Payment Approved"
+    });
   }
   connection.end();
 });
@@ -992,9 +975,11 @@ app.post("/admin-update-email", function (req, res) {
     "UPDATE BBY_25_users SET email = ? WHERE identity = ?",
     [req.body.email, req.body.id],
     function (error, results, fields) {
-      if (error) {
-      }
-      res.send({ status: "success", msg: "Recorded updated." });
+      if (error) {}
+      res.send({
+        status: "success",
+        msg: "Recorded updated."
+      });
     }
   );
   // connection.end();
@@ -1340,8 +1325,7 @@ app.post("/update-firstName", async function (req, res) {
     "UPDATE BBY_25_users SET first_name = ? WHERE identity = ?",
     [req.body.name, req.body.id],
     function (error, results, fields) {
-      if (error) {
-      }
+      if (error) {}
       res.send({
         status: "success",
         msg: "Recorded updated.",
@@ -1477,7 +1461,10 @@ app.post("/update-lastName", async function (req, res) {
         // catch error and save to database
       }
 
-      res.send({ status: "success", msg: "Recorded updated." });
+      res.send({
+        status: "success",
+        msg: "Recorded updated."
+      });
 
       req.session.lastName = req.body.lastName;
 
@@ -1562,8 +1549,7 @@ app.post("/update-profilePic", function (req, res) {
     "UPDATE BBY_25_users SET profile_pic = ? WHERE identity = ?",
     [req.body.profilePic, req.body.id],
     function (error, results, fields) {
-      if (error) {
-      }
+      if (error) {}
       res.send({
         status: "success",
         msg: "Recorded updated.",

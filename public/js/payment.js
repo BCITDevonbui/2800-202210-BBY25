@@ -28,13 +28,13 @@ ready(function () {
      * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent
      */
     let params =
-      typeof data == "string"
-        ? data
-        : Object.keys(data)
-            .map(function (k) {
-              return encodeURIComponent(k) + "=" + encodeURIComponent(data[k]);
-            })
-            .join("&");
+      typeof data == "string" ?
+      data :
+      Object.keys(data)
+      .map(function (k) {
+        return encodeURIComponent(k) + "=" + encodeURIComponent(data[k]);
+      })
+      .join("&");
 
     const xhr = new XMLHttpRequest();
     xhr.onload = function () {
@@ -83,6 +83,14 @@ ready(function () {
     e.preventDefault;
     window.location.replace("/about");
   });
+  document.getElementById("faq").addEventListener("click", function (e) {
+    e.preventDefault;
+    window.location.replace("/faq");
+  });
+  document.getElementById("contact").addEventListener("click", function (e) {
+    e.preventDefault;
+    window.location.replace("/contactUs");
+  });
   // GET TO THE SERVER
   document.querySelector("#submit").addEventListener("click", function (e) {
     e.preventDefault;
@@ -93,19 +101,19 @@ ready(function () {
   function updatePurchased() {
     let v = "1";
 
-    let dataToSend = { purchased: v };
+    let dataToSend = {
+      purchased: v
+    };
 
     // now send
     const xhr = new XMLHttpRequest();
     xhr.onload = function () {
       if (this.readyState == XMLHttpRequest.DONE) {
         // 200 means everthing worked
-        if (xhr.status === 200) {
-        } else {
+        if (xhr.status === 200) {} else {
           // not a 200, could be anything (404, 500, etc.)
         }
-      } else {
-      }
+      } else {}
     };
     xhr.open("POST", "/update-purchased");
     xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");

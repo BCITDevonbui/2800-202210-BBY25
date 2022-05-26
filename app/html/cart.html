@@ -5,20 +5,21 @@
   <title>Drop Cart</title>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="/css/cart.css" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/cart.css" />
+
   <link href="https://fonts.googleapis.com/css2?family=Heebo&family=Merriweather&family=Mulish&display=swap"
     rel="stylesheet" />
 </head>
 
 <body>
-
   <div id="container">
     <nav>
-      <img class="icon" id="dropLogo" alt="drop-icon" src="/img/drop.png">
+      <img class="icon" id="dropLogo" alt="drop-icon" src="/img/drop.png" />
     </nav>
 
     <div id="cart">
-      <img id="cartIcon" class="icon" alt="cart" src="/img/cart.png">
+      <img id="cartIcon" class="icon" alt="cart" src="/img/cart.png" />
     </div>
 
     <div id="navbar">
@@ -33,10 +34,11 @@
 
     <h1 class="centertext">My Cart</h1>
 
-    <div id="content" class="container">
-      <p id="errorMsg">&nbsp;</p>
-
+    <div id="totalAmount">
+      <p id="total"></p>
     </div>
+
+    <div id="content" class="container"></div>
 
     <div id="payment">
       <input type="button" value="Proceed to Payment" id="proceedPayment" class="add" />
@@ -46,15 +48,12 @@
       <input type="button" value="Delete Cart" id="deleteCart" class="delete" />
     </div>
 
-
     <footer>
-      <br>
+      <br />
       <a id="about">About</a>
       <a id="faq">FAQ</a>
-      <a id="help">Help</a>
       <a id="contact">Contact Us</a>
     </footer>
-
   </div>
 
   <script src="js/cart.js"></script>

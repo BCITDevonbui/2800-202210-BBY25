@@ -3,6 +3,7 @@
 ready(function () {
   let cartItem = [];
   let cartItemQuantity = 0;
+
   function ajaxGET(url, callback) {
     const xhr = new XMLHttpRequest();
     xhr.onload = function () {
@@ -31,13 +32,13 @@ ready(function () {
      * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent
      */
     let params =
-      typeof data == "string"
-        ? data
-        : Object.keys(data)
-            .map(function (k) {
-              return encodeURIComponent(k) + "=" + encodeURIComponent(data[k]);
-            })
-            .join("&");
+      typeof data == "string" ?
+      data :
+      Object.keys(data)
+      .map(function (k) {
+        return encodeURIComponent(k) + "=" + encodeURIComponent(data[k]);
+      })
+      .join("&");
 
     const xhr = new XMLHttpRequest();
     xhr.onload = function () {
@@ -50,73 +51,25 @@ ready(function () {
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.send(params);
   }
-  const cardList = document.querySelectorAll(".add");
-  for (let i = 0; i < cardList.length; i++) {
-    cardList[i].addEventListener("click", function (e) {
-      e.preventDefault;
-      let itemID = i + 1;
-      if (cartItem.includes(itemID)) {
-        document.getElementById(
-          "errorMsg"
-        ).innerHTML = `item${itemID} is already in your cart`;
-      } else {
-        cartItem.push(itemID);
-        cartItemQuantity++;
-      }
-      // alert(`the itemID is: ${itemID}. the quantity selected is ${quantity}`);
-      // create map instead of array for cartItem
-      // let map = new Map()
-      // if(cartItem[`item${itemID}`] != null || cartItem[`item${itemID}`] != undefined) {
-      //   cartItem[`item${itemID}`] = quantity;
-      // } else {
-      //   let oldQuantity = cartItem[`item${itemID}`];
-      //   cartItem[`item${itemID}`] = oldQuantity + quantity;
-      // }
 
-      // if(cartItem.has(itemID)) {
-      //   let updatedQuantity = cartItem.get(itemID);
-      //   cartItem.set(`${itemID}`, updatedQuantity + quantity);
-      // } else {
-      //   cartItem.set(`${itemID}`, quantity);
-      // }
+
+  const cardList = document.querySelectorAll(".add");
+  let clicked
+  for (let i = 0; i < cardList.length; i++) {
+    cardList[i].addEventListener("click", () => {
+      let itemID = i + 1;
+      let quantityValue = document.getElementById(`quantityOf${itemID}`).value;
+      let queryString = {
+        "itemID": itemID,
+        "quantity": quantityValue
+      };
+      ajaxPOST("/add-item", () => {}, queryString);
 
       document.getElementById("quantity").innerHTML = cartItemQuantity;
     });
   }
-
-  document.getElementById("cart").addEventListener("click", function (e) {
-    e.preventDefault;
-    // let jsonData = {};
-    // cartItem.forEach((value, key) => {
-    //   jsonData[key] = value;
-    // })
-    // let array = Array.from(cartItem, ([id,value]) => ({id, value}));
-    let queryString = { cart: cartItem };
-
-    // let parsedJSON = JSON.stringify(cartItem);
-    ajaxPOST(
-      "/create-cart",
-      function (data) {
-        if (data) {
-          let dataParsed = JSON.parse(data);
-          if (dataParsed.status == "fail") {
-            document.getElementsById("errorMsg").innerHTML = dataParsed.msg;
-          } else {
-            window.location.assign("/cart");
-          }
-        }
-      },
-      queryString
-    );
-  });
   let button = document.querySelectorAll(".add");
 
-  button.forEach((add) => {
-    add.addEventListener("click", function clickButton() {
-      add.style.backgroundColor = "#d4b9f7";
-      add.value = "Added to cart ✓";
-    });
-  });
 
   // GET TO THE SERVER
   document.querySelector("#dropLogo").addEventListener("click", function (e) {
@@ -138,6 +91,23 @@ ready(function () {
     e.preventDefault;
     window.location.assign("/contactus");
   });
+
+  document.getElementById("faq").addEventListener("click", function (e) {
+    e.preventDefault;
+    window.location.assign("/faq");
+  });
+
+  button.forEach(add => {
+    add.addEventListener("click", function clickButton() {
+      add.style.backgroundColor = '#d4b9f7';
+      add.value = 'Added to cart ✓';
+      add.setAttribute("disabled", "disabled");
+    });
+  })
+
+  document.getElementById("cart").addEventListener("click", () => {
+    window.location.assign("/cart");
+  })
 });
 
 function ready(callback) {

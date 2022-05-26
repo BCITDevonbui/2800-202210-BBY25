@@ -6,6 +6,22 @@
   grid-template-rows: 10% 10% 80% 85% 10%;
 }
 
+#about {
+  cursor: pointer;
+}
+
+#faq {
+  cursor: pointer;
+}
+
+#contact {
+  cursor: pointer;
+}
+
+#home {
+  cursor: pointer;
+}
+
 #account {
   cursor: pointer;
 }
@@ -137,6 +153,7 @@ input[type='submit']:hover {
   align-items: center;
   justify-items: center;
   border-radius: 25px;
+  overflow-y: auto;
 }
 
 .container {
@@ -176,7 +193,7 @@ input[type='submit']:hover {
 @media only screen and (max-width: 1500px) {
   #container {
     grid-template-columns: 100%;
-    grid-template-rows: 10% 15% 350% 10%;
+    grid-template-rows: 10% 15% 80% 2% 2% 10%;
     justify-items: center;
   }
 
@@ -219,7 +236,7 @@ input[type='submit']:hover {
 
   footer {
     grid-column: 1;
-    grid-row: 4;
+    grid-row: 6;
     justify-self: stretch;
   }
 
@@ -229,12 +246,13 @@ input[type='submit']:hover {
     justify-self: stretch;
     align-items: center;
     justify-items: center;
+    width: 98%;
   }
 
   .container {
     display: grid;
     grid-template-columns: 49% 49%;
-    width: 99%;
+    width: 98%;
     opacity: 0.9;
   }
 
@@ -258,7 +276,7 @@ input[type='submit']:hover {
 @media only screen and (max-width: 1000px) {
   #container {
     grid-template-columns: 100%;
-    grid-template-rows: 10% 15% 600% 10%;
+    grid-template-rows: 10% 15% 80% 2% 2% 10%;
     justify-items: center;
   }
 
@@ -301,7 +319,7 @@ input[type='submit']:hover {
 
   footer {
     grid-column: 1;
-    grid-row: 4;
+    grid-row: 6;
     justify-self: stretch;
   }
 
@@ -340,7 +358,7 @@ input[type='submit']:hover {
 @media only screen and (max-width: 600px) {
   #container {
     grid-template-columns: 100%;
-    grid-template-rows: 10% 10% 40.5% 10%;
+    grid-template-rows: 10% 10% 70% 10%;
     justify-items: center;
   }
 }

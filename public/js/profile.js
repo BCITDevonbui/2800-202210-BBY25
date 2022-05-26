@@ -50,63 +50,37 @@ ready(function () {
   }
 
 
-});
+  // GET TO THE SERVER
+  document
+    .querySelector("#donateButton")
+    .addEventListener("click", function (e) {
+      e.preventDefault;
+      window.location.replace("/donate");
+    });
 
-function ready(callback) {
-  if (document.readyState != "loading") {
-    callback();
-  } else {
-    document.addEventListener("DOMContentLoaded", callback);
-  }
-}
-
-// GET TO THE SERVER
-document.querySelector("#drop").addEventListener("click", function (e) {
-  e.preventDefault;
-  window.location.replace("/");
-});
-
-// GET TO THE SERVER
-document
-  .querySelector("#donateButton")
-  .addEventListener("click", function (e) {
+  // GET TO THE SERVER
+  document.querySelector("#account").addEventListener("click", function (e) {
     e.preventDefault;
-    window.location.replace("/donate");
+    window.location.replace("/account");
   });
+  document.querySelector("#packageButton").addEventListener("click", () => {
+    ajaxPOST("/create-cart", function (data) {
+      if (data) {
+        let dataParsed = JSON.parse(data);
+        if (dataParsed.status == "fail") {
+          document.getElementById("errorMsg").innerHTML = dataParsed.msg;
+          setTimeout(() => {
+            document.getElementById("errorMsg").innerHTML = "";
+          }, 1500);
+        } else {
+          window.location.assign("/package")
+        }
+      }
+    }, "");
 
-// GET TO THE SERVER
-document.querySelector("#account").addEventListener("click", function (e) {
-  e.preventDefault;
-  window.location.replace("/account");
-});
+  })
 
-// GET TO THE SERVER
-document
-  .querySelector("#packageButton")
-  .addEventListener("click", function (e) {
-    e.preventDefault;
-    window.location.assign("/package");
-  });
-
-// GET TO THE SERVER
-document
-  .querySelector("#notifButton")
-  .addEventListener("click", function (e) {
-    e.preventDefault;
-    window.location.assign("/history");
-  });
-
-document.getElementById("about").addEventListener("click", function (e) {
-  e.preventDefault;
-  window.location.assign("/about");
-});
-
-document.getElementById("contact").addEventListener("click", function (e) {
-  e.preventDefault;
-  window.location.assign("/contactus");
-});
-
-//for easter egg to drop dropLogo
+  //for easter egg to drop dropLogo
 let v = "";
 
 let Ds = document.querySelectorAll(".D");
@@ -182,5 +156,37 @@ function onFinish() {
       document.getElementById("drop").style.display = "none";
     }
   })
+}
 
+  // GET TO THE SERVER
+  document
+    .querySelector("#notifButton")
+    .addEventListener("click", function (e) {
+      e.preventDefault;
+      window.location.assign("/history");
+    });
+
+  document.getElementById("about").addEventListener("click", function (e) {
+    e.preventDefault;
+    window.location.assign("/about");
+  });
+
+  document.getElementById("contact").addEventListener("click", function (e) {
+    e.preventDefault;
+    window.location.assign("/contactus");
+  });
+
+  document.getElementById("faq").addEventListener("click", function (e) {
+    e.preventDefault;
+    window.location.assign("/faq");
+  });
+
+});
+
+function ready(callback) {
+  if (document.readyState != "loading") {
+    callback();
+  } else {
+    document.addEventListener("DOMContentLoaded", callback);
+  }
 }
