@@ -478,11 +478,7 @@ let correctEmail = true;
 
 let emailVal = document.getElementById("add-email").value;
 
-document
-  .getElementById("add-email")
-  .addEventListener("change", checkIfValidEmail);
-
-function checkIfValidEmail() {
+document.getElementById("add-email").addEventListener("change", () => {
   if (emailVal.includes("@")) {
     document.getElementById("add-email").style.color = "black";
     document.getElementById("message").innerHTML = "";
@@ -493,15 +489,14 @@ function checkIfValidEmail() {
     document.getElementById("message").innerHTML = "Not a valid input.";
     correctEmail = false;
   }
-}
+});
 
 document
   .getElementById("add-email")
-  .addEventListener("click", clearEmailField());
+  .addEventListener("click", () => {
+    document.getElementById("message").innerHTML = "";
+  });
 
-function clearEmailField() {
-  document.getElementById("message").innerHTML = "";
-}
 
 // adding a user -----------------------------------------------------------------------------
 const radioButtons = document.querySelectorAll('input[name="admin"]');
@@ -609,9 +604,6 @@ document.getElementById("about").addEventListener("click", () => {
   window.location.assign("/about");
 });
 
-document.getElementById("contact").addEventListener("click", () => {
-  window.location.assign("/contactus");
-});
 
 document.getElementById("packageStatus").addEventListener("click", () => {
   window.location.assign("/updatePackageStatus");
