@@ -28,13 +28,13 @@ ready(function () {
      * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent
      */
     let params =
-      typeof data == "string"
-        ? data
-        : Object.keys(data)
-            .map(function (k) {
-              return encodeURIComponent(k) + "=" + encodeURIComponent(data[k]);
-            })
-            .join("&");
+      typeof data == "string" ?
+      data :
+      Object.keys(data)
+      .map(function (k) {
+        return encodeURIComponent(k) + "=" + encodeURIComponent(data[k]);
+      })
+      .join("&");
 
     const xhr = new XMLHttpRequest();
     xhr.onload = function () {
@@ -68,19 +68,19 @@ ready(function () {
     window.location.replace("/account");
   });
   document.querySelector("#packageButton").addEventListener("click", () => {
-    ajaxPOST("/create-cart", function(data) {
-      if(data) {
+    ajaxPOST("/create-cart", function (data) {
+      if (data) {
         let dataParsed = JSON.parse(data);
         if (dataParsed.status == "fail") {
           document.getElementById("errorMsg").innerHTML = dataParsed.msg;
           setTimeout(() => {
             document.getElementById("errorMsg").innerHTML = "";
-          },1500);
+          }, 1500);
         } else {
           window.location.assign("/package")
         }
       }
-    },"");
+    }, "");
 
   })
 

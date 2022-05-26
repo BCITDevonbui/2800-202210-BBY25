@@ -4,22 +4,17 @@ p {
 
 }
 
-#about{
+#about {
   cursor: pointer;
 }
 
-#faq{
+#faq {
   cursor: pointer;
 }
 
-#contact{
+#contact {
   cursor: pointer;
 }
-
-#home{
-  cursor: pointer;
-}
-
 
 #home {
   margin-top: 12px;

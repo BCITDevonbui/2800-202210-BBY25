@@ -28,13 +28,13 @@ ready(function () {
      * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent
      */
     let params =
-      typeof data == "string"
-        ? data
-        : Object.keys(data)
-            .map(function (k) {
-              return encodeURIComponent(k) + "=" + encodeURIComponent(data[k]);
-            })
-            .join("&");
+      typeof data == "string" ?
+      data :
+      Object.keys(data)
+      .map(function (k) {
+        return encodeURIComponent(k) + "=" + encodeURIComponent(data[k]);
+      })
+      .join("&");
 
     const xhr = new XMLHttpRequest();
     xhr.onload = function () {
@@ -48,7 +48,7 @@ ready(function () {
     xhr.send(params);
   }
 
-  
+
 
   document.getElementById("dropLogo").addEventListener("click", function (e) {
     e.preventDefault;
@@ -78,12 +78,12 @@ ready(function () {
   const customFileButton = document.getElementById("customButton");
   const customText = document.getElementById("customText");
 
-  customFileButton.addEventListener("click", function(){
+  customFileButton.addEventListener("click", function () {
     realFileButton.click();
   });
 
-  realFileButton.addEventListener("change", function() {
-    if (realFileButton.value){
+  realFileButton.addEventListener("change", function () {
+    if (realFileButton.value) {
       customText.innerHTML = realFileButton.value;
     } else {
       customText.innerHTML = "No file chosen";
@@ -106,10 +106,10 @@ ready(function () {
   <th class="isDelivered_header"><span>is Delivered</span></th>
   <th class="img_header"><span>Image</span></th>
   </tr>`;
-  
+
             for (let i = 0; i < data.rows.length; i++) {
               let row = data.rows[i];
-  
+
               str +=
                 "<tr></td><td class='packageID'><span>" +
                 row.packageID +
@@ -126,17 +126,17 @@ ready(function () {
                 "</span>" +
                 "</td></tr>";
             }
-  
+
             document.getElementById("packageTable").innerHTML = str;
           } else {
-  
+
           }
         } else {
           // not a 200, could be anything (404, 500, etc.)
-  
+
         }
       } else {
-  
+
       }
     };
     xhr.open("GET", "/get-packageStatus");
@@ -149,21 +149,21 @@ ready(function () {
 
   const input = document.querySelector("#fileInput");
   input.onchange = (e) => {
-  const [file] = e.target.files;
-  //add /img/ to file name for pathing
-  v = "/img/" + file.name;
+    const [file] = e.target.files;
+    //add /img/ to file name for pathing
+    v = "/img/" + file.name;
   }
 
   document.getElementById("submit").addEventListener("click", () => {
 
     customText.innerHTML = "No file chosen";
-    
+
     let dataToSend = {
       packageID: document.getElementById("packageIdInput").value,
       isDelivered: 1,
       img: v
     };
-  
+
     document.getElementById("packageIdInput").value = "";
     document.getElementById("message").innerHTML = "";
     ajaxPOST(
@@ -185,7 +185,7 @@ ready(function () {
           }
         }
       }, dataToSend);
-    });
+  });
 });
 
 
@@ -198,4 +198,3 @@ function ready(callback) {
     document.addEventListener("DOMContentLoaded", callback);
   }
 }
-

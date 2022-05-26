@@ -54,8 +54,7 @@ function getCartHistory() {
               "</span></tr>";
           }
           document.getElementById("packages").innerHTML = str;
-        } else {
-        }
+        } else {}
       } else {
         // not a 200, could be anything (404, 500, etc.)
 

@@ -3,8 +3,12 @@ const express = require("express");
 const session = require("express-session");
 const app = express();
 const fs = require("fs");
-const { connect } = require("http2");
-const { JSDOM } = require("jsdom");
+const {
+  connect
+} = require("http2");
+const {
+  JSDOM
+} = require("jsdom");
 const mysql = require("mysql2");
 
 // static path mappings
@@ -161,7 +165,10 @@ app.post("/donate", function (req, res) {
   connection.connect();
   let amount = req.body.amount;
   if (amount < 0 || amount > 9999999.99 || amount === "") {
-    res.send({ status: "fail", msg: "Invalid amount entered!" });
+    res.send({
+      status: "fail",
+      msg: "Invalid amount entered!"
+    });
   } else {
     let date = new Date();
     let splitDate = String(date).split(" ");
@@ -177,7 +184,10 @@ app.post("/donate", function (req, res) {
       `use COMP2800; INSERT INTO BBY_25_users_donation (userID, postdate, amount) VALUES (?, ?, ?)`,
       [req.session.identity, postedDate, amount]
     );
-    res.send({ status: "success", msg: "Record added." });
+    res.send({
+      status: "success",
+      msg: "Record added."
+    });
     connection.end();
   }
 });
@@ -198,7 +208,10 @@ app.get("/get-catalogue", function (req, res) {
       if (error) {
         //catch error and save to database
       } else {
-        res.send({ status: "success", rows: results[1] });
+        res.send({
+          status: "success",
+          rows: results[1]
+        });
       }
     }
   );
@@ -229,7 +242,7 @@ app.get("/history", async (req, res) => {
   res.set("Server", "Wazubi Engine");
   res.set("X-Powered-By", "Wazubi");
   res.send(docDOM.serialize());
-  
+
 });
 
 app.post("/add-item", async (req, res) => {
@@ -242,42 +255,45 @@ app.post("/add-item", async (req, res) => {
   });
   connection.connect();
   const sqlQuery = `INSERT INTO BBY_25_PACKAGES_ITEMS (packageID, itemID, itemQuantity) VALUES ('${req.session.packageID}', '${req.body.itemID}', '${req.body.quantity}');`;
-  await connection.query(sqlQuery).then(res.send({ status: "success", msg: "Added new item" }))
+  await connection.query(sqlQuery).then(res.send({
+    status: "success",
+    msg: "Added new item"
+  }))
 
 });
 
 function buildNotifCards(result) {
   let card = fs.readFileSync("./app/html/packageCard.html");
   let cardDOM = new JSDOM(card);
-  let html = "";  
+  let html = "";
   cardDOM.window.document
-  .getElementById("cards")
-  .setAttribute("id", `${result.packageID}`);
+    .getElementById("cards")
+    .setAttribute("id", `${result.packageID}`);
   cardDOM.window.document
-  .getElementById("packageID")
-  .setAttribute("id", `ID${result.packageID}`);
+    .getElementById("packageID")
+    .setAttribute("id", `ID${result.packageID}`);
   cardDOM.window.document
-  .getElementById("postdate")
-  .setAttribute("id", `postDateOf${result.packageID}`);
+    .getElementById("postdate")
+    .setAttribute("id", `postDateOf${result.packageID}`);
   cardDOM.window.document
-  .getElementById("packageStatus")
-  .setAttribute("id", `packageStatusOf${result.packageID}`);
+    .getElementById("packageStatus")
+    .setAttribute("id", `packageStatusOf${result.packageID}`);
   cardDOM.window.document
-  .getElementById("img")
-  .setAttribute("id", `imgOf${result.packageID}`);
+    .getElementById("img")
+    .setAttribute("id", `imgOf${result.packageID}`);
   cardDOM.window.document.getElementById(`ID${result.packageID}`).innerHTML =
     "Package ID: " + result.packageID;
   cardDOM.window.document.getElementById(`postDateOf${result.packageID}`).innerHTML =
     result.postdate;
   cardDOM.window.document.getElementById(`packageStatusOf${result.packageID}`).innerHTML =
     result.isDelivered ? "Package has been delievered" : "Package is enroute";
-    if (result.isDelivered){
-      cardDOM.window.document.getElementById(`packageStatusOf${result.packageID}`).style.color = "#008642";
-      cardDOM.window.document.getElementById(`packageStatusOf${result.packageID}`).style.textShadow =
+  if (result.isDelivered) {
+    cardDOM.window.document.getElementById(`packageStatusOf${result.packageID}`).style.color = "#008642";
+    cardDOM.window.document.getElementById(`packageStatusOf${result.packageID}`).style.textShadow =
       "0 0 7px #93f693, 0 0 10px #93f693, 0 0 21px #93f693, 0 0 42px #93f693, 0 0 82px #93f693, 0 0 92px #93f693, 0 0 102px #93f693, 0 0 151px #93f693";
-    } else {
-      cardDOM.window.document.getElementById(`packageStatusOf${result.packageID}`).style.color = "#fb0066";
-    }
+  } else {
+    cardDOM.window.document.getElementById(`packageStatusOf${result.packageID}`).style.color = "#fb0066";
+  }
 
   cardDOM.window.document.getElementById(`imgOf${result.packageID}`).src = `${result.img}`;
   html = cardDOM.serialize();
@@ -302,7 +318,6 @@ app.get("/cart", async function (req, res) {
     );
     let cartTotal = 0;
     results.forEach((result) => {
-      console.log(result);
       cartTotal += parseFloat(result.price) * parseFloat(result.itemQuantity);
       cartItems += buildItemCartCard(result);
     })
@@ -343,8 +358,8 @@ function buildItemCartCard(result) {
     .setAttribute("id", `priceOfItem${result.itemID}`);
   cardDOM.window.document.getElementById(`priceOfItem${result.itemID}`).innerHTML = `Single Price: $${result.price}`;
   cardDOM.window.document.getElementById("quantity").setAttribute("id", `quantityOf${result.itemID}`);
-  cardDOM.window.document.getElementById(`quantityOf${result.itemID}`).innerHTML = 
-  `Quantity: ${result.itemQuantity}`;
+  cardDOM.window.document.getElementById(`quantityOf${result.itemID}`).innerHTML =
+    `Quantity: ${result.itemQuantity}`;
   cardDOM.window.document.getElementById("itemTotal").setAttribute("id", `itemTotalOf${result.itemID}`);
   let itemTotal = Number(parseFloat(result.price) * parseFloat(result.itemQuantity)).toFixed(2);
   cardDOM.window.document.getElementById(`itemTotalOf${result.itemID}`).innerHTML = `Item Total: $${itemTotal}`;
@@ -356,7 +371,6 @@ function buildItemCartCard(result) {
   ).innerHTML = result.most_wanted ? "High Demand" : "";
   //converts card DOM into html
   html = cardDOM.serialize();
-  console.log(html);
   return html;
 }
 
@@ -376,7 +390,10 @@ app.post("/create-cart", async function (req, res) {
   );
   const [result] = await connection.query(`select packageID from bby_25_users_packages order by postdate desc limit 1`);
   req.session.packageID = result[0].packageID;
-  res.send({ status: "success", msg: "Created new cart" });
+  res.send({
+    status: "success",
+    msg: "Created new cart"
+  });
   connection.end();
 });
 
@@ -423,22 +440,19 @@ function buildInvetoryCards(results) {
   let card = fs.readFileSync("./app/html/cardAdd.html", "utf8");
   let html = "";
   //loops through the database and prints
-    results.forEach((result) => {
-      let cardDOM = new JSDOM(card);
-      //injecting variables into card DOM
-      cardDOM.window.document.getElementById("cards").setAttribute("id", `${result.itemID}`);
-      cardDOM.window.document.getElementById("name").setAttribute("id", `nameOfItem${result.itemID}`);
-      cardDOM.window.document.getElementById(`nameOfItem${result.itemID}`).innerHTML
-      = result.name;
-      cardDOM.window.document.getElementById("price").setAttribute("id", `priceOfItem${result.itemID}`);
-      cardDOM.window.document.getElementById(`priceOfItem${result.itemID}`).innerHTML
-      = `$${result.price}`;
-      cardDOM.window.document.getElementById("quantity").setAttribute("id", `quantityOf${result.itemID}`);
-      cardDOM.window.document.getElementById("most_wanted").setAttribute("id", `mostWanted${result.itemID}`);
-      cardDOM.window.document.getElementById(`mostWanted${result.itemID}`).innerHTML
-      = (result.most_wanted ? "High Demand" : "");
-      //converts card DOM into html
-      html += cardDOM.serialize();
+  results.forEach((result) => {
+    let cardDOM = new JSDOM(card);
+    //injecting variables into card DOM
+    cardDOM.window.document.getElementById("cards").setAttribute("id", `${result.itemID}`);
+    cardDOM.window.document.getElementById("name").setAttribute("id", `nameOfItem${result.itemID}`);
+    cardDOM.window.document.getElementById(`nameOfItem${result.itemID}`).innerHTML = result.name;
+    cardDOM.window.document.getElementById("price").setAttribute("id", `priceOfItem${result.itemID}`);
+    cardDOM.window.document.getElementById(`priceOfItem${result.itemID}`).innerHTML = `$${result.price}`;
+    cardDOM.window.document.getElementById("quantity").setAttribute("id", `quantityOf${result.itemID}`);
+    cardDOM.window.document.getElementById("most_wanted").setAttribute("id", `mostWanted${result.itemID}`);
+    cardDOM.window.document.getElementById(`mostWanted${result.itemID}`).innerHTML = (result.most_wanted ? "High Demand" : "");
+    //converts card DOM into html
+    html += cardDOM.serialize();
   });
   return html;
 }
@@ -496,7 +510,10 @@ app.get("/payment", function (req, res) {
 app.get("/cartHistory", function (req, res) {
   if (req.session.loggedIn) {
     let doc = fs.readFileSync("./app/html/cartHistory.html", "utf8");
-    res.send(doc);
+    let docDOM = new JSDOM(doc);
+    docDOM.window.document.getElementById("userHistory").innerHTML =
+      `${req.session.name}'s History`;
+    res.send(docDOM.serialize());
   } else {
     res.redirect("/");
   }
@@ -547,9 +564,15 @@ app.post("/payment", function (req, res) {
     ccInfo.expiry.length < 4 ||
     ccInfo.expiry.length > 4
   ) {
-    res.send({ status: "fail", msg: "Invalid credit card details." });
+    res.send({
+      status: "fail",
+      msg: "Invalid credit card details."
+    });
   } else {
-    res.send({ status: "success", msg: "Payment Approved" });
+    res.send({
+      status: "success",
+      msg: "Payment Approved"
+    });
   }
 });
 
@@ -801,9 +824,11 @@ app.post("/admin-update-email", function (req, res) {
     "UPDATE BBY_25_users SET email = ? WHERE identity = ?",
     [req.body.email, req.body.id],
     function (error, results, fields) {
-      if (error) {
-      }
-      res.send({ status: "success", msg: "Recorded updated." });
+      if (error) {}
+      res.send({
+        status: "success",
+        msg: "Recorded updated."
+      });
     }
   );
   connection.end();
@@ -1070,8 +1095,7 @@ app.post("/update-firstName", async function (req, res) {
     "UPDATE BBY_25_users SET first_name = ? WHERE identity = ?",
     [req.body.name, req.body.id],
     function (error, results, fields) {
-      if (error) {
-      }
+      if (error) {}
       res.send({
         status: "success",
         msg: "Recorded updated.",
@@ -1177,7 +1201,10 @@ app.post("/update-lastName", async function (req, res) {
         // catch error and save to database
       }
 
-      res.send({ status: "success", msg: "Recorded updated." });
+      res.send({
+        status: "success",
+        msg: "Recorded updated."
+      });
 
       req.session.lastName = req.body.lastName;
 
@@ -1242,8 +1269,7 @@ app.post("/update-profilePic", function (req, res) {
     "UPDATE BBY_25_users SET profile_pic = ? WHERE identity = ?",
     [req.body.profilePic, req.body.id],
     function (error, results, fields) {
-      if (error) {
-      }
+      if (error) {}
       res.send({
         status: "success",
         msg: "Recorded updated.",

@@ -41,8 +41,7 @@ function editName(e) {
           } else {
             // not a 200, could be anything (404, 500, etc.)
           }
-        } else {
-        }
+        } else {}
       };
       xhr.open("POST", "/update-firstName");
       xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
@@ -258,8 +257,7 @@ document.getElementById("submit").addEventListener("click", function (e) {
       } else {
         // not a 200, could be anything (404, 500, etc.)
       }
-    } else {
-    }
+    } else {}
   };
   xhr.open("POST", "/update-profilePic");
   xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");

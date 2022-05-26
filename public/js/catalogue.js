@@ -3,6 +3,7 @@
 ready(function () {
   let cartItem = [];
   let cartItemQuantity = 0;
+
   function ajaxGET(url, callback) {
     const xhr = new XMLHttpRequest();
     xhr.onload = function () {
@@ -31,13 +32,13 @@ ready(function () {
      * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent
      */
     let params =
-      typeof data == "string"
-        ? data
-        : Object.keys(data)
-            .map(function (k) {
-              return encodeURIComponent(k) + "=" + encodeURIComponent(data[k]);
-            })
-            .join("&");
+      typeof data == "string" ?
+      data :
+      Object.keys(data)
+      .map(function (k) {
+        return encodeURIComponent(k) + "=" + encodeURIComponent(data[k]);
+      })
+      .join("&");
 
     const xhr = new XMLHttpRequest();
     xhr.onload = function () {
@@ -58,7 +59,10 @@ ready(function () {
     cardList[i].addEventListener("click", () => {
       let itemID = i + 1;
       let quantityValue = document.getElementById(`quantityOf${itemID}`).value;
-      let queryString = {"itemID": itemID, "quantity": quantityValue};
+      let queryString = {
+        "itemID": itemID,
+        "quantity": quantityValue
+      };
       ajaxPOST("/add-item", () => {}, queryString);
 
       document.getElementById("quantity").innerHTML = cartItemQuantity;
@@ -94,7 +98,7 @@ ready(function () {
   });
 
   button.forEach(add => {
-    add.addEventListener("click", function clickButton(){
+    add.addEventListener("click", function clickButton() {
       add.style.backgroundColor = '#d4b9f7';
       add.value = 'Added to cart ✓';
       add.setAttribute("disabled", "disabled");

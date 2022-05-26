@@ -29,13 +29,13 @@ ready(function () {
      * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent
      */
     let params =
-      typeof data == "string"
-        ? data
-        : Object.keys(data)
-            .map(function (k) {
-              return encodeURIComponent(k) + "=" + encodeURIComponent(data[k]);
-            })
-            .join("&");
+      typeof data == "string" ?
+      data :
+      Object.keys(data)
+      .map(function (k) {
+        return encodeURIComponent(k) + "=" + encodeURIComponent(data[k]);
+      })
+      .join("&");
 
     const xhr = new XMLHttpRequest();
     xhr.onload = function () {
@@ -85,8 +85,7 @@ ready(function () {
       ajaxGET("/delete-cart", (data) => {
         if (data) {
           let dataParsed = JSON.parse(data);
-          if (dataParsed.status == "fail") {
-          }
+          if (dataParsed.status == "fail") {}
         }
       });
       const deleted = document.querySelector('.container');

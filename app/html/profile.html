@@ -1,71 +1,76 @@
 <!DOCTYPE html>
- <html lang="en">
-   <head>
-     <title>Profile</title>
-     <meta charset="utf-8">
-     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <link href="/img/drop.png" rel="icon" type="image/x-icon" />
-     <link rel="stylesheet" href="/css/profile.css">
-     <link rel="stylesheet" href="/css/style.css">
-     <link href="https://fonts.googleapis.com/css2?family=Heebo&family=Merriweather&family=Mulish&display=swap" rel="stylesheet">
-   </head>
-   <body>
+<html lang="en">
 
-    <div id="container">
+<head>
+  <title>Profile</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="/img/drop.png" rel="icon" type="image/x-icon" />
+  <link rel="stylesheet" href="/css/profile.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Heebo&family=Merriweather&family=Mulish&display=swap"
+    rel="stylesheet">
+</head>
 
-      <nav>
-        <img id="dropLogo" class="icon" alt="drop-icon" src="/img/drop.png">
-      </nav>
+<body>
 
-      <div id="navbar">
-        <a id="account">Account</a>
-      </div>
+  <div id="container">
 
-      <aside>
-        <form class="formlogout" action="/logout" method="get">
-          <input type="submit" value="Logout"/>
+    <nav>
+      <img id="dropLogo" class="icon" alt="drop-icon" src="/img/drop.png">
+    </nav>
+
+    <div id="navbar">
+      <a id="account">Account</a>
+    </div>
+
+    <aside>
+      <form class="formlogout" action="/logout" method="get">
+        <input type="submit" value="Logout" />
       </form>
-      </aside>
+    </aside>
 
-      <div>
-        <img id="profilePicture" alt="userProfilePicture" src="/img/drop.png">
+    <div>
+      <img id="profilePicture" alt="userProfilePicture" src="/img/drop.png">
+    </div>
+
+    <h1 id="name"><span id="profile_name">Username here</span></h1>
+
+    <p id="textUnder" class="centertext">Thank you for all your help</p>
+
+    <div id="miniContainer">
+
+      <div id="donateButton">
+        <button>Donate</button>
       </div>
 
-      <h1 id="name"><span id="profile_name">Username here</span></h1>
+      <p id="donateDescrip" class="centertext">Don't want to create a package? <br> Choose to donate money instead!</p>
 
-      <p id="textUnder" class="centertext">Thank you for all your help</p>
-
-      <div id="miniContainer">
-
-        <div id="donateButton">
-          <button>Donate</button>
-        </div>
-
-        <p id="donateDescrip" class="centertext">Don't want to create a package? <br> Choose to donate money instead!</p>
-
-        <div id="packageButton">
-          <button>Create Package</button>
-        </div>
-
-        <p id="packageDescrip" class="centertext">Select what items you'd like to send in <br> a care package to someone in Ukraine!</p>
-        
-        <div id="notifButton">
-          <button>Notification</button>
-        </div>
-
-        <p id="notifDescrip" class="centertext">Find the delivery status of your package!</p>
-          
-
+      <div id="packageButton">
+        <button>Create Package</button>
       </div>
 
-      <footer>
-        <br>
-        <a id="about">About</a>
-        <a id="faq">FAQ</a>
-        <a id="contact">Contact Us</a>
-      </footer>
+      <p id="packageDescrip" class="centertext">Select what items you'd like to send in <br> a care package to someone
+        in Ukraine!</p>
+
+      <div id="notifButton">
+        <button>Notification</button>
+      </div>
+
+      <p id="notifDescrip" class="centertext">Find the delivery status of your package!</p>
+
 
     </div>
-    <script src="js/profile.js"></script>
- </body>
- </html> 
+
+    <footer>
+      <br>
+      <a id="about">About</a>
+      <a id="faq">FAQ</a>
+      <a id="contact">Contact Us</a>
+    </footer>
+
+  </div>
+  <script src="js/profile.js"></script>
+</body>
+
+</html>
