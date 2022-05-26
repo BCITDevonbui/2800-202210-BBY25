@@ -89,10 +89,6 @@ ready(function () {
       window.location.assign("/");
     });
 
-  document.getElementById("contact").addEventListener("click", function (e) {
-    e.preventDefault;
-    window.location.assign("/contactus");
-  });
 });
 
 function ready(callback) {

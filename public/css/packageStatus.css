@@ -34,8 +34,24 @@ th {
 td {
     font-family: 'Mulish', sans-serif;
 }
+  
+  #about{
+    cursor: pointer;
+  }
+  
+  #faq{
+    cursor: pointer;
+  }
+  
+  #contact{
+    cursor: pointer;
+  }
 
-#drop {
+  #packageStatus{
+    cursor: pointer;
+  }
+
+#dropLogo {
     cursor: pointer;
 }
 
@@ -120,6 +136,35 @@ input[type="text"] {
     display: inline-block;
   }
 
+  #customButton {
+    background-color: #a862ea;
+    border-radius: 25px;
+    border-style: none;
+    color: #FFFFFF;
+    cursor: pointer;
+    font-size: 16px;
+    height: 30px;
+    padding: 0 10px;
+    min-width: 120px;
+    max-width: 120px;
+    text-align: center;
+    font-family: 'Heebo', sans-serif;
+    margin-left: 20px;
+    margin-bottom: 3%;
+  }
+
+  #fileInput{
+      visibility: hidden;
+  }
+
+  #customText{
+    font-family: 'Mulish', sans-serif;
+  }
+
+  #customButton:hover{
+    opacity: 0.8;
+}
+
   input[type=button] {
     background-color: #a862ea;
     border-radius: 25px;
@@ -136,6 +181,8 @@ input[type="text"] {
     margin-left: 20px;
     margin-bottom: 3%;
 }
+
+
 
 input[type=button]:hover{
     opacity: 0.8;

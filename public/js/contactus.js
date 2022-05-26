@@ -10,3 +10,7 @@ document.getElementById("about").addEventListener("click", () => {
 document.getElementById("contact").addEventListener("click", () => {
   window.location.assign("/contactus");
 })
+
+document.getElementById("faq").addEventListener("click", () => {
+  window.location.assign("/faq");
+})

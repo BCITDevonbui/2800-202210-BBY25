@@ -83,6 +83,14 @@ ready(function () {
     e.preventDefault;
     window.location.replace("/about");
   });
+  document.getElementById("faq").addEventListener("click", function (e) {
+    e.preventDefault;
+    window.location.replace("/faq");
+  });
+  document.getElementById("contact").addEventListener("click", function (e) {
+    e.preventDefault;
+    window.location.replace("/contactUs");
+  });
   // GET TO THE SERVER
   document.querySelector("#submit").addEventListener("click", function (e) {
     e.preventDefault;

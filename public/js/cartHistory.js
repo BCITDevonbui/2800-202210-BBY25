@@ -9,10 +9,21 @@ document.getElementById("account").addEventListener("click", function (e) {
   window.location.assign("/account");
 });
 
+document.getElementById("about").addEventListener("click", function (e) {
+  e.preventDefault;
+  window.location.assign("/about");
+});
+
 document.getElementById("contact").addEventListener("click", function (e) {
   e.preventDefault;
   window.location.assign("/contactus");
 });
+
+document.getElementById("faq").addEventListener("click", function (e) {
+  e.preventDefault;
+  window.location.assign("/faq");
+});
+
 
 function getCartHistory() {
   const xhr = new XMLHttpRequest();

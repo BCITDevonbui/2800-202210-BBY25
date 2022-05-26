@@ -64,6 +64,11 @@ ready(function () {
     window.location.assign("/contactus");
   });
 
+  document.getElementById("faq").addEventListener("click", function (e) {
+    e.preventDefault;
+    window.location.assign("/faq");
+  });
+
   document.getElementById("account").addEventListener("click", () => {
     window.location.assign("/account");
   })

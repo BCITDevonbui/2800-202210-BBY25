@@ -70,6 +70,11 @@ ready(function () {
     e.preventDefault;
     window.location.assign("/contactus");
   });
+
+  document.getElementById("faq").addEventListener("click", function (e) {
+    e.preventDefault;
+    window.location.assign("/faq");
+  });
 });
 
 function ready(callback) {

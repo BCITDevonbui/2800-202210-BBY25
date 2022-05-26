@@ -605,6 +605,14 @@ document.getElementById("about").addEventListener("click", () => {
   window.location.assign("/about");
 });
 
+document.getElementById("contact").addEventListener("click", () => {
+  window.location.assign("/contactUs");
+});
+
+document.getElementById("faq").addEventListener("click", () => {
+  window.location.assign("/faq");
+});
+
 document.getElementById("packageStatus").addEventListener("click", () => {
   window.location.assign("/updatePackageStatus");
 });

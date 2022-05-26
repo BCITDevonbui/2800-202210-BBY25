@@ -47,36 +47,7 @@ ready(function () {
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.send(params);
   }
-  // POST TO THE SERVER
-  document.querySelector("#submit").addEventListener("click", function (e) {
-    e.preventDefault();
-    let amount = document.getElementById("amount").value;
-    let queryString = "amount=" + amount;
 
-    // GET TO THE SERVER
-    document.querySelector("#dropLogo").addEventListener("click", function (e) {
-      e.preventDefault;
-      window.location.replace("/");
-    });
-
-    ajaxPOST(
-      "/donate",
-      function (data) {
-        if (data) {
-          let dataParsed = JSON.parse(data);
-          if (dataParsed.status == "fail") {
-            document.getElementById("errorMsg").innerHTML = dataParsed.msg;
-            setTimeout(function () {
-              document.getElementById("errorMsg").innerHTML = "";
-            }, 1500);
-          } else {
-            window.location.replace("/payment");
-          }
-        }
-      },
-      queryString
-    );
-  });
   document.getElementById("home").addEventListener("click", function (e) {
     e.preventDefault;
     window.location.assign("/");
@@ -85,11 +56,6 @@ ready(function () {
   document.getElementById("about").addEventListener("click", function (e) {
     e.preventDefault;
     window.location.assign("/about");
-  });
-
-  document.getElementById("submit").addEventListener("click", function (e) {
-    e.preventDefault;
-    window.location.assign("/payment");
   });
 
   document.getElementById("contact").addEventListener("click", function (e) {

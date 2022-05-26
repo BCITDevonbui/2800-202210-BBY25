@@ -21,6 +21,22 @@
     src: url("./fonts/Mulish-Regular.ttf");
 }
 
+#about{
+    cursor: pointer;
+  }
+  
+  #faq{
+    cursor: pointer;
+  }
+  
+  #contact{
+    cursor: pointer;
+  }
+  
+  #account {
+    cursor: pointer;
+  }
+
 #dropLogo {
     cursor: pointer;
 }

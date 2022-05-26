@@ -65,8 +65,29 @@ ready(function () {
     window.location.assign("/contactus");
   });
 
+  document.getElementById("faq").addEventListener("click", function (e) {
+    e.preventDefault;
+    window.location.assign("/faq");
+  });
+
   document.getElementById("packageStatus").addEventListener("click", () => {
     window.location.assign("/updatePackageStatus");
+  });
+
+  const realFileButton = document.getElementById("fileInput");
+  const customFileButton = document.getElementById("customButton");
+  const customText = document.getElementById("customText");
+
+  customFileButton.addEventListener("click", function(){
+    realFileButton.click();
+  });
+
+  realFileButton.addEventListener("change", function() {
+    if (realFileButton.value){
+      customText.innerHTML = realFileButton.value;
+    } else {
+      customText.innerHTML = "No file chosen";
+    }
   });
 
 
@@ -134,6 +155,8 @@ ready(function () {
   }
 
   document.getElementById("submit").addEventListener("click", () => {
+
+    customText.innerHTML = "No file chosen";
     
     let dataToSend = {
       packageID: document.getElementById("packageIdInput").value,

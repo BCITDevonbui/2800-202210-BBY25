@@ -516,6 +516,11 @@ app.get("/thanks", function (req, res) {
   }
 });
 
+app.get("/faq", (req, res) => {
+  let doc = fs.readFileSync("./app/html/FAQ.html", "utf8");
+  res.send(doc);
+});
+
 app.get("/about", function (req, res) {
   if (req.session.loggedIn) {
     let doc = fs.readFileSync("./app/html/aboutus.html", "utf8");

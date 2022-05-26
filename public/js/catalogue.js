@@ -88,6 +88,11 @@ ready(function () {
     window.location.assign("/contactus");
   });
 
+  document.getElementById("faq").addEventListener("click", function (e) {
+    e.preventDefault;
+    window.location.assign("/faq");
+  });
+
   button.forEach(add => {
     add.addEventListener("click", function clickButton(){
       add.style.backgroundColor = '#d4b9f7';

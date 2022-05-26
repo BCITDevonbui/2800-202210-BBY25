@@ -3,6 +3,22 @@ body {
   margin: 0px;
 }
 
+#about{
+  cursor: pointer;
+}
+
+#faq{
+  cursor: pointer;
+}
+
+#contact{
+  cursor: pointer;
+}
+
+#home{
+  cursor: pointer;
+}
+
 aside {
   grid-row: 1;
   grid-column: 2;
