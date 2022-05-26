@@ -134,6 +134,7 @@ function getUsers() {
   xhr.open("GET", "/get-allUsers");
   xhr.send();
 }
+
 getUsers();
 
 //admin change email
@@ -607,10 +608,6 @@ document.getElementById("delete").addEventListener("click", function (e) {
 
 document.getElementById("about").addEventListener("click", () => {
   window.location.assign("/about");
-});
-
-document.getElementById("contact").addEventListener("click", () => {
-  window.location.assign("/contactus");
 });
 
 document.getElementById("packageStatus").addEventListener("click", () => {
