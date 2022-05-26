@@ -90,6 +90,7 @@ app.post('/profile-upload-single', upload.single('profile-file'), function (req,
 });
 
 
+
 app.get("/", function (req, res) {
   if (req.session.loggedIn) {
     res.redirect("/profile");
@@ -799,6 +800,7 @@ app.post("/login", function (req, res) {
       // for localhost
       // let validUserInfo = results[1][0];
       // for heroku
+
       let validUserInfo = results[0];
       req.session.loggedIn = true;
       req.session.email = validUserInfo.email;
