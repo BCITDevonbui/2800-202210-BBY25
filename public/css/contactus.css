@@ -15,10 +15,10 @@ body {
   cursor: pointer;
 }
 
-#home{
+#home {
+  margin-top: 12px;
   cursor: pointer;
 }
-
 
 aside {
   grid-row: 1;
@@ -269,7 +269,6 @@ footer {
     float: left;
     display: block;
     color: #f2f2f2;
-    text-align: center;
     padding: 14px 16px;
     text-decoration: none;
     font-size: 17px;
@@ -279,7 +278,6 @@ footer {
     background-color: #3482c1;
     grid-column: 1 / span 2;
     grid-row: 4;
-    text-align: center;
   }
 
   a {
