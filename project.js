@@ -320,29 +320,28 @@ app.get("/history", async (req, res) => {
 });
 
 app.post("/add-item", async (req, res) => {
+
   const mysql = require("mysql2/promise");
   const connection = await mysql.createConnection({
-    // host: "127.0.0.1",
-    // user: "root",
-    // password: "",
-    // multipleStatements: "true"
-    // cleardb -----------------------
-    // host: 'us-cdbr-east-05.cleardb.net',
-    // user: 'b16ad059f5434a',
-    // password: '2255f096',
-    // database: 'heroku_02ad04623fadaa9'
-    // jaws ----------------------
     host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
     user: 'wx1mc7pu6mewf76i',
     password: 't95p9w64os2ia6gv',
     database: 'h4ngdmrfus1wjzhr',
     multipleStatements: "true"
   });
-  await connection.connect();
-  await connection.query('INSERT INTO BBY_25_PACKAGES_ITEMS (packageID, itemID, itemQuantity) VALUES (?, ?, ?)',
-    [req.session.packageID, req.body.itemID, req.body.quantity])
-    .then(res.send({ status: "success", msg: "Added new item" }))
-  connection.end();
+  connection.connect();
+  if(req.body.quantity >= 1) {
+    await connection.query('INSERT INTO BBY_25_PACKAGES_ITEMS (packageID, itemID, itemQuantity) VALUES (?, ?, ?);', 
+    [req.session.packageID, req.body.itemID, req.body.quantity]).then(res.send({
+      status: "success",
+      msg: "Added new item"
+    }))
+  } else {
+    res.send({
+      status: "fail",
+      msg: "Invalid Quantity!"
+    })
+  }
 });
 
 function buildNotifCards(result) {
@@ -716,26 +715,6 @@ app.post("/payment", function (req, res) {
 
 app.post("/register", function (req, res) {
   res.setHeader("Content-Type", "application/json");
-  // const mysql = require("mysql2");
-  // const connection = mysql.createConnection({
-  //   // host: "127.0.0.1",
-  //   // user: "root",
-  //   // password: "",
-  //   // multipleStatements: "true"
-  //   // cleardb -----------------------
-  //   // host: 'us-cdbr-east-05.cleardb.net',
-  //   // user: 'b16ad059f5434a',
-  //   // password: '2255f096',
-  //   // database: 'heroku_02ad04623fadaa9'
-  //   // jaws ----------------------
-  //   host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
-  //   user: 'wx1mc7pu6mewf76i',
-  //   password: 't95p9w64os2ia6gv',
-  //   database: 'h4ngdmrfus1wjzhr'
-  // });
-  // connection.connect();
-
-
   let validNewUserInfo = req.body;
   //Adds new user to user table. Always non admin, since this is client facing sign up
   pool.query(
@@ -764,27 +743,8 @@ app.post("/register", function (req, res) {
 
 app.post("/login", function (req, res) {
   res.setHeader("Content-Type", "application/json");
-  // const mysql = require("mysql2");
-  // const connection = mysql.createConnection({
-  //   // host: "127.0.0.1",
-  //   // user: "root",
-  //   // password: "",
-  //   // multipleStatements: "true"
-  //   // cleardb -----------------------
-  //   // host: 'us-cdbr-east-05.cleardb.net',
-  //   // user: 'b16ad059f5434a',
-  //   // password: '2255f096',
-  //   // database: 'heroku_02ad04623fadaa9'
-  //   // jaws ----------------------
-  //   host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
-  //   user: 'wx1mc7pu6mewf76i',
-  //   password: 't95p9w64os2ia6gv',
-  //   database: 'h4ngdmrfus1wjzhr'
-  // });
 
-  // connection.connect();
   // Checks if user typed in matching email and password
-  // const loginInfo = `SELECT * FROM BBY_25_USERS WHERE email = '${req.body.email}' AND password = '${req.body.password}';`
   pool.query('SELECT * FROM bby_25_users where email = ? and password = ?', 
   [req.body.email, req.body.password], function (error, results, fields) {
     /* If there is an error, alert user of error
@@ -793,16 +753,8 @@ app.post("/login", function (req, res) {
      */
 
     if (error) {
-      // change this to notify user of error
-    // } else if (results[1].length == 0) {
-    //   res.send({
-    //     status: "fail",
-    //     msg: "Incorrect email or password",
-    //   });
+
     } else {
-      // for localhost
-      // let validUserInfo = results[1][0];
-      // for heroku
 
       let validUserInfo = results[0];
       req.session.loggedIn = true;
@@ -822,29 +774,11 @@ app.post("/login", function (req, res) {
       });
     }
   });
-  // connection.end();
 });
 
 //user cart page ***********************************************************************
 
 app.get("/get-packages", function (req, res) {
-  // const connection = mysql.createConnection({
-  //   // host: "127.0.0.1",
-  //   // user: "root",
-  //   // password: "",
-  //   // multipleStatements: "true"
-  //   // cleardb -----------------------
-  //   // host: 'us-cdbr-east-05.cleardb.net',
-  //   // user: 'b16ad059f5434a',
-  //   // password: '2255f096',
-  //   // database: 'heroku_02ad04623fadaa9'
-  //   // jaws ----------------------
-  //   host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
-  //   user: 'wx1mc7pu6mewf76i',
-  //   password: 't95p9w64os2ia6gv',
-  //   database: 'h4ngdmrfus1wjzhr'
-  // });
-  // connection.connect();
   pool.query(
     `SELECT packageID, postdate, purchased FROM BBY_25_USERS_PACKAGES WHERE userID = ? ;`,
     [req.session.identity],
@@ -859,27 +793,9 @@ app.get("/get-packages", function (req, res) {
       }
     }
   );
-  // connection.end();
 });
 
 app.get("/get-donation", function (req, res) {
-  // const connection = mysql.createConnection({
-  //   // host: "127.0.0.1",
-  //   // user: "root",
-  //   // password: "",
-  //   // multipleStatements: "true"
-  //   // cleardb -----------------------
-  //   // host: 'us-cdbr-east-05.cleardb.net',
-  //   // user: 'b16ad059f5434a',
-  //   // password: '2255f096',
-  //   // database: 'heroku_02ad04623fadaa9'
-  //   // jaws ----------------------
-  //   host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
-  //   user: 'wx1mc7pu6mewf76i',
-  //   password: 't95p9w64os2ia6gv',
-  //   database: 'h4ngdmrfus1wjzhr'
-  // });
-  // connection.connect();
   pool.query(
     `SELECT * FROM BBY_25_USERS_DONATION WHERE userID = ? ;`,
     [req.session.identity],
@@ -894,30 +810,11 @@ app.get("/get-donation", function (req, res) {
       }
     }
   );
-  // connection.end();
 });
 
 // change purchased!!!
 app.post("/update-purchased", function (req, res) {
   res.setHeader("Content-Type", "application/json");
-
-  // const connection = mysql.createConnection({
-  //   // host: "127.0.0.1",
-  //   // user: "root",
-  //   // password: "",
-  //   // multipleStatements: "true"
-  //   // cleardb -----------------------
-  //   // host: 'us-cdbr-east-05.cleardb.net',
-  //   // user: 'b16ad059f5434a',
-  //   // password: '2255f096',
-  //   // database: 'heroku_02ad04623fadaa9'
-  //   // jaws ----------------------
-  //   host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
-  //   user: 'wx1mc7pu6mewf76i',
-  //   password: 't95p9w64os2ia6gv',
-  //   database: 'h4ngdmrfus1wjzhr'
-  // });
-  // connection.connect();
 
   pool.query(
     'UPDATE BBY_25_users_packages SET purchased = 1 WHERE userID = ? ORDER BY postdate desc LIMIT 1;',
@@ -939,24 +836,6 @@ app.post("/update-purchased", function (req, res) {
 // delete cart
 app.get("/delete-cart", function (req, res) {
   res.setHeader("Content-Type", "application/json");
-
-  // const connection = mysql.createPool({
-  //   // host: "127.0.0.1",
-  //   // user: "root",
-  //   // password: "",
-  //   // multipleStatements: "true"
-  //   // cleardb -----------------------
-  //   // host: 'us-cdbr-east-05.cleardb.net',
-  //   // user: 'b16ad059f5434a',
-  //   // password: '2255f096',
-  //   // database: 'heroku_02ad04623fadaa9'
-  //   // jaws ----------------------
-  //   host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
-  //   user: 'wx1mc7pu6mewf76i',
-  //   password: 't95p9w64os2ia6gv',
-  //   database: 'h4ngdmrfus1wjzhr'
-  // });
-  // connection.connect();
 
   pool.query(
     "DELETE FROM bby_25_users_packages WHERE userID = ? order by postdate desc limit 1;",
@@ -983,23 +862,6 @@ app.get("/delete-cart", function (req, res) {
 
 //admin users edit-------------------------------------------------------------------------
 app.get("/get-allUsers", function (req, res) {
-  // const connection = mysql.createConnection({
-  //   // host: "127.0.0.1",
-  //   // user: "root",
-  //   // password: "",
-  //   // multipleStatements: "true"
-  //   // cleardb -----------------------
-  //   // host: 'us-cdbr-east-05.cleardb.net',
-  //   // user: 'b16ad059f5434a',
-  //   // password: '2255f096',
-  //   // database: 'heroku_02ad04623fadaa9'
-  //   // jaws ----------------------
-  //   host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
-  //   user: 'wx1mc7pu6mewf76i',
-  //   password: 't95p9w64os2ia6gv',
-  //   database: 'h4ngdmrfus1wjzhr'
-  // });
-  // connection.connect();
   pool.query(
     "select * from bby_25_users;",
     function (error, results, fields) {
@@ -1012,30 +874,13 @@ app.get("/get-allUsers", function (req, res) {
       });
     }
   );
-  // connection.end();
+
 });
 
 // admin change emails!!!
 app.post("/admin-update-email", function (req, res) {
   res.setHeader("Content-Type", "application/json");
 
-  // const connection = mysql.createConnection({
-  //   // host: "127.0.0.1",
-  //   // user: "root",
-  //   // password: "",
-  //   // multipleStatements: "true"
-  //   // cleardb -----------------------
-  //   // host: 'us-cdbr-east-05.cleardb.net',
-  //   // user: 'b16ad059f5434a',
-  //   // password: '2255f096',
-  //   // database: 'heroku_02ad04623fadaa9'
-  //   // jaws ----------------------
-  //   host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
-  //   user: 'wx1mc7pu6mewf76i',
-  //   password: 't95p9w64os2ia6gv',
-  //   database: 'h4ngdmrfus1wjzhr'
-  // });
-  // connection.connect();
   pool.query(
     "UPDATE BBY_25_users SET email = ? WHERE identity = ?",
     [req.body.email, req.body.id],
@@ -1047,30 +892,13 @@ app.post("/admin-update-email", function (req, res) {
       });
     }
   );
-  // connection.end();
+
 });
 
 // admin change username!!!
 app.post("/admin-update-username", function (req, res) {
   res.setHeader("Content-Type", "application/json");
 
-  // const connection = mysql.createConnection({
-  //   // host: "127.0.0.1",
-  //   // user: "root",
-  //   // password: "",
-  //   // multipleStatements: "true"
-  //   // cleardb -----------------------
-  //   // host: 'us-cdbr-east-05.cleardb.net',
-  //   // user: 'b16ad059f5434a',
-  //   // password: '2255f096',
-  //   // database: 'heroku_02ad04623fadaa9'
-  //   // jaws ----------------------
-  //   host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
-  //   user: 'wx1mc7pu6mewf76i',
-  //   password: 't95p9w64os2ia6gv',
-  //   database: 'h4ngdmrfus1wjzhr'
-  // });
-  // connection.connect();
 
   pool.query(
     "UPDATE BBY_25_users SET user_name = ? WHERE identity = ?",
@@ -1086,30 +914,12 @@ app.post("/admin-update-username", function (req, res) {
       });
     }
   );
-  // connection.end();
+
 });
 
 // admin change first name!!
 app.post("/admin-update-firstname", function (req, res) {
   res.setHeader("Content-Type", "application/json");
-
-  // const connection = mysql.createConnection({
-  //   // host: "127.0.0.1",
-  //   // user: "root",
-  //   // password: "",
-  //   // multipleStatements: "true"
-  //   // cleardb -----------------------
-  //   // host: 'us-cdbr-east-05.cleardb.net',
-  //   // user: 'b16ad059f5434a',
-  //   // password: '2255f096',
-  //   // database: 'heroku_02ad04623fadaa9'
-  //   // jaws ----------------------
-  //   host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
-  //   user: 'wx1mc7pu6mewf76i',
-  //   password: 't95p9w64os2ia6gv',
-  //   database: 'h4ngdmrfus1wjzhr'
-  // });
-  // connection.connect();
 
   pool.query(
     "UPDATE BBY_25_users SET first_name = ? WHERE identity = ?",
@@ -1125,30 +935,12 @@ app.post("/admin-update-firstname", function (req, res) {
       });
     }
   );
-  // connection.end();
+
 });
 
 // admin change last name!!!
 app.post("/admin-update-lastname", function (req, res) {
   res.setHeader("Content-Type", "application/json");
-
-  // const connection = mysql.createConnection({
-  //   // host: "127.0.0.1",
-  //   // user: "root",
-  //   // password: "",
-  //   // multipleStatements: "true"
-  //   // cleardb -----------------------
-  //   // host: 'us-cdbr-east-05.cleardb.net',
-  //   // user: 'b16ad059f5434a',
-  //   // password: '2255f096',
-  //   // database: 'heroku_02ad04623fadaa9'
-  //   // jaws ----------------------
-  //   host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
-  //   user: 'wx1mc7pu6mewf76i',
-  //   password: 't95p9w64os2ia6gv',
-  //   database: 'h4ngdmrfus1wjzhr'
-  // });
-  // connection.connect();
 
   pool.query(
     "UPDATE BBY_25_users SET last_name = ? WHERE identity = ?",
@@ -1164,31 +956,12 @@ app.post("/admin-update-lastname", function (req, res) {
       });
     }
   );
-  // connection.end();
+
 });
 
 // admin change password!!!
 app.post("/admin-update-password", function (req, res) {
   res.setHeader("Content-Type", "application/json");
-
-  // const connection = mysql.createConnection({
-  //   // host: "127.0.0.1",
-  //   // user: "root",
-  //   // password: "",
-  //   // multipleStatements: "true"
-  //   // cleardb -----------------------
-  //   // host: 'us-cdbr-east-05.cleardb.net',
-  //   // user: 'b16ad059f5434a',
-  //   // password: '2255f096',
-  //   // database: 'heroku_02ad04623fadaa9'
-  //   // jaws ----------------------
-  //   host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
-  //   user: 'wx1mc7pu6mewf76i',
-  //   password: 't95p9w64os2ia6gv',
-  //   database: 'h4ngdmrfus1wjzhr'
-  // });
-  // connection.connect();
-
   pool.query(
     "UPDATE BBY_25_users SET password = ? WHERE identity = ?",
     [req.body.password, req.body.id],
@@ -1203,35 +976,12 @@ app.post("/admin-update-password", function (req, res) {
       });
     }
   );
-  // connection.end();
+
 });
 
 // admin change isAdmin!!!
 app.post("/admin-update-isAdmin", function (req, res) {
   res.setHeader("Content-Type", "application/json");
-
-  // const connection = mysql.createConnection({
-  //   // host: "127.0.0.1",
-  //   // user: "root",
-  //   // password: "",
-  //   // multipleStatements: "true"
-  //   // cleardb -----------------------
-  //   // host: 'us-cdbr-east-05.cleardb.net',
-  //   // user: 'b16ad059f5434a',
-  //   // password: '2255f096',
-  //   // database: 'heroku_02ad04623fadaa9'
-  //   // jaws ----------------------
-  //   host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
-  //   user: 'wx1mc7pu6mewf76i',
-  //   password: 't95p9w64os2ia6gv',
-  //   database: 'h4ngdmrfus1wjzhr'
-  // });
-  // connection.connect();
-
-  // if (req.body.isAdmin != 1 || req.body.isAdmin != 0){
-  //     req.body.isAdmin = 0;
-  // }
-
   pool.query(
     "UPDATE BBY_25_users SET is_admin = ? WHERE identity = ?",
     [req.body.isAdmin, req.body.id],
@@ -1246,29 +996,11 @@ app.post("/admin-update-isAdmin", function (req, res) {
       });
     }
   );
-  // connection.end();
+
 });
 
 app.post("/add-user", function (req, res) {
   res.setHeader("Content-Type", "application/json");
-
-  // const connection = mysql.createConnection({
-  //   // host: "127.0.0.1",
-  //   // user: "root",
-  //   // password: "",
-  //   // multipleStatements: "true"
-  //   // cleardb -----------------------
-  //   // host: 'us-cdbr-east-05.cleardb.net',
-  //   // user: 'b16ad059f5434a',
-  //   // password: '2255f096',
-  //   // database: 'heroku_02ad04623fadaa9'
-  //   // jaws ----------------------
-  //   host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
-  //   user: 'wx1mc7pu6mewf76i',
-  //   password: 't95p9w64os2ia6gv',
-  //   database: 'h4ngdmrfus1wjzhr'
-  // });
-  // connection.connect();
   // TO PREVENT SQL INJECTION, DO THIS:
   // (FROM https://www.npmjs.com/package/mysql#escaping-query-values)
   pool.query(
@@ -1299,24 +1031,6 @@ app.post("/add-user", function (req, res) {
 // POST: we are changing stuff on the server!!!
 app.post("/delete-user", function (req, res) {
   res.setHeader("Content-Type", "application/json");
-
-  // const connection = mysql.createConnection({
-  //   // host: "127.0.0.1",
-  //   // user: "root",
-  //   // password: "",
-  //   // multipleStatements: "true"
-  //   // cleardb -----------------------
-  //   // host: 'us-cdbr-east-05.cleardb.net',
-  //   // user: 'b16ad059f5434a',
-  //   // password: '2255f096',
-  //   // database: 'heroku_02ad04623fadaa9'
-  //   // jaws ----------------------
-  //   host: 'eyvqcfxf5reja3nv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
-  //   user: 'wx1mc7pu6mewf76i',
-  //   password: 't95p9w64os2ia6gv',
-  //   database: 'h4ngdmrfus1wjzhr'
-  // });
-  // connection.connect();
 
   if (req.body.idNumber != req.session.identity) {
     pool.query(
