@@ -57,7 +57,6 @@ app.post('/profile-upload-single', upload.single('profile-file'), function (req,
   // req.file is the `profile-file` file
   // req.body will hold the text fields, if there were any
   userImage += req.file.originalname;
-  console.log(userImage);
   let doc = fs.readFileSync("./app/html/packageStatus.html", "utf8");
   return res.send(doc);
 });
@@ -748,12 +747,12 @@ app.post("/update-purchased", function (req, res) {
     function (error, results, fields) {
       if (error) {
         // catch error and save to database
+      } else {
+        res.send({
+          status: "success",
+          msg: "Recorded updated.",
+        });
       }
-
-      res.send({
-        status: "success",
-        msg: "Recorded updated.",
-      });
     }
   );
   connection.end();
@@ -1304,6 +1303,5 @@ app.get("/logout", function (req, res) {
   }
 });
 
-console.log("on port 8000");
 let port = 8000;
 app.listen(port);

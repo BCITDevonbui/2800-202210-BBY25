@@ -62,7 +62,6 @@ ready(function () {
       ajaxPOST("/add-item", (data) => {
         if(data) {
           let parsedData = JSON.parse(data);
-          console.log(parsedData);
           if(parsedData.status == "fail") {
             document.getElementById("errorMsg").innerHTML = parsedData.msg;
             setTimeout(() => {

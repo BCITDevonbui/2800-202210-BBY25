@@ -74,7 +74,7 @@ ready(function () {
     let queryString = `number=${number}&expiry=${expiry}&cvv=${cvv}`;
 
     ajaxPOST(
-      "/donatePayment",
+      "/payment",
       function (data) {
         if (data) {
           let dataParsed = JSON.parse(data);

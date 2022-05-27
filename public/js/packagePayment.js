@@ -56,7 +56,7 @@ ready(function () {
     let queryString = `number=${number}&expiry=${expiry}&cvv=${cvv}`;
 
     ajaxPOST(
-      "/packagePayment",
+      "/payment",
       function (data) {
         if (data) {
           let dataParsed = JSON.parse(data);
