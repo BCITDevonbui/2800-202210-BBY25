@@ -70,7 +70,7 @@ ready(function () {
               document.getElementById("errorMsg").innerHTML = "";
             }, 1500);
           } else {
-            window.location.replace("/payment");
+            window.location.replace("/donatePayment");
           }
         }
       },
@@ -89,7 +89,7 @@ ready(function () {
 
   document.getElementById("submit").addEventListener("click", function (e) {
     e.preventDefault;
-    window.location.assign("/payment");
+    window.location.assign("/donatePayment");
   });
 
   document.getElementById("contact").addEventListener("click", function (e) {
