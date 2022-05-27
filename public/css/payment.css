@@ -17,12 +17,9 @@ p {
 }
 
 #home {
-  cursor: pointer;
-}
-
-#home {
   margin-top: 12px;
   cursor: pointer;
+  float: left;
 }
 
 #formPanel {
@@ -112,15 +109,6 @@ aside {
   overflow: hidden;
   background-color: #3482c1;
   top: 0%;
-}
-
-.topnav a {
-  float: left;
-  color: #f2f2f2;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-  font-size: 17px;
 }
 
 .topnav #Logout {
@@ -280,14 +268,6 @@ footer {
     background-color: #3482c1;
   }
 
-  .topnav a {
-    float: left;
-    color: #f2f2f2;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-    font-size: 17px;
-  }
 
   .topnav #Logout {
     float: right;
