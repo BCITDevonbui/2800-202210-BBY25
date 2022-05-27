@@ -15,10 +15,12 @@
     <img id="dropLogo" src="/img/2800_drop.png" alt="drop Logo">
     <form id="loginForm">
       <p>Please input a monetary amount to donate!</p>
-      <input id="amount" name="my_field" pattern="^\d*(\.\d{0,2})?$" placeholder="$0.00" />
+
+      <input id="amount" type= "number" min = "1" step = "1" max = "99999999.99" placeholder="$0.00" />
+      <!-- <input id="amount" name="my_field" pattern="^\d*(\.\d{0,2})?$" placeholder="$0.00" /> -->
       <input type="button" value="Donate" id="submit" />
       <br>
-      <p id="message" class="centertext"></p>
+      <p id="errorMsg" class="centertext"></p>
 
     </form>
   </div>

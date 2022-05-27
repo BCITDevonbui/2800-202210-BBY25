@@ -1,7 +1,7 @@
 p {
   font-size: 30px;
   color: #bdc6d2;
-
+  font-family: "Merriweather", serif;
 }
 
 #about {
@@ -14,6 +14,11 @@ p {
 
 #contact {
   cursor: pointer;
+}
+
+#errorMsg {
+  font-size: 20px;
+  color: black;
 }
 
 #home {
@@ -333,9 +338,9 @@ input[type="submit"]:hover {
   }
 
   p {
-    font-size: 15px;
-    color: black;
-    font-family: "Merriweather", serif;
+    font-size: 30px;
+    color: #bdc6d2;
+  
   }
 }
 

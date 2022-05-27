@@ -132,6 +132,12 @@ div {
     grid-template-rows: 10% 10% 40% 40% 10%;
 }
 
+p {
+    font-size: 15px;
+    color: black;
+    font-family: 'Mulish', sans-serif;
+  }
+
 #DonationRedirect,
 #ProfileRedirect {
     font-family: "Mulish", sans-serif;
@@ -272,7 +278,7 @@ footer {
     p {
       font-size: 15px;
       color: black;
-      font-family: "Merriweather", serif;
+      font-family: 'Mulish', sans-serif;
     }
   
     #content {

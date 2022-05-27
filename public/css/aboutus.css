@@ -124,6 +124,12 @@ div {
   justify-content: center;
 }
 
+p {
+  font-size: 15px;
+  color: black;
+  font-family: 'Mulish', sans-serif;
+}
+
 #content {
   display: grid;
   width: 100%;
@@ -272,7 +278,7 @@ footer {
   p {
     font-size: 15px;
     color: black;
-    font-family: "Merriweather", serif;
+    font-family: 'Mulish', sans-serif;
   }
 
   #content {

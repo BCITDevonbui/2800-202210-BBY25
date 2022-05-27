@@ -236,7 +236,7 @@ button:hover {
 @media only screen and (max-width: 800px) {
   #container {
     grid-template-columns: 100%;
-    grid-template-rows: 10% 30% 10% 10% 50% 10%;
+    grid-template-rows: 10% 35% 10% 10% 50% 10%;
     justify-items: center;
   }
 
@@ -372,7 +372,7 @@ button:hover {
 @media only screen and (max-width: 450px) {
   #container {
     grid-template-columns: 100%;
-    grid-template-rows: 10% 35% 7% 7% 60% 10%;
+    grid-template-rows: 10% 40% 7% 7% 60% 10%;
     justify-items: center;
   }
 }

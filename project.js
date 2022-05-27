@@ -221,22 +221,25 @@ app.post("/donate", function (req, res) {
   //   password: 't95p9w64os2ia6gv',
   //   database: 'h4ngdmrfus1wjzhr'
   // });
-  let amount = req.body.amount;
-  if (amount < 0 || amount > 9999999.99 || amount === "") {
-    res.send({
-      status: "fail",
-      msg: "Invalid amount entered!"
-    });
-  } else {
+  let amount = Number.parseFloat(req.body.amount).toFixed(2); 
+
+
+  if (amount > 0 && amount < 9999999.99) {
     let postedDate = getDateTime();
     // let postedDate = new Date().toISOString().slice(0, 19).replace('T', ' ');
     pool.query(
       `INSERT INTO bby_25_users_donation (userID, postdate, amount) VALUES (?, ?, ?)`,
-      [req.session.identity, postedDate, req.body.amount],
+      [req.session.identity, postedDate, amount],
     );
     res.send({
       status: "success",
       msg: "Record added."
+    });
+
+  } else {
+    res.send({
+      status: "fail",
+      msg: "Invalid amount entered!"
     });
   }
 });
@@ -843,7 +846,8 @@ app.get("/get-packages", function (req, res) {
   // });
   // connection.connect();
   pool.query(
-    `SELECT packageID, postdate, purchased FROM BBY_25_USERS_PACKAGES WHERE userID = '${req.session.identity}';`,
+    `SELECT packageID, postdate, purchased FROM BBY_25_USERS_PACKAGES WHERE userID = ? ;`,
+    [req.session.identity],
     function (error, results, fields) {
       if (error) {
         // catch error and save to database
@@ -877,7 +881,8 @@ app.get("/get-donation", function (req, res) {
   // });
   // connection.connect();
   pool.query(
-    `SELECT * FROM BBY_25_USERS_DONATION WHERE userID = '${req.session.identity}';`,
+    `SELECT * FROM BBY_25_USERS_DONATION WHERE userID = ? ;`,
+    [req.session.identity],
     function (error, results, fields) {
       if (error) {
         // catch error and save to database

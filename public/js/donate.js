@@ -47,17 +47,18 @@ ready(function () {
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.send(params);
   }
-  // POST TO THE SERVER
+
+   // GET TO THE SERVER
+   document.querySelector("#dropLogo").addEventListener("click", function (e) {
+    e.preventDefault;
+    window.location.replace("/");
+  });
+
   document.querySelector("#submit").addEventListener("click", function (e) {
+
     e.preventDefault();
     let amount = document.getElementById("amount").value;
     let queryString = "amount=" + amount;
-
-    // GET TO THE SERVER
-    document.querySelector("#dropLogo").addEventListener("click", function (e) {
-      e.preventDefault;
-      window.location.replace("/");
-    });
 
     ajaxPOST(
       "/donate",
@@ -85,11 +86,6 @@ ready(function () {
   document.getElementById("about").addEventListener("click", function (e) {
     e.preventDefault;
     window.location.assign("/about");
-  });
-
-  document.getElementById("submit").addEventListener("click", function (e) {
-    e.preventDefault;
-    window.location.assign("/donatePayment");
   });
 
   document.getElementById("contact").addEventListener("click", function (e) {
