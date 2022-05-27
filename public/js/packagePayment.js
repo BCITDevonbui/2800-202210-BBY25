@@ -47,20 +47,16 @@ ready(function () {
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.send(params);
   }
-  // POST TO THE SERVER
-  document.querySelector("#submit").addEventListener("click", function (e) {
-    e.preventDefault();
-    let amount = document.getElementById("amount").value;
-    let queryString = "amount=" + amount;
 
-    // GET TO THE SERVER
-    document.querySelector("#dropLogo").addEventListener("click", function (e) {
-      e.preventDefault;
-      window.location.replace("/");
-    });
+  // POST TO THE SERVER
+  document.querySelector("#submit").addEventListener("click", () => {
+    let number = document.getElementById("number").value;
+    let expiry = document.getElementById("expiry").value;
+    let cvv = document.getElementById("cvv").value;
+    let queryString = `number=${number}&expiry=${expiry}&cvv=${cvv}`;
 
     ajaxPOST(
-      "/donate",
+      "/packagePayment",
       function (data) {
         if (data) {
           let dataParsed = JSON.parse(data);
@@ -70,37 +66,32 @@ ready(function () {
               document.getElementById("errorMsg").innerHTML = "";
             }, 1500);
           } else {
-            window.location.replace("/donatePayment");
+            ajaxPOST("/update-purchased", () => {},"");
+            window.location.replace("/thanks");
           }
         }
       },
       queryString
     );
   });
+
   document.getElementById("home").addEventListener("click", function (e) {
     e.preventDefault;
-    window.location.assign("/");
+    window.location.replace("/");
   });
-
   document.getElementById("about").addEventListener("click", function (e) {
     e.preventDefault;
-    window.location.assign("/about");
+    window.location.replace("/about");
   });
-
-  document.getElementById("submit").addEventListener("click", function (e) {
-    e.preventDefault;
-    window.location.assign("/payment");
-  });
-
-  document.getElementById("contact").addEventListener("click", function (e) {
-    e.preventDefault;
-    window.location.assign("/contactus");
-  });
-
   document.getElementById("faq").addEventListener("click", function (e) {
     e.preventDefault;
-    window.location.assign("/faq");
+    window.location.replace("/faq");
   });
+  document.getElementById("contact").addEventListener("click", function (e) {
+    e.preventDefault;
+    window.location.replace("/contactUs");
+  });
+
 });
 
 function ready(callback) {

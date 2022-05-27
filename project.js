@@ -80,6 +80,24 @@ app.get("/register", function (req, res) {
   res.send(doc);
 });
 
+app.get("/donatePayment", function (req, res) {
+  if (req.session.loggedIn) {
+    let doc = fs.readFileSync("./app/html/donatePayment.html", "utf8");
+    res.send(doc);
+  } else {
+    res.redirect("/");
+  }
+});
+
+app.get("/packagePayment", function (req, res) {
+  if (req.session.loggedIn) {
+    let doc = fs.readFileSync("./app/html/packagePayment.html", "utf8");
+    res.send(doc);
+  } else {
+    res.redirect("/");
+  }
+});
+
 app.get("/donate", function (req, res) {
   if (req.session.loggedIn) {
     let doc = fs.readFileSync("./app/html/donation.html", "utf8");

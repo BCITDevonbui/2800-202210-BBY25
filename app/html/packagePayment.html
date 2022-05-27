@@ -18,9 +18,9 @@
   <div id="formPanel">
     <form id="loginForm">
       <h1 id="formTitle">Please enter payment details</h1>
-      <input id='number' type='text' required="required" placeholder="Credit Card Number" />
-      <input id='expiry' type='text' required="required" placeholder="MM/YY" />
-      <input id='cvv' type='number' required='required' min='111' max='999' />
+      <input id='number' type='text' required="required" placeholder="Credit Card Number (####)(####)(####)(####)" />
+      <input id='expiry' type='text' required="required" placeholder="MMYY" />
+      <input id='cvv' type='number' required='required' min='111' max='999' placeholder="CVV" />
       <input type="button" value="Submit" id="submit" />
       <p><span id="serverMsg"></span></p>
       <p id="errorMsg">&nbsp;</p>
@@ -28,7 +28,7 @@
   </div>
 
   <div class="topnav">
-    <a id="home">Home</a>
+    <img id="home" class="icon" alt="drop-icon" src="img/drop.png">
     <aside>
       <form class="formlogout" id="Logout" action="/logout" method="get">
         <input type="submit" value="Logout" />
@@ -45,7 +45,7 @@
     </footer>
   </div>
 
-  <script src="js/payment.js"></script>
+  <script src="js/packagePayment.js"></script>
 </body>
 
 </html>

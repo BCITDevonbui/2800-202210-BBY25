@@ -67,7 +67,7 @@ ready(function () {
             document.getElementById("errorMsg").innerHTML = parsedData.msg;
             setTimeout(() => {
               document.getElementById("errorMsg").innerHTML = "";
-            },1500);
+            },2000);
           } else {
             buttonList[i].style.backgroundColor = '#d4b9f7';
             buttonList[i].value = 'Added to cart ✓';
