@@ -1,7 +1,7 @@
 p {
   font-size: 30px;
   color: #bdc6d2;
-
+  font-family: "Merriweather", serif;
 }
 
 #about {
@@ -341,8 +341,8 @@ input[type="submit"]:hover {
   }
 
   p {
-    font-size: 15px;
-    color: black;
+    font-size: 20px;
+    color: #bdc6d2;
     font-family: "Merriweather", serif;
   }
 }

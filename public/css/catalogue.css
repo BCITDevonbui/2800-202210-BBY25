@@ -90,6 +90,14 @@ h1 {
   font-size: 32px;
 }
 
+#errorMsg {
+  grid-column: 4;
+  grid-row: 2;
+  align-self: center;
+  justify-self: end;
+  margin-right: 175px;
+}
+
 h2 {
   font-family: 'Merriweather', serif;
   font-size: 25px;
@@ -193,7 +201,7 @@ input[type='submit']:hover {
 @media only screen and (max-width: 1500px) {
   #container {
     grid-template-columns: 100%;
-    grid-template-rows: 10% 15% 80% 2% 2% 10%;
+    grid-template-rows: 10% 12% 7% 80% 2% 2% 10%;
     justify-items: center;
   }
 
@@ -234,15 +242,23 @@ input[type='submit']:hover {
     grid-row: 2;
   }
 
+  #errorMsg {
+    grid-column: 1;
+    grid-row: 3;
+    align-self: center;
+    justify-self: center;
+    margin-right: 0;
+  }
+
   footer {
     grid-column: 1;
-    grid-row: 6;
+    grid-row: 7;
     justify-self: stretch;
   }
 
   #content {
     grid-column: 1;
-    grid-row: 3;
+    grid-row: 4;
     justify-self: stretch;
     align-items: center;
     justify-items: center;
@@ -276,7 +292,7 @@ input[type='submit']:hover {
 @media only screen and (max-width: 1000px) {
   #container {
     grid-template-columns: 100%;
-    grid-template-rows: 10% 15% 80% 2% 2% 10%;
+    grid-template-rows: 10% 15% 7% 80% 2% 2% 10%;
     justify-items: center;
   }
 
@@ -317,15 +333,23 @@ input[type='submit']:hover {
     grid-row: 2;
   }
 
+  #errorMsg {
+    grid-column: 1;
+    grid-row: 3;
+    align-self: center;
+    justify-self: center;
+    margin-right: 0;
+  }
+
   footer {
     grid-column: 1;
-    grid-row: 6;
+    grid-row: 7;
     justify-self: stretch;
   }
 
   #content {
     grid-column: 1;
-    grid-row: 3;
+    grid-row: 4;
     justify-self: stretch;
     align-items: center;
     justify-items: center;
@@ -358,7 +382,7 @@ input[type='submit']:hover {
 @media only screen and (max-width: 600px) {
   #container {
     grid-template-columns: 100%;
-    grid-template-rows: 10% 10% 70% 10%;
+    grid-template-rows: 10% 10% 10% 70% 10%;
     justify-items: center;
   }
 }

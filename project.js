@@ -1,6 +1,7 @@
 "use strict";
 const express = require("express");
 const session = require("express-session");
+var multer  = require('multer');
 const app = express();
 const fs = require("fs");
 const {
@@ -18,6 +19,7 @@ app.use("/img", express.static("./public/img"));
 app.use("/fonts", express.static("./public/fonts"));
 app.use("/html", express.static("./public/html"));
 app.use("/media", express.static("./public/media"));
+app.use(express.static(__dirname + '/public'));
 
 //session connection
 app.use(
@@ -37,6 +39,30 @@ app.use(
   })
 );
 
+// multer to upload images
+
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './public/img')
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname)
+  }
+})
+var upload = multer({ storage: storage })
+
+let userImage = "";
+
+app.post('/profile-upload-single', upload.single('profile-file'), function (req, res, next) {
+  // req.file is the `profile-file` file
+  // req.body will hold the text fields, if there were any
+  userImage += req.file.originalname;
+  console.log(userImage);
+  let doc = fs.readFileSync("./app/html/packageStatus.html", "utf8");
+  return res.send(doc);
+});
+
+
 app.get("/", function (req, res) {
   if (req.session.loggedIn) {
     res.redirect("/profile");
@@ -52,6 +78,24 @@ app.get("/", function (req, res) {
 app.get("/register", function (req, res) {
   let doc = fs.readFileSync("./app/html/register.html", "utf8");
   res.send(doc);
+});
+
+app.get("/donatePayment", function (req, res) {
+  if (req.session.loggedIn) {
+    let doc = fs.readFileSync("./app/html/donatePayment.html", "utf8");
+    res.send(doc);
+  } else {
+    res.redirect("/");
+  }
+});
+
+app.get("/packagePayment", function (req, res) {
+  if (req.session.loggedIn) {
+    let doc = fs.readFileSync("./app/html/packagePayment.html", "utf8");
+    res.send(doc);
+  } else {
+    res.redirect("/");
+  }
 });
 
 app.get("/donate", function (req, res) {
@@ -217,12 +261,18 @@ app.post("/add-item", async (req, res) => {
     database: "COMP2800",
   });
   connection.connect();
-  await connection.query('INSERT INTO BBY_25_PACKAGES_ITEMS (packageID, itemID, itemQuantity) VALUES (?, ?, ?);', 
-  [req.session.packageID, req.body.itemID, req.body.quantity]).then(res.send({
-    status: "success",
-    msg: "Added new item"
-  }))
-
+  if(req.body.quantity >= 1) {
+    await connection.query('INSERT INTO BBY_25_PACKAGES_ITEMS (packageID, itemID, itemQuantity) VALUES (?, ?, ?);', 
+    [req.session.packageID, req.body.itemID, req.body.quantity]).then(res.send({
+      status: "success",
+      msg: "Added new item"
+    }))
+  } else {
+    res.send({
+      status: "fail",
+      msg: "Invalid Quantity!"
+    })
+  }
 });
 
 function buildNotifCards(result) {
@@ -599,7 +649,6 @@ app.post("/login", function (req, res) {
      *  If the length of results array is 0, then there was no matches in database
      *  If no error, then it is valid login and save info for session
      */
-    console.log(results);
     if (error) {
       // change this to notify user of error
     } else if (results.length == 0) {
@@ -1255,5 +1304,6 @@ app.get("/logout", function (req, res) {
   }
 });
 
+console.log("on port 8000");
 let port = 8000;
 app.listen(port);

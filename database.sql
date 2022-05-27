@@ -24,6 +24,13 @@ CREATE TABLE IF NOT EXISTS BBY_25_users_packages (
   FOREIGN KEY (userID)
     REFERENCES BBY_25_users(identity));
 
+CREATE TABLE IF NOT EXISTS BBY_25_catalogue (
+  itemID int NOT NULL AUTO_INCREMENT,
+  name varchar(30) NOT NULL,
+  price decimal(6, 2) NOT NULL,
+  most_wanted boolean NOT NULL,
+  PRIMARY KEY (itemID));
+
 CREATE TABLE IF NOT EXISTS BBY_25_packages_items (
   packageID int NOT NULL,
   itemID int NOT NULL,
@@ -35,14 +42,6 @@ CREATE TABLE IF NOT EXISTS BBY_25_packages_items (
   CONSTRAINT fk_package
   FOREIGN KEY (packageID)
     REFERENCES BBY_25_users_packages(packageID));
-
-
-CREATE TABLE IF NOT EXISTS BBY_25_catalogue (
-  itemID int NOT NULL AUTO_INCREMENT,
-  name varchar(30) NOT NULL,
-  price decimal(6, 2) NOT NULL,
-  most_wanted boolean NOT NULL,
-  PRIMARY KEY (itemID));
 
 CREATE TABLE IF NOT EXISTS BBY_25_users_donation (
   donateID int NOT NULL AUTO_INCREMENT,
@@ -79,10 +78,3 @@ INSERT INTO BBY_25_catalogue (name, price, most_wanted) VALUES ("Socks", 2.99, f
 
 INSERT INTO BBY_25_catalogue (name, price, most_wanted) VALUES ("Cell Phone", 199.99, false);
 
-
-inner join
-SELECT i.itemID as itemInPackage, c.itemID as itemInCatalogue, i.packageID, c.name, i.itemQuantity, c.price from BBY_25_packages_items i inner join bby_25_catalogue c on c.itemID = i.itemID WHERE i.packageID = 2;
-SELECT i.itemID, c.name, i.itemQuantity, c.price from BBY_25_packages_items i inner join bby_25_catalogue c on c.itemID = i.itemID WHERE i.packageID = 2;
-select i.itemID, i.packageID from bby_25_packages_items i inner join BBY_25_users_packages p on p.packageID = i.packageID order by i.packageID desc; 
-
-save packageID into a req.session

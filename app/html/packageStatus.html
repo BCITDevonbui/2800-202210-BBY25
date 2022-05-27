@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <title>Notification</title>
+  <title>Update Package Status</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- Generate favicons using: https://favicon.io/ -->
@@ -48,7 +48,16 @@
       <br><br>
       <input class="centertext" type="text" placeholder="Package ID" id="packageIdInput">
       <br>
-      <input id="fileInput" class="centertext" type='file'>
+
+      <form method="POST" action="/profile-upload-single" enctype="multipart/form-data">
+        <div>
+            <input id="fileInput" class="centertext" type="file" name="profile-file" required/>
+        </div>
+        <div>
+            <input id="uploadPhoto" type="submit" value="Upload" />
+        </div>
+    </form>
+      <!-- <input id="fileInput" class="centertext" type='file'> -->
       <br>
       <button type="button" id="customButton">Choose file</button>
       <span id="customText">No file chosen</span>

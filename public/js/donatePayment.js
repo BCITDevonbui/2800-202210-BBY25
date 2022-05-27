@@ -48,16 +48,33 @@ ready(function () {
     xhr.send(params);
   }
 
+  // GET TO THE SERVER
+  function updatePurchased() {
+    // now send
+    const xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+      if (this.readyState == XMLHttpRequest.DONE) {
+        // 200 means everthing worked
+        if (xhr.status === 200) {} else {
+          // not a 200, could be anything (404, 500, etc.)
+        }
+      } else {}
+    };
+    xhr.open("POST", "/update-purchased");
+    xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.send("purchased=" + dataToSend.purchased);
+  }
+
   // POST TO THE SERVER
-  document.querySelector("#submit").addEventListener("click", function (e) {
-    e.preventDefault();
+  document.querySelector("#submit").addEventListener("click", () => {
     let number = document.getElementById("number").value;
     let expiry = document.getElementById("expiry").value;
     let cvv = document.getElementById("cvv").value;
     let queryString = `number=${number}&expiry=${expiry}&cvv=${cvv}`;
 
     ajaxPOST(
-      "/payment",
+      "/donatePayment",
       function (data) {
         if (data) {
           let dataParsed = JSON.parse(data);
@@ -91,35 +108,7 @@ ready(function () {
     e.preventDefault;
     window.location.replace("/contactUs");
   });
-  // GET TO THE SERVER
-  document.querySelector("#submit").addEventListener("click", function (e) {
-    e.preventDefault;
-    updatePurchased();
-    // window.location.replace("/thanks")
-  });
 
-  function updatePurchased() {
-    let v = "1";
-
-    let dataToSend = {
-      purchased: v
-    };
-
-    // now send
-    const xhr = new XMLHttpRequest();
-    xhr.onload = function () {
-      if (this.readyState == XMLHttpRequest.DONE) {
-        // 200 means everthing worked
-        if (xhr.status === 200) {} else {
-          // not a 200, could be anything (404, 500, etc.)
-        }
-      } else {}
-    };
-    xhr.open("POST", "/update-purchased");
-    xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    xhr.send("purchased=" + dataToSend.purchased);
-  }
 });
 
 function ready(callback) {
