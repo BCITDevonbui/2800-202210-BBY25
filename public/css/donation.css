@@ -16,9 +16,15 @@ p {
   cursor: pointer;
 }
 
+#errorMsg {
+  font-size: 20px;
+  color: black;
+}
+
 #home {
   margin-top: 12px;
   cursor: pointer;
+  float: left;
 }
 
 #formPanel {
@@ -108,15 +114,6 @@ aside {
   overflow: hidden;
   background-color: #3482c1;
   top: 0%;
-}
-
-.topnav a {
-  float: left;
-  color: #f2f2f2;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-  font-size: 17px;
 }
 
 .topnav #Logout {

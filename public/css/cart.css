@@ -434,4 +434,11 @@ input[type='submit']:hover {
     grid-template-rows: 8% 5% 20% 70% 5% 5%;
     justify-items: center;
   }
+
+  #payment {
+    grid-column: 1;
+    grid-row: 3;
+    justify-self: end;
+    align-self: end;
+  }
 }

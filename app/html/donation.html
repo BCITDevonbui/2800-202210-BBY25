@@ -14,15 +14,19 @@
   <div id="formPanel">
     <img id="dropLogo" src="/img/2800_drop.png" alt="drop Logo">
     <form id="loginForm">
-      <p>Please input a number between '0 and 9,999,999.99' (up to 2 decimals) to donate!</p>
-      <input id="amount" name="my_field" pattern="^\d*(\.\d{0,2})?$" placeholder="$0.00" />
+      <p>Please input a monetary amount to donate!</p>
+
+      <input id="amount" type= "number" min = "1" step = "1" max = "99999999.99" placeholder="$0.00" />
+      <!-- <input id="amount" name="my_field" pattern="^\d*(\.\d{0,2})?$" placeholder="$0.00" /> -->
       <input type="button" value="Donate" id="submit" />
+      <br>
+      <p id="errorMsg" class="centertext"></p>
 
     </form>
   </div>
 
   <div class="topnav">
-    <a id="home">Home</a>
+    <img id="home" class="icon" alt="drop-icon" src="img/drop.png">
     <aside>
       <form class="formlogout" id="Logout" action="/logout" method="get">
         <input type="submit" value="Logout" />

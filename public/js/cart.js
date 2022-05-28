@@ -49,14 +49,6 @@ ready(function () {
     xhr.send(params);
   }
 
-  let button = document.querySelectorAll(".add");
-
-  button.forEach((add) => {
-    add.addEventListener("click", function clickButton() {
-      add.style.backgroundColor = "#fb0066";
-      add.value = "Removed from cart";
-    });
-  });
 
   // GET TO THE SERVER
   document.querySelector("#dropLogo").addEventListener("click", function (e) {
@@ -67,9 +59,9 @@ ready(function () {
   // GET TO THE SERVER
   document
     .querySelector("#proceedPayment")
-    .addEventListener("click", function (e) {
-      e.preventDefault;
-      window.location.replace("/packagePayment");
+    .addEventListener("click", () => {
+      window.location.assign("/packagePayment");
+      
     });
 
   document.getElementById("account").addEventListener("click", function (e) {

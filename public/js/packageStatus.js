@@ -169,6 +169,8 @@ ready(function () {
       img: v
     };
 
+    console.log("dataToSend is " + dataToSend.img);
+
     document.getElementById("packageIdInput").value = "";
     document.getElementById("message").innerHTML = "";
     ajaxPOST(
