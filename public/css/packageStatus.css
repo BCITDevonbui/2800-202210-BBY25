@@ -157,6 +157,10 @@ input[type="radio"] {
     visibility: hidden;
 } */
 
+#uploadPhoto {
+    visibility: hidden;
+}
+
 #customText {
     font-family: 'Mulish', sans-serif;
 }

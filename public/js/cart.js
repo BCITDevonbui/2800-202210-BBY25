@@ -69,7 +69,7 @@ ready(function () {
     .querySelector("#proceedPayment")
     .addEventListener("click", function (e) {
       e.preventDefault;
-      window.location.replace("/payment");
+      window.location.replace("/packagePayment");
     });
 
   document.getElementById("account").addEventListener("click", function (e) {

@@ -1,9 +1,6 @@
 "use strict";
 
 ready(function () {
-  let cartItem = [];
-  let cartItemQuantity = 0;
-
   function ajaxGET(url, callback) {
     const xhr = new XMLHttpRequest();
     xhr.onload = function () {
@@ -53,22 +50,32 @@ ready(function () {
   }
 
 
-  const cardList = document.querySelectorAll(".add");
-  let clicked
-  for (let i = 0; i < cardList.length; i++) {
-    cardList[i].addEventListener("click", () => {
+  const buttonList = document.querySelectorAll(".add");
+  for (let i = 0; i < buttonList.length; i++) {
+    buttonList[i].addEventListener("click", () => {
       let itemID = i + 1;
       let quantityValue = document.getElementById(`quantityOf${itemID}`).value;
       let queryString = {
         "itemID": itemID,
         "quantity": quantityValue
       };
-      ajaxPOST("/add-item", () => {}, queryString);
-
-      document.getElementById("quantity").innerHTML = cartItemQuantity;
+      ajaxPOST("/add-item", (data) => {
+        if(data) {
+          let parsedData = JSON.parse(data);
+          if(parsedData.status == "fail") {
+            document.getElementById("errorMsg").innerHTML = parsedData.msg;
+            setTimeout(() => {
+              document.getElementById("errorMsg").innerHTML = "";
+            },2000);
+          } else {
+            buttonList[i].style.backgroundColor = '#d4b9f7';
+            buttonList[i].value = 'Added to cart ✓';
+            buttonList[i].setAttribute("disabled", "disabled");
+          }
+        }
+      }, queryString);
     });
   }
-  let button = document.querySelectorAll(".add");
 
 
   // GET TO THE SERVER
@@ -96,14 +103,6 @@ ready(function () {
     e.preventDefault;
     window.location.assign("/faq");
   });
-
-  button.forEach(add => {
-    add.addEventListener("click", function clickButton() {
-      add.style.backgroundColor = '#d4b9f7';
-      add.value = 'Added to cart ✓';
-      add.disabled = true;
-  });
-});
 
   document.getElementById("cart").addEventListener("click", () => {
     window.location.assign("/cart");

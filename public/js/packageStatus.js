@@ -82,6 +82,9 @@ ready(function () {
     realFileButton.click();
   });
 
+  const uploadPhotoButton = document.getElementById("uploadPhoto");
+
+
   realFileButton.addEventListener("change", function () {
     if (realFileButton.value) {
       customText.innerHTML = realFileButton.value;
@@ -121,7 +124,7 @@ ready(function () {
                 row.postdate.slice(12, 19) +
                 "</span></td><td class='isDelivered'><span>" +
                 row.isDelivered +
-                "</span></td><td class='image'><span>$" +
+                "</span></td><td class='image'><span>" +
                 row.img +
                 "</span>" +
                 "</td></tr>";
@@ -157,6 +160,8 @@ ready(function () {
   document.getElementById("submit").addEventListener("click", () => {
 
     customText.innerHTML = "No file chosen";
+
+    uploadPhotoButton.click();
 
     let dataToSend = {
       packageID: document.getElementById("packageIdInput").value,

@@ -1,7 +1,7 @@
 p {
   font-size: 30px;
   color: #bdc6d2;
-
+  font-family: "Merriweather", serif;
 }
 
 #about {
@@ -134,6 +134,7 @@ aside {
   position: fixed;
   bottom: 0;
   width: 100%;
+  padding: 1%;
 }
 
 footer {
@@ -341,8 +342,8 @@ input[type="submit"]:hover {
   }
 
   p {
-    font-size: 15px;
-    color: black;
+    font-size: 20px;
+    color: #bdc6d2;
     font-family: "Merriweather", serif;
   }
 }

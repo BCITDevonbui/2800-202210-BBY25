@@ -18,6 +18,7 @@ body {
 #home {
   margin-top: 12px;
   cursor: pointer;
+  float: left;
 }
 
 aside {
@@ -34,14 +35,6 @@ aside {
   top: 0%;
 }
 
-.topnav a {
-  float: left;
-  color: #f2f2f2;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-  font-size: 17px;
-}
 
 .topnav #Logout {
   float: right;
@@ -238,15 +231,6 @@ footer {
     background-color: #3482c1;
   }
 
-  .topnav a {
-    float: left;
-    color: #f2f2f2;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-    font-size: 17px;
-  }
-
   .topnav #Logout {
     float: right;
     color: #f2f2f2;
@@ -301,7 +285,7 @@ footer {
   p {
     font-size: 15px;
     color: black;
-    font-family: "Merriweather", serif;
+    font-family: 'Mulish', sans-serif;
   }
 
   #content {
@@ -315,7 +299,7 @@ footer {
 @media only screen and (max-width: 450px) {
   #container {
     grid-template-columns: 100%;
-    grid-template-rows: 10% 25% 7% 7% 40.5% 10%;
+    grid-template-rows: 10% 25% 7% 7% 40% 10%;
     justify-items: center;
     padding-bottom: 5%;
   }
