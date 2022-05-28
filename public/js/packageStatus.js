@@ -48,52 +48,154 @@ ready(function () {
     xhr.send(params);
   }
 
-  // POST TO THE SERVER
-  document.querySelector("#submit").addEventListener("click", () => {
-    let number = document.getElementById("number").value;
-    let expiry = document.getElementById("expiry").value;
-    let cvv = document.getElementById("cvv").value;
-    let queryString = `number=${number}&expiry=${expiry}&cvv=${cvv}`;
 
+
+  document.getElementById("dropLogo").addEventListener("click", function (e) {
+    e.preventDefault;
+    window.location.assign("/");
+  });
+
+  document.getElementById("about").addEventListener("click", function (e) {
+    e.preventDefault;
+    window.location.assign("/about");
+  });
+
+  document.getElementById("contact").addEventListener("click", function (e) {
+    e.preventDefault;
+    window.location.assign("/contactus");
+  });
+
+  document.getElementById("faq").addEventListener("click", function (e) {
+    e.preventDefault;
+    window.location.assign("/faq");
+  });
+
+  document.getElementById("packageStatus").addEventListener("click", () => {
+    window.location.assign("/updatePackageStatus");
+  });
+
+  const realFileButton = document.getElementById("fileInput");
+  const customFileButton = document.getElementById("customButton");
+  const customText = document.getElementById("customText");
+
+  customFileButton.addEventListener("click", function () {
+    realFileButton.click();
+  });
+
+  const uploadPhotoButton = document.getElementById("uploadPhoto");
+
+
+  realFileButton.addEventListener("change", function () {
+    if (realFileButton.value) {
+      customText.innerHTML = realFileButton.value;
+    } else {
+      customText.innerHTML = "No file chosen";
+    }
+  });
+
+
+  function getPackages() {
+    const xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+      if (this.readyState == XMLHttpRequest.DONE) {
+        // 200 means everthing worked
+        if (xhr.status === 200) {
+          let data = JSON.parse(this.responseText);
+          if (data.status == "success") {
+            let str = `        <tr>
+  <th class="packageID_header"><span>Package ID</span></th>
+  <th class="userID_header"><span>User ID</span></th>
+  <th class="date_header"><span>Date</span></th>
+  <th class="isDelivered_header"><span>is Delivered</span></th>
+  <th class="img_header"><span>Image</span></th>
+  </tr>`;
+
+            for (let i = 0; i < data.rows.length; i++) {
+              let row = data.rows[i];
+
+              str +=
+                "<tr></td><td class='packageID'><span>" +
+                row.packageID +
+                "</span></td><td class='userID'><span>" +
+                row.userID +
+                "</span></td><td class='firstName'><span>" +
+                row.postdate.slice(0, 10) +
+                " " +
+                row.postdate.slice(12, 19) +
+                "</span></td><td class='isDelivered'><span>" +
+                row.isDelivered +
+                "</span></td><td class='image'><span>" +
+                row.img +
+                "</span>" +
+                "</td></tr>";
+            }
+
+            document.getElementById("packageTable").innerHTML = str;
+          } else {
+
+          }
+        } else {
+          // not a 200, could be anything (404, 500, etc.)
+
+        }
+      } else {
+
+      }
+    };
+    xhr.open("GET", "/get-packageStatus");
+    xhr.send();
+  }
+  getPackages();
+
+  // To update package database ------------------------------------------------------
+  let v;
+
+  const input = document.querySelector("#fileInput");
+  input.onchange = (e) => {
+    const [file] = e.target.files;
+    //add /img/ to file name for pathing
+    v = "/img/" + file.name;
+  }
+
+  document.getElementById("submit").addEventListener("click", () => {
+
+    customText.innerHTML = "No file chosen";
+
+    uploadPhotoButton.click();
+
+    let dataToSend = {
+      packageID: document.getElementById("packageIdInput").value,
+      isDelivered: 1,
+      img: v
+    };
+
+    document.getElementById("packageIdInput").value = "";
+    document.getElementById("message").innerHTML = "";
     ajaxPOST(
-      "/payment",
+      "/update-packages",
       function (data) {
         if (data) {
           let dataParsed = JSON.parse(data);
           if (dataParsed.status == "fail") {
-            document.getElementById("errorMsg").innerHTML = dataParsed.msg;
+            document.getElementById("status").innerHTML = dataParsed.msg;
             setTimeout(function () {
-              document.getElementById("errorMsg").innerHTML = "";
+              document.getElementById("status").innerHTML = "";
             }, 1500);
           } else {
-            ajaxPOST("/update-purchased", () => {},"");
-            window.location.replace("/thanks");
+            document.getElementById("status").innerHTML = dataParsed.msg;
+            setTimeout(function () {
+              document.getElementById("status").innerHTML = "";
+            }, 1500);
+            getPackages();
           }
         }
-      },
-      queryString
-    );
+      }, dataToSend);
   });
-
-  document.getElementById("home").addEventListener("click", function (e) {
-    e.preventDefault;
-    window.location.replace("/");
-  });
-  document.getElementById("about").addEventListener("click", function (e) {
-    e.preventDefault;
-    window.location.replace("/about");
-  });
-  document.getElementById("faq").addEventListener("click", function (e) {
-    e.preventDefault;
-    window.location.replace("/faq");
-  });
-  document.getElementById("contact").addEventListener("click", function (e) {
-    e.preventDefault;
-    window.location.replace("/contactUs");
-  });
-
 });
 
+
+
+// -------------------------------------------------------------------------------------
 function ready(callback) {
   if (document.readyState != "loading") {
     callback();
